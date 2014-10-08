@@ -13,7 +13,11 @@ doAlign <- function(x) {
     ## x[2] is reference sequence
     ## x[3] is mira sequence, that is read assembly that mapping to reference.
     f454 <- read.fasta(x[1])
+
     fref <- read.fasta(x[2])
+    fref$seqs <- fref$seqs[1,]
+    fref$num <- 1
+    
     fmira <- read.fasta(x[3])
     
     for (i in 1:nrow(f454$seqs)) {
