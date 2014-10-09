@@ -34,14 +34,30 @@ doAlign <- function(x) {
         }
     }
 
+    
+    res <- lapply(1:f454$num, function(i) {
+        fa <- list(seqs=rbind(fref$seqs, fmira$seqs, f454$seqs[i,]),
+                   num=3)
+        class(fa) <- "fasta"
+        muscle(fa)
+    })
+
     fasta <- list(seqs=rbind(fref$seqs, fmira$seqs, f454$seqs),
                   num=fref$num+fmira$num+f454$num)
-
     class(fasta) <- "fasta"
-    res <- muscle(fasta)
-    ii <- getIdx(fasta$seqs[,1], res$seqs[,1])
-    res$seqs <- res$seqs[ii,]
-    return(res)
+    
+    if (length(unique(sapply(res, function(x) x$length))) == 1) {
+        seqs <- lapply(res, function(x) x$seqs)
+        seqs <- do.call("rbind", seqs)
+        seqs <- unique(seqs)
+        res2 <- list(seqs=seqs, num=nrow(seqs), length=res[[1]]$length)
+    } else {
+        res2 <- muscle(fasta)
+    }
+    
+    ii <- getIdx(fasta$seqs[,1], res2$seqs[,1])
+    res2$seqs <- res2$seqs[ii,]
+    return(res2)
 }
 
 

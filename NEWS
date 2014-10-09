@@ -1,3 +1,7 @@
+CHANGES IN VERSION 0.3.2
+------------------------
+ o reduce gap in alignment <2014-10-08, Wed>
+
 CHANGES IN VERSION 0.3.1
 ------------------------
  o use the first sequence in Reference fasta file if it contains two <2014-10-08, Wed>
