@@ -55,15 +55,10 @@ autoReport <- function(contig.folder, ref.folder, name.file, out.folder="output"
     }
 
     ## move mixed files
-    prot <- gsub(pattern=".*_S\\d+(\\w+\\d*)_454.*", replacement="\\1", f454)
-    prot.cutoff <- c(rep(2000, 4), 1000, rep(3000, 3))
-    names(prot.cutoff) <- c("HA", "NA", "MP", "NP", "NS", "PA", "PB1", "PB2")
-    
-    ss <- prot.cutoff[prot]
-    i <- file.info(f454)$size > ss
-    idx <- c(which(i), which(is.na(i)))
+    idx <- getMixedFileIndex(f454)
     mix <- unique(gsub(pattern=".*_(S\\d+).*", replacement="\\1", f454[idx]))
-
+    
+    
     if (length(mix) >= 1) {
         sink(outfile, append=TRUE)
         ## print("mixed files found...")
@@ -79,7 +74,9 @@ autoReport <- function(contig.folder, ref.folder, name.file, out.folder="output"
         sink()
         
         cat(">>", length(unique(sc[ii])), " mixed strain(s) found.\n")
-        write.table(nameMap[ nameMap[,1] %in% sub("S", "", ms), ],
+        mixff <- nameMap[ nameMap[,1] %in% sub("S", "", ms),]
+        mixff[,2] <- paste(mixff[,2], "mixed", sep="_")
+        write.table(mixff,
                     file="mixed_table.txt", sep="\t",
                     row.names=F, col.names=F, quote=F)        
         contig <- contig[-ii]
@@ -88,30 +85,54 @@ autoReport <- function(contig.folder, ref.folder, name.file, out.folder="output"
                     file="unmixed_table.txt", sep="\t",
                     row.names=F, col.names=F, quote=F)        
     }
-    
+
+    cat(">>", length(unique(sc)), " strains were processed in the following report.\n")
     ## processing 
     sink(outfile, append=TRUE)
     cat(length(unique(sc)), " strains were processed in the following report.\n")
     cat("\n\t", paste(unique(sc)), "\n")
     sink()
-    cat(">>", length(unique(sc)), " strains were processed in the following report.\n")
 
-    pc <- gsub(pattern=".*_(S\\d+\\w+\\d*)_[4Cm].*", replacement="\\1", contig)
-    ## if _Ref.fas in contig folder, it will move to missingFile folder in next step
-
+    
     ref <- list.files(path=ref.folder)
     ref <- paste(ref.folder, ref, sep="/")
     ref <- ref[grep("Ref.fas", ref)]
-    pr <- gsub(pattern=".*_(S\\d+\\w+\\d*)_Ref.fas", replacement="\\1", ref)
 
+    
+    processItems(outfile, contig, ref, nameMap, contig.folder, out.folder)
+    
+    sink(outfile, append=TRUE)
+    cat("\n")
+    cat("## Mixed Files\n")
+    sink()
+    
+    mix.folder <- "mixed"
+    mix.contig <- list.files(path=mix.folder)
+    mix.contig <- paste(mix.folder, mix.contig, sep="/")
+    processItems(outfile, mix.contig, ref, nameMap, mix.folder, out.folder)
+    
+    addFooter(outfile)
+    markdownToHTML(outfile, "report.html")
+    file.remove(outfile)
+    file.remove("tmp.log")
+    cat(">> done...", "\t\t\t", format(Sys.time(), "%Y-%m-%d %X"), "\n")
+}
+
+processItems <- function(outfile, contig, ref, nameMap, contig.folder, out.folder) {
+
+    pc <- gsub(pattern=".*_(S\\d+\\w+\\d*)_[4Cm].*", replacement="\\1", contig)
+    ## if _Ref.fas in contig folder, it will move to missingFile folder in next step
+    
+    pr <- gsub(pattern=".*_(S\\d+\\w+\\d*)_Ref.fas", replacement="\\1", ref)
+    
     if (!file.exists(out.folder)) {
         dir.create(out.folder)
     }
-
+    
     if (!file.exists("html")) {
         dir.create("html")
     }
-
+    
     oldstrain <- ""
     for ( pp in unique(pc) ) {
         jj=contig[pc==pp]
@@ -128,70 +149,113 @@ autoReport <- function(contig.folder, ref.folder, name.file, out.folder="output"
             }
             next
         }
-
+        
         seqname <- sub(contig.folder, "", seqs)
         seqname <- sub("/", "", seqname)
         
-        cat(">>", "processing", pp, "\t\t", format(Sys.time(), "%Y-%m-%d %X"), "\n",
-            "\t\t", seqname[1], "\n",
-            "\t\t", seqname[2], "\n",
-            "\t\t", seqname[3], "\n")
 
-        
-        sink("tmp.log")
-        aln <- doAlign(seqs)
-        sink()
-        
-        if (length(grep("HA", pp)) > 0) {
-            pn <- gsub(".*(H\\d+).*", "\\1", aln$seqs[1,1])
-            pn <- sub("HA", pn, pp)
-        } else if (length(grep("NA", pp)) > 0) {
-            pn <- gsub(".*H\\d+(N\\d+).*", "\\1", aln$seqs[1,1])
-            pn <- sub("NA", pn, pp)
-        } else {
+        if (isMixed(jj[grep("454", jj)]) == TRUE) {
             pn <- pp
+            outhtml <- NULL
+        } else {
+            outinfo <- itemReport(seqs, seqname, pp, nameMap, out.folder)
+            pn <- outinfo$pn
+            outhtml <- outinfo$outhtml
         }
 
         
-        outmd <- paste("html/", pn, ".md", sep="")
-        sink(outmd)
-        cat("## ", pn, "\n")
-        cat(paste("\n", "[", seqname, "]", "(", "../", seqs, ")", sep="", collapse="\n"), "\n")
-        
-        cat("\n\naligned sequences:\n```\n")
-        printAlignedSeq(aln)        
-        printConsensus(aln)
-        cat("```\n")
-        outfasta <- nameMap[ nameMap[,1] == gsub("\\D+(\\d+)\\w+", "\\1", pp), 2]
-        outfasta <- paste(as.character(outfasta), sub("S\\d+", "", pn), sep="_")
-        outfasta <- paste(outfasta, ".fas", sep="")
-        cat("\n\nConsensus file", paste("[", outfasta, "]", sep=""))
-        outfasta <- paste(out.folder, outfasta, sep="/")
-        cat(paste("(", "../", outfasta, ")", sep=""), "generated.\n")
-        sink()
-        writeConsensus(aln, output=outfasta)
-        outhtml <- sub(".md", ".html", outmd)
-        addFooter(outmd)
-        markdownToHTML(outmd, outhtml)
-        file.remove(outmd)
         strain <- gsub("(S\\d+).*", "\\1", pp)
+
         sink(outfile, append=TRUE)
         if ( strain != oldstrain) {
             cat("\n")
-            cat("### ", paste("[", pn, "]", "(", outhtml, ")", sep=""))
+            if (is.null(outhtml)) {
+                cat("### ", pn)
+            } else {
+                cat("### ", paste("[", pn, "]", "(", outhtml, ")", sep=""))
+            }
         } else {
-            cat("\t", paste("[", pn, "]", "(", outhtml, ")", sep=""))
+            if (is.null(outhtml)) {
+                cat("\t", pn)
+            } else {
+                cat("\t", paste("[", pn, "]", "(", outhtml, ")", sep=""))
+            }
         }
         sink()
         oldstrain <- strain
     }
-    addFooter(outfile)
-    markdownToHTML(outfile, "report.html")
-    file.remove(outfile)
-    file.remove("tmp.log")
-    cat(">> done...", "\t\t\t", format(Sys.time(), "%Y-%m-%d %X"), "\n")
 }
 
 
-## autoReport("Results", "Ref", "ToGC.txt", filter=T)
+itemReport <- function(seqs, seqname, pp, nameMap, out.folder) {
+    ## seqs: sequence file name
+    ## seqname: sequence name
+    ## pp: protein name
+    
+    cat(">>", "processing", pp, "\t\t", format(Sys.time(), "%Y-%m-%d %X"), "\n",
+        "\t\t", seqname[1], "\n",
+        "\t\t", seqname[2], "\n",
+        "\t\t", seqname[3], "\n")
+    
+    
+    sink("tmp.log")
+    aln <- doAlign(seqs)
+    sink()
+    
+    if (length(grep("HA", pp)) > 0) {
+        pn <- gsub(".*(H\\d+).*", "\\1", aln$seqs[1,1])
+        pn <- sub("HA", pn, pp)
+    } else if (length(grep("NA", pp)) > 0) {
+        pn <- gsub(".*H\\d+(N\\d+).*", "\\1", aln$seqs[1,1])
+        pn <- sub("NA", pn, pp)
+    } else {
+        pn <- pp
+    }
+    
+    
+    outmd <- paste("html/", pn, ".md", sep="")
+    sink(outmd)
+    cat("## ", pn, "\n")
+    cat(paste("\n", "[", seqname, "]", "(", "../", seqs, ")", sep="", collapse="\n"), "\n")
+        
+    cat("\n\naligned sequences:\n```\n")
+    printAlignedSeq(aln)        
+    printConsensus(aln)
+    cat("```\n")
+    outfasta <- nameMap[ nameMap[,1] == gsub("\\D+(\\d+)\\w+", "\\1", pp), 2]
+    outfasta <- paste(as.character(outfasta), sub("S\\d+", "", pn), sep="_")
+    outfasta <- paste(outfasta, ".fas", sep="")
+    cat("\n\nConsensus file", paste("[", outfasta, "]", sep=""))
+    outfasta <- paste(out.folder, outfasta, sep="/")
+    cat(paste("(", "../", outfasta, ")", sep=""), "generated.\n")
+    sink()
+    writeConsensus(aln, output=outfasta)
+    outhtml <- sub(".md", ".html", outmd)
+    addFooter(outmd)
+    markdownToHTML(outmd, outhtml)
+    file.remove(outmd)
 
+    res <- list(pn=pn, outhtml=outhtml)
+    return(res)
+}
+
+
+
+getMixedFileIndex <- function(files) {
+    which(sapply(files, isMixed))
+}
+
+
+isMixed <- function(file) {
+    prot <- gsub(pattern=".*_S\\d+(\\w+\\d*)_454.*", replacement="\\1", file)
+    
+    prot.cutoff <- c(rep(2000, 4), 1000, rep(3000, 3))
+    names(prot.cutoff) <- c("HA", "NA", "MP", "NP", "NS", "PA", "PB1", "PB2")
+    
+    res <- file.info(file)$size > prot.cutoff[prot]
+    ## NDV that is not exists
+    if (is.na(res))
+        return(TRUE)
+    return(res)
+}
+    

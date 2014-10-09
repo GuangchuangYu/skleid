@@ -35,11 +35,32 @@ printAlignedSeq <- function(aln, window=80) {
     
     p <- which(apply(seq.df, 2, function(i) length(unique(i)) != 1))
     if (length(p) > 0) {
-        x <- seq.df[, p]
-        colnames(x) <- p
-        rownames(x) <- nn
-        cat("Ambiguous bases:\n")
-        print(x)
+        if (length(p) == 1) {
+            x <- data.frame(a=seq.df[,p])
+            colnames(x) <- p
+            rownames(x) <- nn
+            cat("Ambiguous bases:\n")
+            print(x)
+        } else {
+            x <- seq.df[, p]
+            colnames(x) <- p
+            rownames(x) <- nn
+            cat("Ambiguous bases:\n")
+
+            
+            if ( length(p) > 20) {
+                lp <- length(p)
+                jj <- seq(1, lp, 20)
+                if (jj[length(jj)] < lp) {
+                    jj <- c(jj, lp)
+                }
+                for (i in 1:(length(jj)-1)) {
+                    print(x[, c(jj[i]:jj[i+1])])
+                }
+            } else {
+                print(x)
+            }
+        }
     }
 }
 
