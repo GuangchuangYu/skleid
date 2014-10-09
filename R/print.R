@@ -46,20 +46,24 @@ printAlignedSeq <- function(aln, window=80) {
             colnames(x) <- p
             rownames(x) <- nn
             cat("Ambiguous bases:\n")
-
-            
-            if ( length(p) > 20) {
-                lp <- length(p)
-                jj <- seq(1, lp, 20)
-                if (jj[length(jj)] < lp) {
-                    jj <- c(jj, lp)
-                }
-                for (i in 1:(length(jj)-1)) {
-                    print(x[, c(jj[i]:jj[i+1])])
-                }
-            } else {
-                print(x)
-            }
+            options(width=70)
+            print(x)
+            ## if ( length(p) > 14) {
+            ##     lp <- length(p)
+            ##     jj <- seq(1, lp, 14)
+            ##     if (jj[length(jj)] < lp) {
+            ##         jj <- c(jj, lp)
+            ##     }
+            ##     for (i in 1:(length(jj)-1)) {
+            ##         if (i == (length(jj)-1)) {
+            ##             print(x[, c(jj[i]:jj[i+1])])
+            ##         } else {
+            ##             print(x[, c(jj[i]:(jj[i+1]-1))])
+            ##         }
+            ##     }
+            ## } else {
+            ##     print(x)
+            ## }
         }
     }
 }

@@ -1,6 +1,7 @@
 CHANGES IN VERSION 0.3.3
 ------------------------
  o report mixed sequence in report file <2014-10-09, Thu>
+ o format ambiguous bases output <2014-10-09, Thu>
  
 CHANGES IN VERSION 0.3.2
 ------------------------
