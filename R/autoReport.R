@@ -90,7 +90,8 @@ autoReport <- function(contig.folder, ref.folder, name.file, out.folder="output"
     ## processing 
     sink(outfile, append=TRUE)
     cat(length(unique(sc)), " strains were processed in the following report.\n")
-    cat("\n\t", paste(unique(sc)), "\n")
+    cat("\n\t", paste(unique(sc)), "\n\n")
+    cat("## un-mixed Files\n")
     sink()
 
     
@@ -102,7 +103,7 @@ autoReport <- function(contig.folder, ref.folder, name.file, out.folder="output"
     processItems(outfile, contig, ref, nameMap, contig.folder, out.folder)
     
     sink(outfile, append=TRUE)
-    cat("\n")
+    cat("\n\n")
     cat("## Mixed Files\n")
     sink()
     
