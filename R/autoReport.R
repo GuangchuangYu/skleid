@@ -56,7 +56,7 @@ autoReport <- function(contig.folder, ref.folder, name.file, out.folder="output"
 
     ## move mixed files
     idx <- getMixedFileIndex(f454)
-    mix <- unique(gsub(pattern=".*_([SRL]+\\d+).*", replacement="\\1", f454[idx]))
+    mix <- unique(gsub(pattern=".*/[^SRL]*([SRL]+\\d+).*", replacement="\\1", f454[idx]))
     
     
     if (length(mix) >= 1) {
@@ -74,7 +74,7 @@ autoReport <- function(contig.folder, ref.folder, name.file, out.folder="output"
         sink()
         
         cat(">>", length(unique(sc[ii])), " mixed strain(s) found.\n")
-        mixff <- nameMap[ nameMap[,1] %in% sub("S", "", ms),]
+        mixff <- nameMap[ nameMap[,1] %in% sub("[SRL]+", "", ms),]
         mixff[,2] <- paste(mixff[,2], "mixed", sep="_")
         write.table(mixff,
                     file="mixed_table.txt", sep="\t",
@@ -127,10 +127,10 @@ autoReport <- function(contig.folder, ref.folder, name.file, out.folder="output"
 
 processItems <- function(outfile, contig, ref, nameMap, contig.folder, out.folder, outfile.suffix="") {
 
-    pc <- gsub(pattern=".*_([SRL]+\\d+\\w+\\d*)_[4Cm].*", replacement="\\1", contig)
+    pc <- gsub(pattern=".*/[^SRL]*([SRL]+\\d+[a-zA-Z]+\\d*)_[4Cm].*", replacement="\\1", contig)
     ## if _Ref.fas in contig folder, it will move to missingFile folder in next step
     
-    pr <- gsub(pattern=".*_([SRL]+\\d+\\w+\\d*)_Ref.fas", replacement="\\1", ref)
+    pr <- gsub(pattern=".*/[^SRL]*([SRL]+\\d+\\w+\\d*)_Ref.fas", replacement="\\1", ref)
     
     if (!file.exists(out.folder)) {
         dir.create(out.folder)
@@ -161,7 +161,7 @@ processItems <- function(outfile, contig, ref, nameMap, contig.folder, out.folde
         seqname <- sub("/", "", seqname)
         
 
-        if (isMixed(jj[grep("454", jj)]) == TRUE) {
+        if (isMixed(jj[grep("454.fas", jj)]) == TRUE) {
             pn <- pp
             outhtml <- NULL
         } else {
@@ -257,7 +257,7 @@ getMixedFileIndex <- function(files) {
 
 
 isMixed <- function(file) {
-    prot <- gsub(pattern=".*_S\\d+(\\w+\\d*)_454.*", replacement="\\1", file)
+    prot <- gsub(pattern=".*/[^SRL]*[SRL]+\\d+(\\w+\\d*)_454.*", replacement="\\1", file)
     
     prot.cutoff <- c(rep(2000, 4), 1000, rep(3000, 3))
     names(prot.cutoff) <- c("HA", "NA", "MP", "NP", "NS", "PA", "PB1", "PB2")
