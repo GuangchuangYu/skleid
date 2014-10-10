@@ -25,7 +25,7 @@ autoReport <- function(contig.folder, ref.folder, name.file, out.folder="output"
     
     sink()
 
-    sc <- gsub(pattern=".*_(S\\d+).*", replacement="\\1", contig)
+    sc <- gsub(pattern=".*_([SRL]+\\d+).*", replacement="\\1", contig)
     
     ## move unknown files if any
     sink(outfile, append=TRUE)
@@ -56,7 +56,7 @@ autoReport <- function(contig.folder, ref.folder, name.file, out.folder="output"
 
     ## move mixed files
     idx <- getMixedFileIndex(f454)
-    mix <- unique(gsub(pattern=".*_(S\\d+).*", replacement="\\1", f454[idx]))
+    mix <- unique(gsub(pattern=".*_([SRL]+\\d+).*", replacement="\\1", f454[idx]))
     
     
     if (length(mix) >= 1) {
@@ -127,10 +127,10 @@ autoReport <- function(contig.folder, ref.folder, name.file, out.folder="output"
 
 processItems <- function(outfile, contig, ref, nameMap, contig.folder, out.folder, outfile.suffix="") {
 
-    pc <- gsub(pattern=".*_(S\\d+\\w+\\d*)_[4Cm].*", replacement="\\1", contig)
+    pc <- gsub(pattern=".*_([SRL]+\\d+\\w+\\d*)_[4Cm].*", replacement="\\1", contig)
     ## if _Ref.fas in contig folder, it will move to missingFile folder in next step
     
-    pr <- gsub(pattern=".*_(S\\d+\\w+\\d*)_Ref.fas", replacement="\\1", ref)
+    pr <- gsub(pattern=".*_([SRL]+\\d+\\w+\\d*)_Ref.fas", replacement="\\1", ref)
     
     if (!file.exists(out.folder)) {
         dir.create(out.folder)
@@ -171,7 +171,7 @@ processItems <- function(outfile, contig, ref, nameMap, contig.folder, out.folde
         }
 
         
-        strain <- gsub("(S\\d+).*", "\\1", pp)
+        strain <- gsub("([SRL+]\\d+).*", "\\1", pp)
 
         sink(outfile, append=TRUE)
         if ( strain != oldstrain) {
@@ -230,7 +230,7 @@ itemReport <- function(seqs, seqname, pp, nameMap, out.folder, outfile.suffix) {
     printConsensus(aln)
     cat("```\n")
     outfasta <- nameMap[ nameMap[,1] == gsub("\\D+(\\d+)\\w+", "\\1", pp), 2]
-    outfasta <- paste(as.character(outfasta), sub("S\\d+", "", pn), sep="_")
+    outfasta <- paste(as.character(outfasta), sub("[SRL]+\\d+", "", pn), sep="_")
     if (outfile.suffix != "") {
         outfasta <- paste(outfasta, outfile.suffix, sep="_")
     }
