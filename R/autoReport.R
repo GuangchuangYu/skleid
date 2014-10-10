@@ -101,25 +101,31 @@ autoReport <- function(contig.folder, ref.folder, name.file, out.folder="output"
 
     
     processItems(outfile, contig, ref, nameMap, contig.folder, out.folder)
-    
-    sink(outfile, append=TRUE)
-    cat("\n\n")
-    cat("## Mixed Files\n")
-    sink()
-    
+
     mix.folder <- "mixed"
-    mix.contig <- list.files(path=mix.folder)
-    mix.contig <- paste(mix.folder, mix.contig, sep="/")
-    processItems(outfile, mix.contig, ref, nameMap, mix.folder, out.folder)
+    if ( file.exists(mix.folder)) {
+        if ( length(list.files(mix.folder)) > 0) {
+            sink(outfile, append=TRUE)
+            cat("\n\n")
+            cat("## Mixed Files\n")
+            sink()
     
-    addFooter(outfile)
-    markdownToHTML(outfile, "report.html")
-    file.remove(outfile)
-    file.remove("tmp.log")
-    cat(">> done...", "\t\t\t", format(Sys.time(), "%Y-%m-%d %X"), "\n")
+    
+            mix.contig <- list.files(path=mix.folder)
+            mix.contig <- paste(mix.folder, mix.contig, sep="/")
+            processItems(outfile, mix.contig, ref, nameMap, mix.folder, out.folder, outfile.suffix="mixed")
+            
+            addFooter(outfile)
+            markdownToHTML(outfile, "report.html")
+            file.remove(outfile)
+            file.remove("tmp.log")
+            cat(">> done...", "\t\t\t", format(Sys.time(), "%Y-%m-%d %X"), "\n")
+        }
+    }
+
 }
 
-processItems <- function(outfile, contig, ref, nameMap, contig.folder, out.folder) {
+processItems <- function(outfile, contig, ref, nameMap, contig.folder, out.folder, outfile.suffix="") {
 
     pc <- gsub(pattern=".*_(S\\d+\\w+\\d*)_[4Cm].*", replacement="\\1", contig)
     ## if _Ref.fas in contig folder, it will move to missingFile folder in next step
@@ -159,7 +165,7 @@ processItems <- function(outfile, contig, ref, nameMap, contig.folder, out.folde
             pn <- pp
             outhtml <- NULL
         } else {
-            outinfo <- itemReport(seqs, seqname, pp, nameMap, out.folder)
+            outinfo <- itemReport(seqs, seqname, pp, nameMap, out.folder, outfile.suffix)
             pn <- outinfo$pn
             outhtml <- outinfo$outhtml
         }
@@ -188,7 +194,7 @@ processItems <- function(outfile, contig, ref, nameMap, contig.folder, out.folde
 }
 
 
-itemReport <- function(seqs, seqname, pp, nameMap, out.folder) {
+itemReport <- function(seqs, seqname, pp, nameMap, out.folder, outfile.suffix) {
     ## seqs: sequence file name
     ## seqname: sequence name
     ## pp: protein name
@@ -225,6 +231,9 @@ itemReport <- function(seqs, seqname, pp, nameMap, out.folder) {
     cat("```\n")
     outfasta <- nameMap[ nameMap[,1] == gsub("\\D+(\\d+)\\w+", "\\1", pp), 2]
     outfasta <- paste(as.character(outfasta), sub("S\\d+", "", pn), sep="_")
+    if (outfile.suffix != "") {
+        outfasta <- paste(outfasta, outfile.suffix, sep="_")
+    }
     outfasta <- paste(outfasta, ".fas", sep="")
     cat("\n\nConsensus file", paste("[", outfasta, "]", sep=""))
     outfasta <- paste(out.folder, outfasta, sep="/")

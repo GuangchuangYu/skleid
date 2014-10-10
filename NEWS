@@ -1,3 +1,8 @@
+CHANGES IN VERSION 0.3.4
+------------------------
+ o removed outfolder and .fas in consensus sequence name <2014-10-10, Fri>
+ o add _mixed suffix in mixed strain's consensus sequence file <2014-10-10, Fri>
+
 CHANGES IN VERSION 0.3.3
 ------------------------
  o report mixed sequence in report file <2014-10-09, Thu>

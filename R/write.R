@@ -17,7 +17,7 @@ writeConsensus <- function(aln, output) {
 
     cs <- getConsensus(seq.df)
     cs2 <- DNAStringSet(paste(cs, collapse=""))
-    names(cs2) <- output
+    names(cs2) <- sub(".fa[sta]*", "", sub("\\w+/", "", output))
     writeXStringSet(cs2, output)
 }
 
