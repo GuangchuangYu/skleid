@@ -25,7 +25,7 @@ autoReport <- function(contig.folder, ref.folder, name.file, out.folder="output"
     
     sink()
 
-    sc <- gsub(pattern=".*_([SRL]+\\d+).*", replacement="\\1", contig)
+    sc <- gsub(pattern=".*/[^SRL]*([SRL]+\\d+).*", replacement="\\1", contig)
     
     ## move unknown files if any
     sink(outfile, append=TRUE)
