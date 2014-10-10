@@ -50,6 +50,11 @@ doAlign <- function(x) {
         seqs <- lapply(res, function(x) x$seqs)
         seqs <- do.call("rbind", seqs)
         seqs <- unique(seqs)
+        sn <- seqs[,1]
+        if (length(sn) != length(unique(sn))) {
+            k <- sapply(unique(sn), function(i) which(i == sn)[1])
+            seqs <- seqs[k,]
+        }
         res2 <- list(seqs=seqs, num=nrow(seqs), length=res[[1]]$length)
     } else {
         res2 <- muscle(fasta)
