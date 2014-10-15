@@ -38,3 +38,77 @@ addFooter <- function(file) {
         ".\nContact [Guangchuang](mailto:gcyu@connect.hku.hk) if you need helps.\n")
     sink() 
 }
+
+##' print Info
+##'
+##' 
+##' @title printInfo
+##' @return NULL
+##' @author ygc
+##' @export
+printInfo <- function() {
+    cat("\n###################################################################\n")
+    cat("##\t\t\t\t\t\t\t\t ##\n")
+    cat("##\t\t\t\t\t\t\t\t ##\n")
+    cat('## Author: Guangchuang Yu (gcyu@connect.hku.hk)\t\t\t ##\n')
+cat(paste('## skleid package, version ',
+          as.character(packageVersion("skleid")), ', was installed', sep=""),
+    "\t\t ##\n")
+    cat('## This package designed for SKLEID lab for internal used.\t ##\n')
+    cat('## use command, help(package="skleid"), to view online manuals\t ##\n') 
+    cat('## If you got any problem, please contact me by email\t\t ##\n')
+    cat("##\t\t\t\t\t\t\t\t ##\n")
+    cat("##\t\t\t\t\t\t\t\t ##\n")
+    cat("###################################################################\n\n")
+
+}
+
+moveUnknownFile <- function(contig.folder) {
+    contig <- list.files(path=contig.folder)
+    contig <- paste(contig.folder, contig, sep="/")
+    ## sc <- gsub(pattern=".*/[^SRL]*([SRL]+\\d+).*", replacement="\\1", contig)
+    sc <- c(gsub(".*/.*_(S\\d+)[HNMP]+.*", replacement="\\1", contig),
+            gsub(".*/.*_(RL\\d+)[HNMP]+.*", replacement="\\1", contig)
+            )
+    idx <- which(sc == contig)
+    if (length(idx) >= 1) {
+        moveFile(contig[idx], contig.folder, "unknown")
+    }
+}
+
+unKnownFileReport <- function(contig.folder, report.file) {
+    ## move unknown files if any
+    moveUnknownFile(contig.folder)
+    if (file.exists("unknown")) {
+        num <- length(list.files(path="unknown"))
+        if (num > 0) {
+            sink(report.file, append=TRUE)
+            cat(num, " [unknown](unknown) file(s) found.\n")
+            sink()
+            cat(">>", num, " unknown file(s) found.\n")
+        }
+    }
+}
+
+moveFile <- function(files, from, to) {
+    if (!file.exists(to))
+        dir.create(to)
+    for (ff in files) {
+        file.rename(ff, to=sub(from, to, ff))
+    }
+}
+
+moveEmptyFile <- function(folder) {
+    ff <- list.files(path=folder)
+    ff <- paste(folder, ff, sep="/")
+    ii <- which(file.info(ff)$size == 0)
+    if (length(ii) > 0) {
+        moveFile(ff[ii], folder, "empty")
+    }
+}
+
+emptyFileReport <- function(contig.folder, ref.folder, report.file) {
+    moveEmptyFile(contig.folder)
+    moveEmptyFile(ref.folder)
+    
+}
