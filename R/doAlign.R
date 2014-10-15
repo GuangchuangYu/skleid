@@ -23,11 +23,11 @@ doAlign <- function(x) {
     for (i in 1:nrow(f454$seqs)) {
         fa <- list(seqs=rbind(f454$seqs[i,], fref$seqs), num=fref$num+1)
         class(fa) <- "fasta"
-        aln <- muscle(fa)
+        aln <- muscle(fa, quiet = TRUE)
 
         fa2 <- fa
         fa2$seqs[1,2] <- revcomp(fa2$seqs[1,2])
-        aln2 <- muscle(fa2)
+        aln2 <- muscle(fa2, quiet = TRUE)
         if (identityRatio(aln) < identityRatio(aln2)) {
             f454$seqs[i,1] <- paste("RC", f454$seqs[i,1], sep="_")
             f454$seqs[i,2] <- revcomp(f454$seqs[i,2])
@@ -39,7 +39,7 @@ doAlign <- function(x) {
         fa <- list(seqs=rbind(fref$seqs, fmira$seqs, f454$seqs[i,]),
                    num=3)
         class(fa) <- "fasta"
-        muscle(fa)
+        muscle(fa, quiet = TRUE)
     })
 
     fasta <- list(seqs=rbind(fref$seqs, fmira$seqs, f454$seqs),
@@ -57,7 +57,7 @@ doAlign <- function(x) {
         }
         res2 <- list(seqs=seqs, num=nrow(seqs), length=res[[1]]$length)
     } else {
-        res2 <- muscle(fasta)
+        res2 <- muscle(fasta, quiet = TRUE)
     }
     
     ii <- getIdx(fasta$seqs[,1], res2$seqs[,1])

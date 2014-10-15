@@ -69,34 +69,12 @@ getFiles <- function(path) {
     return(ff)
 }
 
-doFilter <- function(contig.folder, percentage) {
-    contig <- getFiles(contig.folder)
-     
-    f454 <- contig[grep("_454.fa[sta]$", contig)] ## contig[grep("454", contig)]
-    cat(">>", "filtering sequence read numbers below", percentage, "percentage", "\n") 
-    readNumFilter(f454, percentage)
-}
-
 moveUnknownFile <- function(contig.folder) {
     contig <- getFiles(contig.folder)
     sc <- getSampleID(contig)
     idx <- which(sc == contig)
     if (length(idx) >= 1) {
         moveFile(contig[idx], contig.folder, "unknown")
-    }
-}
-
-unKnownFileReport <- function(contig.folder, report.file) {
-    ## move unknown files if any
-    moveUnknownFile(contig.folder)
-    if (file.exists("unknown")) {
-        num <- length(list.files(path="unknown"))
-        if (num > 0) {
-            sink(report.file, append=TRUE)
-            cat(num, " [unknown](unknown) file(s) found.\n")
-            sink()
-            cat(">>", num, " unknown file(s) found.\n")
-        }
     }
 }
 
@@ -113,21 +91,6 @@ moveEmptyFile <- function(folder) {
     ii <- which(file.info(ff)$size == 0)
     if (length(ii) > 0) {
         moveFile(ff[ii], folder, "empty")
-    }
-}
-
-emptyFileReport <- function(contig.folder, ref.folder, report.file) {
-    moveEmptyFile(contig.folder)
-    moveEmptyFile(ref.folder)
-
-    if (file.exists("empty")) {
-        num <- length(list.files(path="empty"))
-        if (num > 0) {
-            sink(report.file, append=TRUE)
-            cat(num, " [empty](empty) file(s) found.\n")
-            sink()
-            cat(">>", num, " empty file(s) found.\n")
-        }
     }
 }
 
@@ -186,46 +149,6 @@ getMixedStrain <- function() {
     return(mix.sc)
 }
 
-mixedFileReport <- function(contig.folder, report.file) {
-    mix.sc <- getMixedStrain()  
-    if ( !is.null(mix.sc)) {
-        sink(report.file, append=TRUE)
-        cat("\n", length(unique(mix.sc)), " [mixed](mixed) strain(s) found.\n")
-        cat("\n\t", paste(unique(mix.sc)), "\n")
-        sink()
-        cat(">>", length(unique(mix.sc)), " mixed strain(s) found.\n")
-    }
-    
-    contig <- getFiles(contig.folder)
-    sc <- getSampleID(contig)
-    if (length(sc) > 0) {
-        cat(">>", length(unique(sc)), " strains were processed in the report.\n")
-        ## processing 
-        sink(report.file, append=TRUE)
-        cat(length(unique(sc)), " strains were processed in the report.\n")
-        cat("\n\t", paste(unique(sc)), "\n\n")
-        sink()
-    }
-}
-
-
-generateStrainTable <- function(contig.folder, nameMap) {
-    mix.sc <- getMixedStrain()
-    if (!is.null(mix.sc)) {
-        mixff <- nameMap[ nameMap[,1] %in% sub("[SRL]+", "", unique(mix.sc)),]    
-        mixff[,2] <- paste(mixff[,2], "mixed", sep="_")
-        write.table(mixff,
-                    file="mixed_table.txt", sep="\t",
-                    row.names=F, col.names=F, quote=F)        
-    }
-        
-    contig <- getFiles(contig.folder)
-    sc <- getSampleID(contig)
-    write.table(nameMap[nameMap[,1] %in% sub("S", "", unique(sc)), ],
-                file="unmixed_table.txt", sep="\t",
-                row.names=F, col.names=F, quote=F)        
-}
-
 moveNDVFile <- function(contig.folder) {
     ## S38-Yellow-CK-JX-10226-2014_S38NDV_454.fas
     ## S38-Yellow-CK-JX-10226-2014_S38NDV_Contigs.fna
@@ -242,18 +165,3 @@ moveNDVFile <- function(contig.folder) {
     }
 }
 
-NDVFileReport <- function(contig.folder, report.file) {
-    moveNDVFile(contig.folder)
-
-    if (file.exists("NDV")) {
-        ff <- list.files(path="NDV")
-        if (length(ff) > 0) {
-            ndv <- gsub(".*/*_([SRL]+\\d+NDV)_.*",'\\1', ff)
-            ndv <- unique(ndv)
-            sink(report.file)
-            cat("\n", length(ndv), " [NDV](NDV) gene(s) found.\n")
-            cat("\n\t", paste(ndv), "\n")
-            sink()
-        }
-    }
-}

@@ -41,7 +41,7 @@ autoReport <- function(contig.folder, ref.folder, name.file, out.folder="output"
     contig <- getFiles(contig.folder)
     ref <- getFiles(ref.folder)
     ref <- ref[grep("Ref.fas", ref)]
-    sink(outfile)
+    sink(outfile, append=TRUE)
     cat("## un-mixed Files\n")
     sink()
     processItems(outfile, contig, ref, nameMap, contig.folder, out.folder)
@@ -60,7 +60,6 @@ autoReport <- function(contig.folder, ref.folder, name.file, out.folder="output"
     addFooter(outfile)
     markdownToHTML(outfile, "report.html")
     file.remove(outfile)
-    file.remove("tmp.log")
     cat(">> done...", "\t\t\t", format(Sys.time(), "%Y-%m-%d %X"), "\n")
     printInfo()
 }
@@ -144,10 +143,7 @@ itemReport <- function(seqs, seqname, pp, nameMap, out.folder, outfile.suffix) {
         "\t\t", seqname[2], "\n",
         "\t\t", seqname[3], "\n")
     
-    
-    sink("tmp.log")
     aln <- doAlign(seqs)
-    sink()
     
     if (length(grep("HA", pp)) > 0) {
         pn <- gsub(".*(H\\d+)N\\d+.*", "\\1", aln$seqs[1,1])
@@ -189,6 +185,98 @@ itemReport <- function(seqs, seqname, pp, nameMap, out.folder, outfile.suffix) {
     return(res)
 }
 
+generateStrainTable <- function(contig.folder, nameMap) {
+    mix.sc <- getMixedStrain()
+    if (!is.null(mix.sc)) {
+        mixff <- nameMap[ nameMap[,1] %in% sub("[SRL]+", "", unique(mix.sc)),]    
+        mixff[,2] <- paste(mixff[,2], "mixed", sep="_")
+        write.table(mixff,
+                    file="mixed_table.txt", sep="\t",
+                    row.names=F, col.names=F, quote=F)        
+    }
+        
+    contig <- getFiles(contig.folder)
+    sc <- getSampleID(contig)
+    write.table(nameMap[nameMap[,1] %in% sub("S", "", unique(sc)), ],
+                file="unmixed_table.txt", sep="\t",
+                row.names=F, col.names=F, quote=F)        
+}
 
+doFilter <- function(contig.folder, percentage) {
+    contig <- getFiles(contig.folder)
+     
+    f454 <- contig[grep("_454.fa[sta]$", contig)] ## contig[grep("454", contig)]
+    cat(">>", "filtering sequence read numbers below", percentage, "percentage", "\n") 
+    readNumFilter(f454, percentage)
+}
+
+NDVFileReport <- function(contig.folder, report.file) {
+    moveNDVFile(contig.folder)
+
+    if (file.exists("NDV")) {
+        ff <- list.files(path="NDV")
+        if (length(ff) > 0) {
+            ndv <- gsub(".*/*_([SRL]+\\d+NDV)_.*",'\\1', ff)
+            ndv <- unique(ndv)
+            sink(report.file, append=TRUE)
+            cat("\n", length(ndv), " [NDV](NDV) gene(s) found.\n")
+            cat("\n\t", paste(ndv), "\n")
+            sink()
+        }
+    }
+}
+
+
+mixedFileReport <- function(contig.folder, report.file) {
+    mix.sc <- getMixedStrain()  
+    if ( !is.null(mix.sc)) {
+        sink(report.file, append=TRUE)
+        cat("\n", length(unique(mix.sc)), " [mixed](mixed) strain(s) found.\n")
+        cat("\n\t", paste(unique(mix.sc)), "\n")
+        sink()
+        cat(">>", length(unique(mix.sc)), " mixed strain(s) found.\n")
+    }
+    
+    contig <- getFiles(contig.folder)
+    sc <- getSampleID(contig)
+    if (length(sc) > 0) {
+        cat(">>", length(unique(sc)), " strains were processed in the report.\n")
+        ## processing 
+        sink(report.file, append=TRUE)
+        cat(length(unique(sc)), " strains were processed in the report.\n")
+        cat("\n\t", paste(unique(sc)), "\n\n")
+        sink()
+    }
+}
+
+emptyFileReport <- function(contig.folder, ref.folder, report.file) {
+    moveEmptyFile(contig.folder)
+    moveEmptyFile(ref.folder)
+
+    if (file.exists("empty")) {
+        num <- length(list.files(path="empty"))
+        if (num > 0) {
+            sink(report.file, append=TRUE)
+            cat(num, " [empty](empty) file(s) found.\n")
+            sink()
+            cat(">>", num, " empty file(s) found.\n")
+        }
+    }
+}
+
+
+unKnownFileReport <- function(contig.folder, report.file) {
+    ## move unknown files if any
+    moveUnknownFile(contig.folder)
+    if (file.exists("unknown")) {
+        num <- length(list.files(path="unknown"))
+        if (num > 0) {
+            sink(report.file, append=TRUE)
+            cat(num, " [unknown](unknown) file(s) found.\n")
+            sink()
+            cat(">>", num, " unknown file(s) found.\n")
+        }
+    }
+}
 
 
