@@ -3,7 +3,10 @@
 ##' 
 ##' @title autoReport
 ##' @param contig.folder contig folder
+##' files in contig.folder should have name contains _S\\d+[HNMP]+, or it will be move to unknown folder
+##' should contains for example: XXX_S111NA_454.fas, XXX_S111NA_Contigs.fna and XXX_S111NA_mira_delX.fasta
 ##' @param ref.folder reference folder
+##' should contains files like XXX__S111NA_Ref.fas
 ##' @param name.file name file
 ##' @param out.folder output folder 
 ##' @param filter logical
@@ -13,93 +16,34 @@
 ##' @export
 ##' @author ygc
 autoReport <- function(contig.folder, ref.folder, name.file, out.folder="output", filter=FALSE, percentage=1) {
-    contig <- list.files(path=contig.folder)
-    contig <- paste(contig.folder, contig, sep="/")
-
+    printInfo()
+    
     nameMap <- read.delim(name.file, header=F, stringsAsFactor=FALSE)
+
     outfile <- "report.md"
     sink(outfile)
     cat("# Sequence Report by `skleid`\n")
-    
     cat("## Summary \n")
-    
     sink()
 
-    sc <- gsub(pattern=".*/[^SRL]*([SRL]+\\d+).*", replacement="\\1", contig)
+    unKnownFileReport(contig.folder, outfile)
+    emptyFileReport(contig.folder, ref.folder, outfile)
+    NDVFileReport(contig.folder, outfile)
     
-    ## move unknown files if any
-    sink(outfile, append=TRUE)
-    idx <- which(sc == contig)
-    if (length(idx) >= 1) {
-        ## print("found unknown files...")
-        if (!file.exists("unknown"))
-            dir.create("unknown")
-        for (i in idx) {
-            file.rename(contig[i], to=sub(contig.folder,"unknown", contig[i]))
-        }
-        contig <- contig[-idx]
-        sc <- sc[-idx]
-        cat(length(idx), " [unknown](unknown) file(s) found.\n")
-    }
-    
-    sink()
+    if(filter == TRUE)
+        doFilter(contig.folder)
 
-    if (length(idx) >= 1)
-        cat(">>", length(idx), " unknown file(s) found.\n")
     
-    ## filter
-    f454 <- contig[grep("454", contig)]
-    if (filter == TRUE) {
-        cat(">>", "filtering sequence read numbers below", percentage, "percentage", "\n") 
-        readNumFilter(f454, percentage)
-    }
+    mixedFileReport(contig.folder, outfile)
 
-    ## move mixed files
-    idx <- getMixedFileIndex(f454)
-    mix <- unique(gsub(pattern=".*/[^SRL]*([SRL]+\\d+).*", replacement="\\1", f454[idx]))
-    
-    
-    if (length(mix) >= 1) {
-        sink(outfile, append=TRUE)
-        ## print("mixed files found...")
-        if (!file.exists("mixed"))
-            dir.create("mixed")
-        ii <- which(sc %in% mix)
-        for (i in ii) {
-            file.rename(contig[i], to=sub(contig.folder, "mixed", contig[i]))
-        }
-        cat("\n", length(unique(sc[ii])), " [mixed](mixed) strain(s) found.\n")
-        ms <- unique(sc[ii])
-        cat("\n\t", paste(ms), "\n")
-        sink()
-        
-        cat(">>", length(unique(sc[ii])), " mixed strain(s) found.\n")
-        mixff <- nameMap[ nameMap[,1] %in% sub("[SRL]+", "", ms),]
-        mixff[,2] <- paste(mixff[,2], "mixed", sep="_")
-        write.table(mixff,
-                    file="mixed_table.txt", sep="\t",
-                    row.names=F, col.names=F, quote=F)        
-        contig <- contig[-ii]
-        sc <- sc[-ii]
-        write.table(nameMap[! nameMap[,1] %in% sub("S", "", ms), ],
-                    file="unmixed_table.txt", sep="\t",
-                    row.names=F, col.names=F, quote=F)        
-    }
+    generateStrainTable(contig.folder, nameMap)
 
-    cat(">>", length(unique(sc)), " strains were processed in the following report.\n")
-    ## processing 
-    sink(outfile, append=TRUE)
-    cat(length(unique(sc)), " strains were processed in the following report.\n")
-    cat("\n\t", paste(unique(sc)), "\n\n")
+    contig <- getFiles(contig.folder)
+    ref <- getFiles(ref.folder)
+    ref <- ref[grep("Ref.fas", ref)]
+    sink(outfile)
     cat("## un-mixed Files\n")
     sink()
-
-    
-    ref <- list.files(path=ref.folder)
-    ref <- paste(ref.folder, ref, sep="/")
-    ref <- ref[grep("Ref.fas", ref)]
-
-    
     processItems(outfile, contig, ref, nameMap, contig.folder, out.folder)
 
     mix.folder <- "mixed"
@@ -109,28 +53,24 @@ autoReport <- function(contig.folder, ref.folder, name.file, out.folder="output"
             cat("\n\n")
             cat("## Mixed Files\n")
             sink()
-    
-    
-            mix.contig <- list.files(path=mix.folder)
-            mix.contig <- paste(mix.folder, mix.contig, sep="/")
-            processItems(outfile, mix.contig, ref, nameMap, mix.folder, out.folder, outfile.suffix="mixed")
-            
-            addFooter(outfile)
-            markdownToHTML(outfile, "report.html")
-            file.remove(outfile)
-            file.remove("tmp.log")
-            cat(">> done...", "\t\t\t", format(Sys.time(), "%Y-%m-%d %X"), "\n")
-        }
+            mix.contig <- getFiles(mix.folder)
+            processItems(outfile, mix.contig, ref, nameMap, mix.folder, out.folder, outfile.suffix="mixed")        }    
     }
-
+    
+    addFooter(outfile)
+    markdownToHTML(outfile, "report.html")
+    file.remove(outfile)
+    file.remove("tmp.log")
+    cat(">> done...", "\t\t\t", format(Sys.time(), "%Y-%m-%d %X"), "\n")
+    printInfo()
 }
 
 processItems <- function(outfile, contig, ref, nameMap, contig.folder, out.folder, outfile.suffix="") {
 
-    pc <- gsub(pattern=".*/[^SRL]*([SRL]+\\d+[a-zA-Z]+\\d*)_[4Cm].*", replacement="\\1", contig)
+    pc <- gsub(pattern=".*/.*_([SRL]+\\d+[HNMP][APSB]\\d*)_[4Cm].*", replacement="\\1", contig)
     ## if _Ref.fas in contig folder, it will move to missingFile folder in next step
     
-    pr <- gsub(pattern=".*/[^SRL]*([SRL]+\\d+\\w+\\d*)_Ref.fas", replacement="\\1", ref)
+    pr <- gsub(pattern=".*/.*_([SRL]+\\d+[HNMP][APSB]\\d*)_Ref.fas", replacement="\\1", ref)
     
     if (!file.exists(out.folder)) {
         dir.create(out.folder)
@@ -251,21 +191,4 @@ itemReport <- function(seqs, seqname, pp, nameMap, out.folder, outfile.suffix) {
 
 
 
-getMixedFileIndex <- function(files) {
-    which(sapply(files, isMixed))
-}
 
-
-isMixed <- function(file) {
-    prot <- gsub(pattern=".*/[^SRL]*[SRL]+\\d+(\\w+\\d*)_454.*", replacement="\\1", file)
-    
-    prot.cutoff <- c(rep(2000, 4), 1000, rep(3000, 3))
-    names(prot.cutoff) <- c("HA", "NA", "MP", "NP", "NS", "PA", "PB1", "PB2")
-    
-    res <- file.info(file)$size > prot.cutoff[prot]
-    ## NDV that is not exists
-    if (is.na(res))
-        return(TRUE)
-    return(res)
-}
-    
