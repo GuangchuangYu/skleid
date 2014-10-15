@@ -1,6 +1,18 @@
-generateGapFile <- function(out.folder="output", ref.folder="Ref", read.fileName, sample.size=200) {
+##' generating gap file
+##'
+##' 
+##' @title generateGapFile
+##' @param out.folder output folder of autoReport, that contains consensus sequences
+##' @param ref.folder reference folder
+##' @param read.fileName list of file names of read file
+##' @param sample.size sample size
+##' @param gap.file output gap file name 
+##' @return NULL 
+##' @author ygc
+##' @export
+generateGapFile <- function(out.folder="output", ref.folder="Ref", read.fileName, sample.size=200, gap.file="gaps.txt") {
     ## ref: AH1-P5_S5HA_Ref.fas
-    ## read: "HA_CK_JX_22232_2014_S1.fa"
+    ## read: "HA_CK_JX_22232_2014_S1HA.fa"
     ## consensus seq: AB53TL10F06_DK_JX_13730_2014_H4.fas
     ##
     ## consensus seq name should contain virus strain that match read name
@@ -15,7 +27,7 @@ generateGapFile <- function(out.folder="output", ref.folder="Ref", read.fileName
     cs <- list.files(path=out.folder, pattern=".fas$")
     cs2 <- paste(out.folder, cs, sep="/") 
 
-    gapfile <- file("gaps.txt", "w")
+    gapfile <- file(gap.file, "w")
     for (i in 1:length(cs)) {
         x <- toupper(toString(readDNAStringSet(cs2[i])))
         x <- substring(x, 1:nchar(x), 1:nchar(x))
@@ -38,12 +50,14 @@ generateGapFile <- function(out.folder="output", ref.folder="Ref", read.fileName
         } else if (length(grep("N", pp)) > 0) {
             pp <- "NA"
         }
-        rr <- rr[grep(pp, rr)]
+        ## rr <- rr[grep(pp, rr)]
+        rr <- rr[grep(paste(".*_[SRL]+\\d+(", pp, ")\\..*", sep=""), rr)]
+        
         if (length(rr) == 0) {
             warning("gene ", pp, " of ", ss, " not found...")
             next
         } 
-        strain <- gsub(".*_(S\\d+).fa[s]*", '\\1', rr)
+        strain <- gsub(".*_([SRL]+\\d+)[HNMP][APSB]\\d*\\..*", "\\1", rr)
         strain <- paste(strain, pp, sep="")
         ref2 <- ref[grep(strain, ref)]
         if (length(ref2) == 0) {

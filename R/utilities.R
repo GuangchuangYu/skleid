@@ -177,7 +177,7 @@ moveMixedFile <- function(contig.folder) {
 getMixedStrain <- function() {
     mix.sc <- NULL
     if (file.exists("mixed")) {
-        mix <- getFiles(mix)
+        mix <- getFiles("mixed")
         if (length(mix) > 0)
             mix.sc <- getSampleID(mix)
         if (length(mix.sc) == 0)
@@ -187,7 +187,7 @@ getMixedStrain <- function() {
 }
 
 mixedFileReport <- function(contig.folder, report.file) {
-    mix.sc <- getMixedStrain  
+    mix.sc <- getMixedStrain()  
     if ( !is.null(mix.sc)) {
         sink(report.file, append=TRUE)
         cat("\n", length(unique(mix.sc)), " [mixed](mixed) strain(s) found.\n")
@@ -210,7 +210,7 @@ mixedFileReport <- function(contig.folder, report.file) {
 
 
 generateStrainTable <- function(contig.folder, nameMap) {
-    mix.sc <- getMixedStrain
+    mix.sc <- getMixedStrain()
     if (!is.null(mix.sc)) {
         mixff <- nameMap[ nameMap[,1] %in% sub("[SRL]+", "", unique(mix.sc)),]    
         mixff[,2] <- paste(mixff[,2], "mixed", sep="_")
