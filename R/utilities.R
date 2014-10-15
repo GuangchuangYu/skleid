@@ -69,7 +69,7 @@ getFiles <- function(path) {
     return(ff)
 }
 
-doFilter <- function(contig.folder) {
+doFilter <- function(contig.folder, percentage) {
     contig <- getFiles(contig.folder)
      
     f454 <- contig[grep("_454.fa[sta]$", contig)] ## contig[grep("454", contig)]

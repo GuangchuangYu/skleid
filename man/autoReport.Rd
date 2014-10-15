@@ -7,9 +7,12 @@ autoReport(contig.folder, ref.folder, name.file, out.folder = "output",
   filter = FALSE, percentage = 1)
 }
 \arguments{
-\item{contig.folder}{contig folder}
+\item{contig.folder}{contig folder
+files in contig.folder should have name contains _S\\d+[HNMP]+, or it will be move to unknown folder
+should contains for example: XXX_S111NA_454.fas, XXX_S111NA_Contigs.fna and XXX_S111NA_mira_delX.fasta}
 
-\item{ref.folder}{reference folder}
+\item{ref.folder}{reference folder
+should contains files like XXX__S111NA_Ref.fas}
 
 \item{name.file}{name file}
 

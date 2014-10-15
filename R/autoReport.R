@@ -31,7 +31,7 @@ autoReport <- function(contig.folder, ref.folder, name.file, out.folder="output"
     NDVFileReport(contig.folder, outfile)
     
     if(filter == TRUE)
-        doFilter(contig.folder)
+        doFilter(contig.folder, percentage)
 
     
     mixedFileReport(contig.folder, outfile)
