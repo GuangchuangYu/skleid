@@ -63,13 +63,23 @@ cat(paste('## skleid package, version ',
 
 }
 
+getFiles <- function(path) {
+    ff <- list.files(path=path)
+    ff <- paste(path, ff, sep="/")
+    return(ff)
+}
+
+doFilter <- function(contig.folder) {
+    contig <- getFiles(contig.folder)
+     
+    f454 <- contig[grep("_454.fa[sta]$", contig)] ## contig[grep("454", contig)]
+    cat(">>", "filtering sequence read numbers below", percentage, "percentage", "\n") 
+    readNumFilter(f454, percentage)
+}
+
 moveUnknownFile <- function(contig.folder) {
-    contig <- list.files(path=contig.folder)
-    contig <- paste(contig.folder, contig, sep="/")
-    ## sc <- gsub(pattern=".*/[^SRL]*([SRL]+\\d+).*", replacement="\\1", contig)
-    sc <- c(gsub(".*/.*_(S\\d+)[HNMP]+.*", replacement="\\1", contig),
-            gsub(".*/.*_(RL\\d+)[HNMP]+.*", replacement="\\1", contig)
-            )
+    contig <- getFiles(contig.folder)
+    sc <- getSampleID(contig)
     idx <- which(sc == contig)
     if (length(idx) >= 1) {
         moveFile(contig[idx], contig.folder, "unknown")
@@ -99,8 +109,7 @@ moveFile <- function(files, from, to) {
 }
 
 moveEmptyFile <- function(folder) {
-    ff <- list.files(path=folder)
-    ff <- paste(folder, ff, sep="/")
+    ff <- getFiles(folder)
     ii <- which(file.info(ff)$size == 0)
     if (length(ii) > 0) {
         moveFile(ff[ii], folder, "empty")
@@ -121,3 +130,99 @@ emptyFileReport <- function(contig.folder, ref.folder, report.file) {
         }
     }
 }
+
+getMixedFileIndex <- function(files) {
+    which(sapply(files, isMixed))
+}
+
+
+isMixed <- function(file) {
+    ## prot <- gsub(pattern=".*/[^SRL]*[SRL]+\\d+(\\w+\\d*)_454.*", replacement="\\1", file)
+    prot <- gsub(".*/.*_[SRL]+\\d+([HNMP][APSB]\\d*)_.*", replacement="\\1", file)
+    
+    prot.cutoff <- c(rep(2000, 4), 1000, rep(3000, 3))
+    names(prot.cutoff) <- c("HA", "NA", "MP", "NP", "NS", "PA", "PB1", "PB2")
+    
+    res <- file.info(file)$size > prot.cutoff[prot]
+    ## NDV that is not exists
+    if (is.na(res))
+        return(TRUE)
+    return(res)
+}
+
+getSampleID <- function(contig) {
+    sc <- gsub(".*/.*_([SRL]+\\d+)[HNMP]+.*", replacement="\\1", contig)
+    return(sc)
+}
+
+
+moveMixedFile <- function(contig.folder) {
+    contig <- getFiles(contig.folder)
+    f454 <- contig[grep("_454.fa[sta]$", contig)]
+    sc <- getSampleID(contig)
+    idx <- getMixedFileIndex(f454)
+    
+    mix <- unique(gsub(pattern=".*/.*_([SRL]+\\d+)[HNMP][APSB]\\d*_.*", replacement="\\1", f454[idx]))
+        
+    if (length(mix) >= 1) {
+        if (!file.exists("mixed"))
+            dir.create("mixed")
+
+        ii <- which(sc %in% mix)
+        moveFile(contig[ii], contig.folder, "mixed")
+    }
+
+}
+
+getMixedStrain <- function() {
+    mix.sc <- NULL
+    if (file.exists("mixed")) {
+        mix <- getFiles(mix)
+        if (length(mix) > 0)
+            mix.sc <- getSampleID(mix)
+        if (length(mix.sc) == 0)
+            mix.sc <- NULL
+    }
+    return(mix.sc)
+}
+
+mixedFileReport <- function(contig.folder, report.file) {
+    mix.sc <- getMixedStrain  
+    if ( !is.null(mix.sc)) {
+        sink(report.file, append=TRUE)
+        cat("\n", length(unique(mix.sc)), " [mixed](mixed) strain(s) found.\n")
+        cat("\n\t", paste(unique(mix.sc)), "\n")
+        sink()
+        cat(">>", length(unique(mix.sc)), " mixed strain(s) found.\n")
+    }
+    
+    contig <- getFiles(contig.folder)
+    sc <- getSampleID(contig)
+    if (length(sc) > 0) {
+        cat(">>", length(unique(sc)), " strains were processed in the report.\n")
+        ## processing 
+        sink(report.file, append=TRUE)
+        cat(length(unique(sc)), " strains were processed in the report.\n")
+        cat("\n\t", paste(unique(sc)), "\n\n")
+        sink()
+    }
+}
+
+
+generateStrainTable <- function(contig.folder, nameMap) {
+    mix.sc <- getMixedStrain
+    if (!is.null(mix.sc)) {
+        mixff <- nameMap[ nameMap[,1] %in% sub("[SRL]+", "", unique(mix.sc)),]    
+        mixff[,2] <- paste(mixff[,2], "mixed", sep="_")
+        write.table(mixff,
+                    file="mixed_table.txt", sep="\t",
+                    row.names=F, col.names=F, quote=F)        
+    }
+        
+    contig <- getFiles(contig.folder)
+    sc <- getSampleID(contig)
+    write.table(nameMap[nameMap[,1] %in% sub("S", "", unique(sc)), ],
+                file="unmixed_table.txt", sep="\t",
+                row.names=F, col.names=F, quote=F)        
+}
+
