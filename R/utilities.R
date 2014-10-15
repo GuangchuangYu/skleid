@@ -110,5 +110,14 @@ moveEmptyFile <- function(folder) {
 emptyFileReport <- function(contig.folder, ref.folder, report.file) {
     moveEmptyFile(contig.folder)
     moveEmptyFile(ref.folder)
-    
+
+    if (file.exists("empty")) {
+        num <- length(list.files(path="empty"))
+        if (num > 0) {
+            sink(report.file, append=TRUE)
+            cat(num, " [empty](empty) file(s) found.\n")
+            sink()
+            cat(">>", num, " empty file(s) found.\n")
+        }
+    }
 }
