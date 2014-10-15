@@ -226,3 +226,34 @@ generateStrainTable <- function(contig.folder, nameMap) {
                 row.names=F, col.names=F, quote=F)        
 }
 
+moveNDVFile <- function(contig.folder) {
+    ## S38-Yellow-CK-JX-10226-2014_S38NDV_454.fas
+    ## S38-Yellow-CK-JX-10226-2014_S38NDV_Contigs.fna
+    ## S38-Yellow-CK-JX-10226-2014_S38NDV_mira_delX.fasta
+    ## S38-Yellow-CK-JX-10226-2014_S38NDV_mira.fasta
+    contig <- getFiles(contig.folder)
+    
+    idx <- grep(".*/*_[SRL]+\\d+NDV_.*", contig)
+    
+    if (length(idx) >= 1) {
+        if (!file.exists("NDV"))
+            dir.create("NDV")
+        moveFile(contig[idx], contig.folder, "NDV")
+    }
+}
+
+NDVFileReport <- function(contig.folder, report.file) {
+    moveNDVFile(contig.folder)
+
+    if (file.exists("NDV")) {
+        ff <- list.files(path="NDV")
+        if (length(ff) > 0) {
+            ndv <- gsub(".*/*_([SRL]+\\d+NDV)_.*",'\\1', ff)
+            ndv <- unique(ndv)
+            sink(report.file)
+            cat("\n", length(ndv), " [NDV](NDV) gene(s) found.\n")
+            cat("\n\t", paste(ndv), "\n")
+            sink()
+        }
+    }
+}
