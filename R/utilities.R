@@ -50,17 +50,16 @@ printInfo <- function() {
     cat("\n###################################################################\n")
     cat("##\t\t\t\t\t\t\t\t ##\n")
     cat("##\t\t\t\t\t\t\t\t ##\n")
-    cat('## Author: Guangchuang Yu (gcyu@connect.hku.hk)\t\t\t ##\n')
-cat(paste('## skleid package, version ',
-          as.character(packageVersion("skleid")), ', was installed', sep=""),
-    "\t\t ##\n")
-    cat('## This package designed for SKLEID lab for internal used.\t ##\n')
-    cat('## use command, help(package="skleid"), to view online manuals\t ##\n') 
-    cat('## If you got any problem, please contact me by email\t\t ##\n')
+    cat('##  Author: Guangchuang Yu (gcyu@connect.hku.hk)\t\t ##\n')
+    cat(paste('##  skleid package, version = ',
+              as.character(packageVersion("skleid")), sep=""),
+        "\t\t\t\t ##\n")
+    cat('##  use help(package="skleid") to view online manuals\t\t ##\n') 
+    cat('##  This package is designed for internal used of SKLEID lab\t ##\n')
+    cat('##  If you got any problem, please contact me by email\t\t ##\n')
     cat("##\t\t\t\t\t\t\t\t ##\n")
     cat("##\t\t\t\t\t\t\t\t ##\n")
     cat("###################################################################\n\n")
-
 }
 
 getFiles <- function(path) {

@@ -1,4 +1,4 @@
-CHANGES IN VERSION 0.9.0
+CHANGES IN VERSION 0.99.0
 ------------------------
  o split autoReport to small functions, more easy to maintain <2014-10-15, Wed>
  o parse mixed folder if exists, not need to put them back to contig.folder when re-run <2014-10-15, Wed>
