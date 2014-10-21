@@ -16,7 +16,6 @@
 ##' @export
 ##' @author ygc
 autoReport <- function(contig.folder, ref.folder, name.file, out.folder="output", filter=FALSE, percentage=1) {
-    printInfo()
     
     nameMap <- read.delim(name.file, header=F, stringsAsFactor=FALSE)
 

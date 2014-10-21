@@ -47,6 +47,19 @@ addFooter <- function(file) {
 ##' @author ygc
 ##' @export
 printInfo <- function() {
+    cat('\n')
+    cat('         /-S\n')
+    cat('      /-|\n')
+    cat('   /-|   \\-K\n')
+    cat('  |  |\n')
+    cat('  |   \\----L\n')
+    cat('--|\n')
+    cat('  |      /-E\n')
+    cat('  |   /-|\n')
+    cat('   \\-|   \\-I\n')
+    cat('     |\n')
+    cat('      \\----D\n')  
+    
     cat("\n###################################################################\n")
     cat("##\t\t\t\t\t\t\t\t ##\n")
     cat("##\t\t\t\t\t\t\t\t ##\n")
