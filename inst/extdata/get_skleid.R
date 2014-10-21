@@ -12,5 +12,5 @@ installPKG("devtools")
 require("devtools")
 install_github("GuangchuangYu/skleid")
 
-suppressPackageStartupMessages(library("skleid"))
-printInfo()
+## suppressPackageStartupMessages(library("skleid"))
+## printInfo()
