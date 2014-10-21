@@ -60,7 +60,7 @@ autoReport <- function(contig.folder, ref.folder, name.file, out.folder="output"
     markdownToHTML(outfile, "report.html")
     file.remove(outfile)
     cat(">> done...", "\t\t\t", format(Sys.time(), "%Y-%m-%d %X"), "\n")
-    printInfo()
+
 }
 
 processItems <- function(outfile, contig, ref, nameMap, contig.folder, out.folder, outfile.suffix="") {
