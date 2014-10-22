@@ -130,7 +130,7 @@ isMixed <- function(file) {
 
 getSampleID <- function(contig) {
     sg <- get_sid_gn(contig)
-    sc <- gsub("([SRL]+\\d+)[HNMP][APSB]\\d*", "\\1", sg)
+    sc <- gsub("([SRL]+\\d+)[HNMP][APSB]\\d*.*", "\\1", sg)
     return(sc)
 }
 

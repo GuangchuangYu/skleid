@@ -51,13 +51,15 @@ generateGapFile <- function(out.folder="output", ref.folder="Ref", read.fileName
             pp <- "NA"
         }
         ## rr <- rr[grep(pp, rr)]
-        rr <- rr[grep(paste(".*_[SRL]+\\d+(", pp, ")\\..*", sep=""), rr)]
+        rr <- rr[grep(paste(".*[SRL]+\\d+(", pp, ")\\..*", sep=""), rr)]
         
         if (length(rr) == 0) {
             warning("gene ", pp, " of ", ss, " not found...")
             next
         } 
-        strain <- gsub(".*_([SRL]+\\d+)[HNMP][APSB]\\d*\\..*", "\\1", rr)
+        ## strain <- gsub(".*_([SRL]+\\d+)[HNMP][APSB]\\d*\\..*", "\\1", rr)
+        sg <- get_sid_gn(rr)
+        strain <- gsub("([SRL]+\\d+)[HNMP][APSB]\\d*.*", "\\1", sg)
         strain <- paste(strain, pp, sep="")
         ref2 <- ref[grep(strain, ref)]
         if (length(ref2) == 0) {
