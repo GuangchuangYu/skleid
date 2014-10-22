@@ -95,9 +95,9 @@ processItems <- function(outfile, contig, ref, nameMap, contig.folder, out.folde
             next
         }
         
-        seqname <- sub(contig.folder, "", seqs)
-        seqname <- sub("/", "", seqname)
-        
+        ## seqname <- sub(contig.folder, "", seqs)
+        ## seqname <- sub("/", "", seqname)
+        seqname <- sub("\\w+/", "", seqs)
 
         if (isMixed(jj[grep("454.fas", jj)]) == TRUE) {
             pn <- pp
@@ -227,6 +227,8 @@ NDVFileReport <- function(contig.folder, report.file) {
 
 
 mixedFileReport <- function(contig.folder, report.file) {
+    moveMixedFile(contig.folder)
+    
     mix.sc <- getMixedStrain()  
     if ( !is.null(mix.sc)) {
         sink(report.file, append=TRUE)
