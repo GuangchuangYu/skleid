@@ -65,10 +65,14 @@ autoReport <- function(contig.folder, ref.folder, name.file, out.folder="output"
 
 processItems <- function(outfile, contig, ref, nameMap, contig.folder, out.folder, outfile.suffix="") {
 
-    pc <- gsub(pattern=".*/.*_([SRL]+\\d+[HNMP][APSB]\\d*)_[4Cm].*", replacement="\\1", contig)
-    ## if _Ref.fas in contig folder, it will move to missingFile folder in next step
+    contig <- contig[grep("[SRL]+\\d+[HNMP][APSB]\\d*_[4Cm].*", contig)]
+    ## pc <- gsub(pattern=".*/.*_([SRL]+\\d+[HNMP][APSB]\\d*)_[4Cm].*", replacement="\\1", contig)
+    pc <- get_sid_gn(contig)
     
-    pr <- gsub(pattern=".*/.*_([SRL]+\\d+[HNMP][APSB]\\d*)_Ref.fas", replacement="\\1", ref)
+    ## if _Ref.fas in contig folder, it will move to missingFile folder in next step
+    ## pr <- gsub(pattern=".*/.*_([SRL]+\\d+[HNMP][APSB]\\d*)_Ref.fas", replacement="\\1", ref)
+    ref <- ref[grep("_Ref.fas", ref)]
+    pr <- get_sid_gn(ref)
     
     if (!file.exists(out.folder)) {
         dir.create(out.folder)
@@ -215,7 +219,7 @@ NDVFileReport <- function(contig.folder, report.file) {
     if (file.exists("NDV")) {
         ff <- list.files(path="NDV")
         if (length(ff) > 0) {
-            ndv <- gsub(".*/*_([SRL]+\\d+NDV)_.*",'\\1', ff)
+            ndv <- gsub(".*/.*([SRL]+\\d+NDV)_.*",'\\1', ff)
             ndv <- unique(ndv)
             sink(report.file, append=TRUE)
             cat("\n", length(ndv), " [NDV](NDV) gene(s) found.\n")
