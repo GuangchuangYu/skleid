@@ -61,17 +61,17 @@ printInfo <- function() {
     cat('      \\----D\n')  
     
     cat("\n###################################################################\n")
-    cat("##\t\t\t\t\t\t\t\t ##\n")
-    cat("##\t\t\t\t\t\t\t\t ##\n")
-    cat('##  Author: Guangchuang Yu (gcyu@connect.hku.hk)\t\t ##\n')
-    cat(paste('##  skleid package, version = ',
-              as.character(packageVersion("skleid")), sep=""),
-        "\t\t\t\t ##\n")
-    cat('##  use help(package="skleid") to view online manuals\t\t ##\n') 
-    cat('##  This package is designed for internal use of SKLEID lab\t ##\n')
-    cat('##  If you got any problem, please contact me by email\t\t ##\n')
-    cat("##\t\t\t\t\t\t\t\t ##\n")
-    cat("##\t\t\t\t\t\t\t\t ##\n")
+    cat("##                                                               ##\n")
+    cat("##                                                               ##\n")
+    ## cat("##\t\t\t\t\t\t\t\t ##\n")
+    cat("##  Author: Guangchuang Yu (gcyu@connect.hku.hk)                 ##\n")
+    cat(paste("##  skleid package, version = ", as.character(packageVersion("skleid")), 
+              sep = ""), "                             ##\n")
+    cat("##  use help(package=\"skleid\") to view online manuals            ##\n")
+    cat("##  This package is designed for internal use of SKLEID lab      ##\n")
+    cat("##  If you got any problem, please contact me by email           ##\n")
+    cat("##                                                               ##\n")
+    cat("##                                                               ##\n")
     cat("###################################################################\n\n")
 }
 
