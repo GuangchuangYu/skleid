@@ -34,6 +34,16 @@ doAlign <- function(x) {
         }
     }
 
+    fasta <- list(seqs=rbind(fref$seqs, fmira$seqs, f454$seqs),
+                  num=fref$num+fmira$num+f454$num)
+    class(fasta) <- "fasta"
+    
+    if (f454$num == 1) {
+        res2 <- muscle(fasta, quiet = TRUE)
+        ii <- getIdx(fasta$seqs[,1], res2$seqs[,1])
+        res2$seqs <- res2$seqs[ii,]
+        return(res2)
+    }
     
     res <- lapply(1:f454$num, function(i) {
         fa <- list(seqs=rbind(fref$seqs, fmira$seqs, f454$seqs[i,]),
@@ -41,21 +51,31 @@ doAlign <- function(x) {
         class(fa) <- "fasta"
         muscle(fa, quiet = TRUE)
     })
-
-    fasta <- list(seqs=rbind(fref$seqs, fmira$seqs, f454$seqs),
-                  num=fref$num+fmira$num+f454$num)
-    class(fasta) <- "fasta"
     
     if (length(unique(sapply(res, function(x) x$length))) == 1) {
-        seqs <- lapply(res, function(x) x$seqs)
-        seqs <- do.call("rbind", seqs)
-        seqs <- unique(seqs)
-        sn <- seqs[,1]
-        if (length(sn) != length(unique(sn))) {
-            k <- sapply(unique(sn), function(i) which(i == sn)[1])
-            seqs <- seqs[k,]
+        jj <- sapply(res, function(x) getIdx(fasta$seqs[1,1], x$seqs[,1]))
+
+        r1 <- res[[1]]$seqs[jj[1],2]
+        flag <- FALSE
+        for (i in 2:length(jj)) { ## jj should >= 2
+            if (r1 != res[[i]]$seqs[jj[i],2]) {
+                flag <- TRUE
+                break
+            }
         }
-        res2 <- list(seqs=seqs, num=nrow(seqs), length=res[[1]]$length)
+        if (flag == TRUE) {
+            res2 <- muscle(fasta, quiet = TRUE)
+        } else {
+            seqs <- lapply(res, function(x) x$seqs)
+            seqs <- do.call("rbind", seqs)
+            seqs <- unique(seqs)
+            sn <- seqs[,1]
+            if (length(sn) != length(unique(sn))) {
+                k <- sapply(unique(sn), function(i) which(i == sn)[1])
+                seqs <- seqs[k,]
+            }
+            res2 <- list(seqs=seqs, num=nrow(seqs), length=res[[1]]$length)
+        }
     } else {
         res2 <- muscle(fasta, quiet = TRUE)
     }
