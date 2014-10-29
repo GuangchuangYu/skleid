@@ -167,12 +167,23 @@ itemReport <- function(seqs, seqname, pp, nameMap, out.folder, outfile.suffix) {
     cat("\n\naligned sequences:\n```\n")
     printAlignedSeq(aln)        
     printConsensus(aln)
+
+    alnDir <- "alignment"
+    alnFile <- paste(pn, "_alignment.fas", sep="")
+    alnFile2 <- paste(alnDir, alnFile, sep="/")
+    if(!file.exists(alnDir))
+        dir.create(alnDir)
+    writeAlignedSeq(aln, alnFile2)
+    
     cat("```\n")
     outfasta <- nameMap[ nameMap[,1] == gsub("\\D+(\\d+)\\w+", "\\1", pp), 2]
     outfasta <- paste(as.character(outfasta), sub("[SRL]+\\d+", "", pn), sep="_")
     if (outfile.suffix != "") {
         outfasta <- paste(outfasta, outfile.suffix, sep="_")
     }
+    cat("\n\nAlignment file", paste("[", alnFile, "]", sep = ""))
+    cat(paste("(", "../", alnFile2, ")", sep = ""), "generated.\n")
+    
     outfasta <- paste(outfasta, ".fas", sep="")
     cat("\n\nConsensus file", paste("[", outfasta, "]", sep=""))
     outfasta <- paste(out.folder, outfasta, sep="/")
