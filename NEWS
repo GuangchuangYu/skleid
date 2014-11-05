@@ -1,3 +1,7 @@
+CHANGES IN VERSION 1.1.1
+------------------------
+ o addKeywordFASTA function <2014-10-05, Wed>
+
 CHANGES IN VERSION 1.1.0
 ------------------------
  o alignment sequence generated in alignment folder and add link in the report <2014-10-29, Wed>
