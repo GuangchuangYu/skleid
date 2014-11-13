@@ -74,6 +74,7 @@ generateGapFile <- function(out.folder="output", ref.folder="Ref", read.fileName
         } else {
             fg <- jj
         }
+        fg <- paste("Gaps:", jj, sep="")
         fn <- paste("#:", sample.size, "\n", sep="")
         writeLines(ff, gapfile)
         writeLines(fr, gapfile)
