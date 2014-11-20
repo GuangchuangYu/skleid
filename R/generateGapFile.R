@@ -13,7 +13,7 @@
 generateGapFile <- function(out.folder="output", ref.folder="Ref", read.fileName, sample.size=200, gap.file="gaps.txt") {
     ## ref: AH1-P5_S5HA_Ref.fas
     ## read: "HA_CK_JX_22232_2014_S1HA.fa"
-    ## consensus seq: AB53TL10F06_DK_JX_13730_2014_H4.fas
+    ## consensus seq: AB53TL10F06_DK_JX_13730_2014_H4.fas , _mixed.fas for mixed 
     ##
     ## consensus seq name should contain virus strain that match read name
     ## read name should contain strain name and gene name, that can be matched by ref
@@ -44,7 +44,8 @@ generateGapFile <- function(out.folder="output", ref.folder="Ref", read.fileName
             warning("file name, ", ss, " not match...")
             next
         }
-        pp <- gsub(".*_(\\w+).fas", '\\1', cs[i])
+        ## pp <- gsub(".*_(\\w+).fas", '\\1', cs[i])
+        pp <- gsub(".*_([HNMP][APSB]*\\d*)[_mixed]*\\.fas", '\\1',x)
         if (length(grep("H", pp)) > 0) {
             pp <- "HA"
         } else if (length(grep("N", pp)) > 0) {
@@ -59,7 +60,7 @@ generateGapFile <- function(out.folder="output", ref.folder="Ref", read.fileName
         } 
         ## strain <- gsub(".*_([SRL]+\\d+)[HNMP][APSB]\\d*\\..*", "\\1", rr)
         sg <- get_sid_gn(rr)
-        strain <- gsub("([SRL]+\\d+)[HNMP][APSB]\\d*.*", "\\1", sg)
+        strain <- gsub("([SRL]+\\d+)[HNMP][APSB]*\\d*.*", "\\1", sg)
         strain <- paste(strain, pp, sep="")
         ref2 <- ref[grep(strain, ref)]
         if (length(ref2) == 0) {
