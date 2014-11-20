@@ -8,7 +8,8 @@
 ##' @export
 ##' @author ygc
 update_skleid <- function() {
-    x <- getURL("https://raw.githubusercontent.com/GuangchuangYu/skleid/master/DESCRIPTION")
+    x <- getURL("https://raw.githubusercontent.com/GuangchuangYu/skleid/master/DESCRIPTION",
+                .opts = list(ssl.verifypeer = FALSE))
     vv <- gsub(".*\nVersion: (\\d+\\.\\d+\\.\\d+)\n.*", "\\1", x)
     if (as.character(packageVersion("skleid")) != vv) {
         cat("new version (", vv, ") of skleid found...\n")
