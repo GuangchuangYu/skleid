@@ -1,3 +1,7 @@
+CHANGES IN VERSION 1.1.5
+------------------------
+ o import readBStringSet for compatible of X or N character in DNA sequence <2014-11-20, Thu>
+
 CHANGES IN VERSION 1.1.4
 ------------------------
  o fixed mising mixed in generateGaps <2014-11-20, Thu>

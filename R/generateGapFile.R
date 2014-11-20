@@ -9,6 +9,7 @@
 ##' @param gap.file output gap file name 
 ##' @return NULL 
 ##' @author ygc
+##' @importFrom Biostrings readBStringSet
 ##' @export
 generateGapFile <- function(out.folder="output", ref.folder="Ref", read.fileName, sample.size=200, gap.file="gaps.txt") {
     ## ref: AH1-P5_S5HA_Ref.fas
