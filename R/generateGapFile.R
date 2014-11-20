@@ -38,17 +38,23 @@ generateGapFile <- function(out.folder="output", ref.folder="Ref", read.fileName
         if (length(ii) == 0) {
             next
         }
-        ss <- sub("_[A-Z0-9]+.fas$", "", sub("^[a-zA-Z0-9]+_", "", cs[i]))
+
+        ## remove prefix
+        ss <- sub("^[a-zA-Z0-9]+_", "", cs[i])
+        ## remove _mixed if any
+        ss <- sub("_mixed", "", ss)
+        ## remove gene name and .fas
+        ss <- sub("_[A-Z0-9]+.fas$", "", ss)
         rr <- reads[grep(ss, reads)]
         if (length(rr) == 0) {
             warning("file name, ", ss, " not match...")
             next
         }
         ## pp <- gsub(".*_(\\w+).fas", '\\1', cs[i])
-        pp <- gsub(".*_([HNMP][APSB]*\\d*)[_mixed]*\\.fas", '\\1',x)
+        pp <- gsub(".*_([HNMP][APSB]*\\d*)[_mixed]*\\.fas", '\\1', cs[i])
         if (length(grep("H", pp)) > 0) {
             pp <- "HA"
-        } else if (length(grep("N", pp)) > 0) {
+        } else if ( pp != "NS" && length(grep("N", pp)) > 0) {
             pp <- "NA"
         }
         ## rr <- rr[grep(pp, rr)]
