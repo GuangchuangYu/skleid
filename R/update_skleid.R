@@ -12,7 +12,7 @@ update_skleid <- function() {
     vv <- gsub(".*\nVersion: (\\d+\\.\\d+\\.\\d+)\n.*", "\\1", x)
     if (as.character(packageVersion("skleid")) != vv) {
         cat("new version (", vv, ") of skleid found...\n")
-        cat("press ENTER to update the package...\n")
+        ## cat("press ENTER to update the package...\n")
         pause()
         source("http://ygc.name/get_skleid.R")
     } else {
