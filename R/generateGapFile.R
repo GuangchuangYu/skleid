@@ -29,9 +29,9 @@ generateGapFile <- function(out.folder="output", ref.folder="Ref", read.fileName
 
     gapfile <- file(gap.file, "w")
     for (i in 1:length(cs)) {
-        x <- toupper(toString(readDNAStringSet(cs2[i])))
+        x <- toupper(toString(readBStringSet(cs2[i])))
         x <- substring(x, 1:nchar(x), 1:nchar(x))
-        ii <- which(! x %in% c("A", "C", "G", "T"))
+        ii <- which(! x %in% c("A", "C", "G", "T", "N", "X"))
         if (length(ii) > 0) {
             ii <- ii[ii > 10 && ii < (length(x)-10)]
         }
@@ -52,7 +52,9 @@ generateGapFile <- function(out.folder="output", ref.folder="Ref", read.fileName
         }
         ## pp <- gsub(".*_(\\w+).fas", '\\1', cs[i])
         pp <- gsub(".*_([HNMP][APSB]*\\d*)[_mixed]*\\.fas", '\\1', cs[i])
-        if (length(grep("H", pp)) > 0) {
+        if (pp == "M") {
+            pp <- "MP"
+        } else if (length(grep("H", pp)) > 0) {
             pp <- "HA"
         } else if ( pp != "NS" && length(grep("N", pp)) > 0) {
             pp <- "NA"
@@ -62,6 +64,7 @@ generateGapFile <- function(out.folder="output", ref.folder="Ref", read.fileName
         
         if (length(rr) == 0) {
             warning("gene ", pp, " of ", ss, " not found...")
+        
             next
         } 
         ## strain <- gsub(".*_([SRL]+\\d+)[HNMP][APSB]\\d*\\..*", "\\1", rr)
