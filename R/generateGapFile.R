@@ -95,7 +95,7 @@ generateGapFile <- function(out.folder="output", ref.folder="Ref", read.fileName
     }
       
     close(gapfile)
-    cat(">> done... \n")
+    cat("-> done... \n")
     cat("------------\n")
     daemonSay()
 }
