@@ -19,4 +19,8 @@ update_skleid <- function() {
     } else {
         cat("skleid package (version=", vv, ") is up to date...\n")
     }
+
+    cat("\n\nHave fun with SKLEID...\n")
+    cat("___________________________\n")
+    cheeseSay()
 }

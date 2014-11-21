@@ -80,6 +80,7 @@ generateGapFile <- function(out.folder="output", ref.folder="Ref", read.fileName
         ff <- paste("File:", rr, sep="")
         fr <- paste("Ref:", ref2, sep="")
         jj <- paste(ii - 10, ii, sep=",")
+        cat(length(jj), "gap(s) found in", paste("Consensus sequence", cs[i]), "\n")
         if (length(jj) > 1) {
             fg <- paste(jj, collapse=" | ")
         } else {
@@ -94,4 +95,7 @@ generateGapFile <- function(out.folder="output", ref.folder="Ref", read.fileName
     }
       
     close(gapfile)
+    cat(">> done... \n")
+    cat("____________\n")
+    daemonSay()
 }

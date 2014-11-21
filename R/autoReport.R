@@ -61,16 +61,13 @@ autoReport <- function(contig.folder, ref.folder, name.file, out.folder="output"
     file.remove(outfile)
     ## cat(">> done...", "\t\t\t", format(Sys.time(), "%Y-%m-%d %X"), "\n")
 
-    ## cat("____________\n")
+    ## 
     cat(">> done... \n")
-    cat("------------\n")
-    cat("       \\   ^__^\n")
-    cat("        \\  (oo)\\_______\n")
-    cat("           (__)\\       )\\/\\\n")
-    cat("               ||----w |\n")
-    cat("               ||     ||\n")
-    
+    cat("____________\n")
+    dragonSay()
 }
+
+
 
 processItems <- function(outfile, contig, ref, nameMap, contig.folder, out.folder, outfile.suffix="") {
 
