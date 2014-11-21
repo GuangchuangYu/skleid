@@ -5,18 +5,13 @@
 ##' @param fasta fasta file
 ##' @param keyword keyword to be added
 ##' @param suffix logical, true add suffix, false add prefix
-##' @param type one of AA or DNA
-##' @importFrom Biostrings readDNAStringSet
-##' @importFrom Biostrings readAAStringSet
+##' @importFrom Biostrings readBStringSet
 ##' @return NULL
 ##' @export
 ##' @author ygc
-addKeywordFASTA <- function(fasta, keyword, suffix=TRUE, type="DNA") {
-    if (type == "DNA") {
-        ff <- readDNAStringSet(fasta)
-    } else if (type == "AA") {
-        ff <- readAAStringSet(fasta)
-    }
+addKeywordFASTA <- function(fasta, keyword, suffix=TRUE) {
+    ff <- readBStringSet(fasta)
+    
     if (suffix == TRUE) {
         names(ff) <- paste(names(ff), keyword, sep="")
     } else {

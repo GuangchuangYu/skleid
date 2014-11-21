@@ -3,7 +3,7 @@
 \alias{addKeywordFASTA}
 \title{addKeywordFASTA}
 \usage{
-addKeywordFASTA(fasta, keyword, suffix = TRUE, type = "DNA")
+addKeywordFASTA(fasta, keyword, suffix = TRUE)
 }
 \arguments{
 \item{fasta}{fasta file}
@@ -11,8 +11,6 @@ addKeywordFASTA(fasta, keyword, suffix = TRUE, type = "DNA")
 \item{keyword}{keyword to be added}
 
 \item{suffix}{logical, true add suffix, false add prefix}
-
-\item{type}{one of AA or DNA}
 }
 \description{
 add keyword in description line of FASTA file
