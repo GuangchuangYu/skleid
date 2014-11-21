@@ -12,15 +12,15 @@ update_skleid <- function() {
                 .opts = list(ssl.verifypeer = FALSE))
     vv <- gsub(".*\nVersion: (\\d+\\.\\d+\\.\\d+)\n.*", "\\1", x)
     if (as.character(packageVersion("skleid")) != vv) {
-        cat("new version (", vv, ") of skleid found...\n")
-        ## cat("press ENTER to update the package...\n")
+        cat("-> new version (", vv, ") of skleid is available\n")
+        cat("-> press ENTER to update the package...\n")
         pause()
         source("http://ygc.name/get_skleid.R")
-    } else {
-        cat("skleid package (version=", vv, ") is up to date...\n")
-    }
+    } 
 
-    cat("\n\nHave fun with SKLEID...\n")
-    cat("___________________________\n")
+    cat("  ______________________________________\n")
+    cat("/ skleid (version=", vv, ") is up to date... \\\n") 
+    cat("\\ Have fun with SKLEID...               /\n")
+    cat("  --------------------------------------\n")
     cheeseSay()
 }

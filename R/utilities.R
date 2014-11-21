@@ -8,7 +8,7 @@ getIdx <- function(queryID, sourceID) {
 }
 
 pause <- function() {
-    print("press ENTER to continue...")
+    ## print("press ENTER to continue...")
     readline()
     invisible()
 }

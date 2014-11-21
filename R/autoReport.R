@@ -63,7 +63,7 @@ autoReport <- function(contig.folder, ref.folder, name.file, out.folder="output"
 
     ## 
     cat(">> done... \n")
-    cat("____________\n")
+    cat("------------\n")
     dragonSay()
 }
 
