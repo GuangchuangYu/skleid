@@ -1,6 +1,9 @@
 CHANGES IN VERSION 1.2.2
 ------------------------
  o add tree annotation functions <2014-11-21, Fri>
+   + main function of annotating tree
+   + netNglyc related functions
+ o add man files of tree annotation functions <2014-11-21, Fri>
  
 CHANGES IN VERSION 1.2.0
 ------------------------
