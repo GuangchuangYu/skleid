@@ -18,9 +18,9 @@ update_skleid <- function() {
         source("http://ygc.name/get_skleid.R")
     } 
 
-    cat("  ______________________________________\n")
+    cat("  __________________________________________\n")
     cat("/ skleid (version=", vv, ") is up to date... \\\n") 
-    cat("\\ Have fun with SKLEID...               /\n")
-    cat("  --------------------------------------\n")
+    cat("\\ Have fun with SKLEID...                   /\n")
+    cat("  ------------------------------------------\n")
     cheeseSay()
 }
