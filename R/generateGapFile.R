@@ -32,7 +32,7 @@ generateGapFile <- function(out.folder="output", ref.folder="Ref", read.fileName
     for (i in 1:length(cs)) {
         x <- toupper(toString(readBStringSet(cs2[i])))
         x <- substring(x, 1:nchar(x), 1:nchar(x))
-        ii <- which(! x %in% c("A", "C", "G", "T", "N", "X"))
+        ii <- which(! x %in% c("A", "C", "G", "T"))
         if (length(ii) > 0) {
             ii <- ii[ii > 10 && ii < (length(x)-10)]
         }
@@ -80,7 +80,7 @@ generateGapFile <- function(out.folder="output", ref.folder="Ref", read.fileName
         ff <- paste("File:", rr, sep="")
         fr <- paste("Ref:", ref2, sep="")
         jj <- paste(ii - 10, ii, sep=",")
-        cat(length(jj), "gap(s) found in", paste("Consensus sequence", cs[i]), "\n")
+        cat("-> ", length(jj), "gap(s) found in", cs[i], "\n")
         if (length(jj) > 1) {
             fg <- paste(jj, collapse=" | ")
         } else {
