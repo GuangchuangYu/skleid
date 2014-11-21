@@ -1,3 +1,13 @@
+mooseSay <- function() {
+    cat("  \\\n")
+    cat("   \\   \\_\\_    _/_/\n")
+    cat("    \\      \\__/\n")
+    cat("           (oo)\\_______\n")
+    cat("           (__)\\       )\\/\\\n")
+    cat("               ||----w |\n")
+    cat("               ||     ||\n")
+}
+
 cheeseSay <- function() {
     cat("   \\\n")
     cat("    \\\n")

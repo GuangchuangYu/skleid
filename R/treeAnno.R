@@ -17,12 +17,14 @@ treeAnno <- function(inTree, outTree="out.nwk", anno, plot=FALSE) {
     tr <- read.tree(inTree)
     tr <- reorder.phylo(tr, "postorder")
     
-    nodeName <- c(tr$tip.label, tr$node.label)
+    ## nodeName <- c(tr$tip.label, tr$node.label)
+    nodeName <- getNodeName(tr)
     root = tr$edge[nrow(tr$edge),1]
     cn <- getChild(tr, root)
 
     addLabel <- function(tr, node, nn) {
-        nodeName <- c(tr$tip.label, tr$node.label)
+        ## nodeName <- c(tr$tip.label, tr$node.label)
+        nodeName <- getNodeName(tr)
         root <- tr$edge[nrow(tr$edge),1]
         cc <- node ## current node
         nodename <- nodeName[cc]
@@ -101,4 +103,16 @@ getParent <- function(tr, node) {
 getPos <- function(anno, nodename) {
     pos <- anno[tolower(anno$name)== tolower(nodename), "position"]
     return(sort(pos))
+}
+
+getNodeName <- function(tr) {
+    if (is.null(tr$node.label)) {
+        n <- length(tr$tip.label)
+        nl <- (n+1):(2*n-2)
+        nl <- as.character(nl)
+    } else {
+        nl <- tr$node.label
+    }
+    nodeName <- c(tr$tip.label, nl)
+    return(nodeName)
 }
