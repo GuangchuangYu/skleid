@@ -38,7 +38,7 @@ treeAnno.pml <- function(pmlTree, outTree="out.nwk", plot=FALSE) {
     root = tr$edge[nrow(tr$edge),1]
     cn <- getChild(tr, root)
     
-    addLabel <- function(tr, node, nn) {
+    addLabel <- function(tr, node, anno) {
         nodeName <- getNodeName(tr)
         root <- tr$edge[nrow(tr$edge),1]
         cc <- node ## current node
@@ -46,22 +46,22 @@ treeAnno.pml <- function(pmlTree, outTree="out.nwk", plot=FALSE) {
         parent <- getParent(tr, cc)
         parent.nodename <- nodeName[parent]
         
-        labs <- getSubsLabel(nn, parent, cc)
+        labs <- getSubsLabel(anno, parent, cc)
         if ( ! is.null(labs) ) {
             x <- paste(nodename, " [", labs, "]", sep="", collapse="")
             
             if (nodename %in% tr$node.label) {
                 tr$node.label[tr$node.label==nodename] <<- x
-                names(nn)[names(nn) == nodename] <<- x
+                names(anno)[names(anno) == nodename] <<- x
             } else {
                 tr$tip.label[tr$tip.label==nodename] <<-x
-                names(nn)[names(nn) == nodename] <<- x 
+                names(anno)[names(anno) == nodename] <<- x 
             }
         }
     
         children <- getChild(tr, cc)
         for (child in children) {
-            addLabel(tr, child, nn)
+            addLabel(tr, child, anno)
         }
     }
     
