@@ -46,14 +46,16 @@ treeAnno.pml <- function(pmlTree, outTree="out.nwk", plot=FALSE) {
         parent <- getParent(tr, cc)
         parent.nodename <- nodeName[parent]
         
-        labs <- getSubsLabel(anno, parent, cc)
+        labs <- getSubsLabel(nn, parent, cc)
         if ( ! is.null(labs) ) {
             x <- paste(nodename, " [", labs, "]", sep="", collapse="")
             
             if (nodename %in% tr$node.label) {
                 tr$node.label[tr$node.label==nodename] <<- x
+                names(nn)[names(nn) == nodename] <<- x
             } else {
                 tr$tip.label[tr$tip.label==nodename] <<-x
+                names(nn)[names(nn) == nodename] <<- x 
             }
         }
     
