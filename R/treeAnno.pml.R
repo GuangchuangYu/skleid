@@ -1,10 +1,9 @@
-##' tree annotation of sequence substitution
+##' tree annotation of sequence substitution by comparing to parent node
 ##'
 ##' 
-##' @title treeAnno.phyDat
-##' @param inTree input tree in nwk format
+##' @title treeAnno.pml
+##' @param pmlTree tree in pml format, output of optim.pml (phangorn)
 ##' @param outTree output tree file
-##' @param anno phyDat object
 ##' @param plot logical
 ##' @return tree
 ##' @importFrom ape read.tree
@@ -13,8 +12,8 @@
 ##' @importFrom ape write.tree
 ##' @export
 ##' @author Yu Guangchuang
-treeAnno.phyDat <- function(inTree, outTree="out.nwk", anno, plot=FALSE) {
-    ## anno input example
+treeAnno.pml <- function(pmlTree, outTree="out.nwk", plot=FALSE) {
+    ## pmlTree is the output of optim.pml
     ##
     ## infile="sH2N2-98-ref.fas"
     ## tre <- read.tree("H2.nwk")
@@ -23,16 +22,11 @@ treeAnno.phyDat <- function(inTree, outTree="out.nwk", anno, plot=FALSE) {
     ## fit <- optim.pml(fit, optNni=FALSE, optBf=T, optQ=T,
     ##                  optInv=T, optGamma=T, optEdge=TRUE,
     ##                  optRooted=FALSE, model = "GTR")
-    ## anno <- ancestral.pml(fit,"ml")
 
-    if (! is(anno, "phyDat")) {
-        stop("anno should be data of class phyDat...\n")
-    }
-    if (is(anno[[1]], "matrix")) {
-        anno <- matrix2vector.phyDat(anno)
-    }
-    
-    tr <- read.tree(inTree)
+    anno <- ancestral.pml(pmlTree, "ml")
+    anno <- matrix2vector.phyDat(anno)
+        
+    tr <- pmlTree$tree
     tr <- reorder.phylo(tr, "postorder")
     if (is.null(tr$node.label)) {
         n <- length(tr$tip.label)
