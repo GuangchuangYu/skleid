@@ -1,5 +1,6 @@
 CHANGES IN VERSION 1.2.2
 ------------------------
+ o use get_skleid.R within the package for updating <2014-11-22, Sat>
  o treeAnno.phyDat for using phyDat data to annotate tree with substitution <2014-11-22, Sat>
  o matrix2vector.phyDat: convert phyDat object from matrix to vector format <2014-11-21, Fri>
  o add man files of tree annotation functions <2014-11-21, Fri>
