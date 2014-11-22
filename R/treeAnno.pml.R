@@ -49,14 +49,12 @@ treeAnno.pml <- function(pmlTree, outTree="out.nwk", plot=FALSE) {
         labs <- getSubsLabel(anno, parent, cc)
         if ( ! is.null(labs) ) {
             x <- paste(nodename, " [", labs, "]", sep="", collapse="")
-            
             if (nodename %in% tr$node.label) {
                 tr$node.label[tr$node.label==nodename] <<- x
-                names(anno)[names(anno) == nodename] <<- x
             } else {
                 tr$tip.label[tr$tip.label==nodename] <<-x
-                names(anno)[names(anno) == nodename] <<- x 
             }
+            names(anno)[names(anno) == nodename] <<- x 
         }
     
         children <- getChild(tr, cc)
