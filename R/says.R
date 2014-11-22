@@ -31,7 +31,6 @@ cheeseSay <- function() {
 }
 
 cowSay <- function() {
-    cat("------------\n")
     cat("       \\   ^__^\n")
     cat("        \\  (oo)\\_______\n")
     cat("           (__)\\       )\\/\\\n")
