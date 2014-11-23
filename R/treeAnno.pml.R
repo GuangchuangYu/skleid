@@ -26,7 +26,8 @@ treeAnno.pml <- function(pmlTree, outTree="out.nwk", plot=FALSE) {
 
     anno <- ancestral.pml(pmlTree, "ml")
     anno <- matrix2vector.phyDat(anno)
-        
+    ## names(anno) already sorted to match 1:(2n-2) that match the phylo class.
+    
     tr <- pmlTree$tree
     tr <- reorder.phylo(tr, "postorder")
     if (is.null(tr$node.label)) {
@@ -47,16 +48,7 @@ treeAnno.pml <- function(pmlTree, outTree="out.nwk", plot=FALSE) {
         parent <- getParent(tr, cc)
         parent.nodename <- nodeName[parent]
 
-        ##
-        ## in the tested tree, node label is not available
-        ## if there are node labels and if they were encoded in phyDat.
-        ## the code should be changed according to it.
-        ## 
-        if (nodename %in% tr$tip.label) {
-            labs <- getSubsLabel(anno, parent, nodename)
-        } else {
-            labs <- getSubsLabel(anno, parent, cc)
-        }
+        labs <- getSubsLabel(anno, parent, cc)
         
         if ( ! is.null(labs) ) {
             xx <- paste("[", labs, "]", sep="", collapse="")
@@ -67,7 +59,6 @@ treeAnno.pml <- function(pmlTree, outTree="out.nwk", plot=FALSE) {
             } else {
                 tr$tip.label[tr$tip.label==nodename] <<-x
             }
-            ## names(anno)[names(anno) == nodename] <<- x
         }
     
         children <- getChild(tr, cc)
