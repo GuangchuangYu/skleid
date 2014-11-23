@@ -1,3 +1,40 @@
+##' print Info
+##'
+##' 
+##' @title printInfo
+##' @return NULL
+##' @author ygc
+##' @export
+printInfo <- function() {
+    cat('\n')
+    cat('         /-S\n')
+    cat('      /-|\n')
+    cat('   /-|   \\-K\n')
+    cat('  |  |\n')
+    cat('  |   \\----L\n')
+    cat('--|\n')
+    cat('  |      /-E\n')
+    cat('  |   /-|\n')
+    cat('   \\-|   \\-I\n')
+    cat('     |\n')
+    cat('      \\----D\n')  
+    
+    cat("\n###################################################################\n")
+    cat("##                                                               ##\n")
+    cat("##                                                               ##\n")
+    ## cat("##\t\t\t\t\t\t\t\t ##\n")
+    cat("##  Author: Guangchuang Yu (gcyu@connect.hku.hk)                 ##\n")
+    cat(paste("##  skleid package, version = ", as.character(packageVersion("skleid")), 
+              sep = ""), "                             ##\n")
+    cat("##  use help(package=\"skleid\") to view online manuals            ##\n")
+    cat("##  This package is designed for internal use of SKLEID lab      ##\n")
+    cat("##  If you got any problem, please contact me by email           ##\n")
+    cat("##                                                               ##\n")
+    cat("##                                                               ##\n")
+    cat("###################################################################\n\n")
+}
+
+
 mooseSay <- function() {
     cat("  \\\n")
     cat("   \\   \\_\\_    _/_/\n")

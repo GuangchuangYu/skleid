@@ -10,6 +10,7 @@
 ##' @importFrom ape reorder.phylo
 ##' @importFrom ape plot.phylo
 ##' @importFrom ape write.tree
+##' @importFrom phangorn ancestral.pml
 ##' @export
 ##' @author Yu Guangchuang
 treeAnno.pml <- function(pmlTree, outTree="out.nwk", plot=FALSE) {
@@ -45,16 +46,28 @@ treeAnno.pml <- function(pmlTree, outTree="out.nwk", plot=FALSE) {
         nodename <- nodeName[cc]
         parent <- getParent(tr, cc)
         parent.nodename <- nodeName[parent]
+
+        ##
+        ## in the tested tree, node label is not available
+        ## if there are node labels and if they were encoded in phyDat.
+        ## the code should be changed according to it.
+        ## 
+        if (nodename %in% tr$tip.label) {
+            labs <- getSubsLabel(anno, parent, nodename)
+        } else {
+            labs <- getSubsLabel(anno, parent, cc)
+        }
         
-        labs <- getSubsLabel(anno, parent, cc)
         if ( ! is.null(labs) ) {
-            x <- paste(nodename, " [", labs, "]", sep="", collapse="")
+            xx <- paste("[", labs, "]", sep="", collapse="")
+            cat(parent.nodename, "->", nodename, ": ", xx, "\n") 
+            x <- paste(nodename, xx) 
             if (nodename %in% tr$node.label) {
                 tr$node.label[tr$node.label==nodename] <<- x
             } else {
                 tr$tip.label[tr$tip.label==nodename] <<-x
             }
-            names(anno)[names(anno) == nodename] <<- x 
+            ## names(anno)[names(anno) == nodename] <<- x
         }
     
         children <- getChild(tr, cc)
@@ -123,3 +136,4 @@ matrix2vector.phyDat.item <- function(y) {
     })
     unlist(ii)
 }
+
