@@ -1,3 +1,7 @@
+CHANGES IN VERSION 1.2.4
+------------------------
+ o add pmlToSeq function <2014-11-24, Mon>
+
 CHANGES IN VERSION 1.2.3
 ------------------------
  o print verbose information in treeAnno.pml <2014-11-23, Sun>

@@ -92,6 +92,40 @@ treeAnno.pml <- function(pmlTree, outTree="out.nwk", plot=FALSE) {
     invisible(tr)
 }
 
+##' convert pml object to fasta file or XStringSet object
+##'
+##' 
+##' @title pmlToSeq 
+##' @param pml pml object
+##' @param includeAncestor logical 
+##' @param output out fasta file
+##' @return XStringSet
+##' @importFrom phangorn ancestral.pml
+##' @importFrom Biostrings DNAStringSet
+##' @importFrom Biostrings writeXStringSet
+##' @export
+##' @author ygc
+pmlToSeq <- function(pml, includeAncestor=TRUE, output="seq.fa") {
+    if (includeAncestor == FALSE) {
+        phyDat <- pml$data
+    } else {
+        phyDat <- ancestral.pml(pml, "ml")
+    }
+    
+    phyDat <- matrix2vector.phyDat(phyDat)
+    ## defined by phangorn
+    labels <- c("a", "c", "g", "t", "u", "m", "r", "w", "s", 
+                "y", "k", "v", "h", "d", "b", "n", "?", "-")
+    labels <- toupper(labels)
+
+    seq <- lapply(phyDat, function(i) labels[i])
+    seq <- lapply(seq, paste, collapse="")
+    seqobj <- DNAStringSet(unlist(seq))
+    writeXStringSet(seqobj, output)
+    invisible(seqobj)
+}
+
+
 getSubsLabel <- function(phyDat, A, B) {
     seqA <- phyDat[[A]]
     seqB <- phyDat[[B]]
