@@ -24,9 +24,11 @@ treeAnno.pml <- function(pmlTree, outTree="out.nwk", plot=FALSE) {
     ##                  optInv=T, optGamma=T, optEdge=TRUE,
     ##                  optRooted=FALSE, model = "GTR")
 
-    anno <- ancestral.pml(pmlTree, "ml")
-    anno <- matrix2vector.phyDat(anno)
+    ## anno <- ancestral.pml(pmlTree, "ml")
+    ## anno <- matrix2vector.phyDat(anno)
     ## names(anno) already sorted to match 1:(2n-2) that match the phylo class.
+
+    anno <- pmlToSeqString(pmlTree, includeAncestor=TRUE)
     
     tr <- pmlTree$tree
     tr <- reorder.phylo(tr, "postorder")
@@ -97,6 +99,13 @@ treeAnno.pml <- function(pmlTree, outTree="out.nwk", plot=FALSE) {
 ##' @export
 ##' @author ygc
 pmlToSeq <- function(pml, includeAncestor=TRUE, output="seq.fa") {
+    res <- pmlToSeqString(pml, includeAncestor)
+    seqobj <- DNAStringSet(res)
+    writeXStringSet(seqobj, output)
+    invisible(seqobj)
+}
+
+pmlToSeqString <- function(pml, includeAncestor=TRUE) {
     if (includeAncestor == FALSE) {
         phyDat <- pml$data
     } else {
@@ -109,33 +118,54 @@ pmlToSeq <- function(pml, includeAncestor=TRUE, output="seq.fa") {
                 "y", "k", "v", "h", "d", "b", "n", "?", "-")
     labels <- toupper(labels)
 
-    seq <- lapply(phyDat, function(i) labels[i])
-    seq <- lapply(seq, paste, collapse="")
-    seqobj <- DNAStringSet(unlist(seq))
-    writeXStringSet(seqobj, output)
-    invisible(seqobj)
+    index <- attr(phyDat, "index")
+    
+    result <- do.call(rbind, phyDat)
+    result <- result[, index, drop=FALSE]
+
+    res <- apply(result, 2, function(i) labels[i])
+    res <- apply(res, 1, paste, collapse="")
+    names(res) <- rownames(result)
+    return(res)
 }
 
 
-getSubsLabel <- function(phyDat, A, B) {
-    seqA <- phyDat[[A]]
-    seqB <- phyDat[[B]]
-    ii <- which(seqA != seqB)
+seq2codon <- function(x) {
+    substring(x, first=seq(1, nchar(x)-2, 3), last=seq(3, nchar(x), 3))
+}
+
+##' @importFrom Biostrings GENETIC_CODE
+codon2AA <- function(codon) {
+    aa <- GENETIC_CODE[codon]
+    aa[is.na(aa)] <- "X"
+    return(aa)
+}
+
+getSubsLabel <- function(seqs, A, B) {
+    seqA <- seqs[A]
+    seqB <- seqs[B]
+
+    codonA <- seq2codon(seqA)
+    codonB <- seq2codon(seqB)
+
+    pepA <- codon2AA(codonA)
+    pepB <- codon2AA(codonB)
+
+    ii <- which(pepA != pepB)
+    
     if (length(ii) == 0) {
         return(NULL)
     }
-        
-    ## defined by phangorn
-    labels <- c("a", "c", "g", "t", "u", "m", "r", "w", "s", 
-                "y", "k", "v", "h", "d", "b", "n", "?", "-")
-    labels <- toupper(labels)
-    res <- paste(labels[seqA[ii]], ii, labels[seqB[ii]], sep="", collapse="/")
+    
+    res <- paste(pepA[ii], ii, pepB[ii], sep="", collapse="/")
     return(res)
 }
 
 matrix2vector.phyDat <- function(x) {
+    index <- attr(x, "index")
     res <- lapply(x, matrix2vector.phyDat.item)
     names(res) <- names(x)
+    attr(res, "index") <- index
     class(res) <- "phyDat"
     return(res)
 }
