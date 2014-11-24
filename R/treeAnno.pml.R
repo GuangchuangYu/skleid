@@ -4,6 +4,7 @@
 ##' @title treeAnno.pml
 ##' @param pmlTree tree in pml format, output of optim.pml (phangorn)
 ##' @param outTree output tree file
+##' @param translate logical
 ##' @param plot logical
 ##' @return tree
 ##' @importFrom ape read.tree
@@ -13,7 +14,7 @@
 ##' @importFrom phangorn ancestral.pml
 ##' @export
 ##' @author Yu Guangchuang
-treeAnno.pml <- function(pmlTree, outTree="out.nwk", plot=FALSE) {
+treeAnno.pml <- function(pmlTree, outTree="out.nwk", translate=TRUE, plot=FALSE) {
     ## pmlTree is the output of optim.pml
     ##
     ## infile="sH2N2-98-ref.fas"
@@ -29,6 +30,7 @@ treeAnno.pml <- function(pmlTree, outTree="out.nwk", plot=FALSE) {
     ## names(anno) already sorted to match 1:(2n-2) that match the phylo class.
 
     anno <- pmlToSeqString(pmlTree, includeAncestor=TRUE)
+    
     
     tr <- pmlTree$tree
     tr <- reorder.phylo(tr, "postorder")
@@ -50,7 +52,7 @@ treeAnno.pml <- function(pmlTree, outTree="out.nwk", plot=FALSE) {
         parent <- getParent(tr, cc)
         parent.nodename <- nodeName[parent]
 
-        labs <- getSubsLabel(anno, parent, cc)
+        labs <- getSubsLabel(anno, parent, cc, translate)
         
         if ( ! is.null(labs) ) {
             xx <- paste("[", labs, "]", sep="", collapse="")
@@ -141,23 +143,29 @@ codon2AA <- function(codon) {
     return(aa)
 }
 
-getSubsLabel <- function(seqs, A, B) {
+getSubsLabel <- function(seqs, A, B, translate) {
     seqA <- seqs[A]
     seqB <- seqs[B]
 
-    codonA <- seq2codon(seqA)
-    codonB <- seq2codon(seqB)
-
-    pepA <- codon2AA(codonA)
-    pepB <- codon2AA(codonB)
-
-    ii <- which(pepA != pepB)
+    if (translate == TRUE) {
+        codonA <- seq2codon(seqA)
+        codonB <- seq2codon(seqB)
+        
+        AA <- codon2AA(codonA)
+        BB <- codon2AA(codonB)
+    } else {
+        n <- nchar(seqA) ## should equals to nchar(seqB)
+        AA <- substring(seqA, 1:n, 1:n)
+        BB <- substring(seqB, 1:n, 1:n)
+    }
+    
+    ii <- which(AA != BB)
     
     if (length(ii) == 0) {
         return(NULL)
     }
     
-    res <- paste(pepA[ii], ii, pepB[ii], sep="", collapse="/")
+    res <- paste(AA[ii], ii, BB[ii], sep="", collapse="/")
     return(res)
 }
 
