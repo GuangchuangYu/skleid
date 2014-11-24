@@ -5,6 +5,7 @@
 ##' @param pmlTree tree in pml format, output of optim.pml (phangorn)
 ##' @param outTree output tree file
 ##' @param translate logical
+##' @param removeGap logical
 ##' @param plot logical
 ##' @return tree
 ##' @importFrom ape read.tree
@@ -14,7 +15,7 @@
 ##' @importFrom phangorn ancestral.pml
 ##' @export
 ##' @author Yu Guangchuang
-treeAnno.pml <- function(pmlTree, outTree="out.nwk", translate=TRUE, plot=FALSE) {
+treeAnno.pml <- function(pmlTree, outTree="out.nwk", translate=TRUE, removeGap=TRUE, plot=FALSE) {
     ## pmlTree is the output of optim.pml
     ##
     ## infile="sH2N2-98-ref.fas"
@@ -52,7 +53,7 @@ treeAnno.pml <- function(pmlTree, outTree="out.nwk", translate=TRUE, plot=FALSE)
         parent <- getParent(tr, cc)
         parent.nodename <- nodeName[parent]
 
-        labs <- getSubsLabel(anno, parent, cc, translate)
+        labs <- getSubsLabel(anno, parent, cc, translate, removeGap)
         
         if ( ! is.null(labs) ) {
             xx <- paste("[", labs, "]", sep="", collapse="")
@@ -143,7 +144,7 @@ codon2AA <- function(codon) {
     return(aa)
 }
 
-getSubsLabel <- function(seqs, A, B, translate) {
+getSubsLabel <- function(seqs, A, B, translate, removeGap) {
     seqA <- seqs[A]
     seqB <- seqs[B]
 
@@ -160,6 +161,13 @@ getSubsLabel <- function(seqs, A, B, translate) {
     }
     
     ii <- which(AA != BB)
+    if (length(ii) > 0) {
+        ii <- ii[AA[ii] != "X" & BB[ii] != "X"]
+    }
+
+    if (length(ii) > 0) {
+        ii <- ii[AA[ii] != "-" & BB[ii] != "-"]
+    }
     
     if (length(ii) == 0) {
         return(NULL)

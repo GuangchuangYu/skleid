@@ -3,7 +3,8 @@
 \alias{treeAnno.pml}
 \title{treeAnno.pml}
 \usage{
-treeAnno.pml(pmlTree, outTree = "out.nwk", translate = TRUE, plot = FALSE)
+treeAnno.pml(pmlTree, outTree = "out.nwk", translate = TRUE,
+  removeGap = TRUE, plot = FALSE)
 }
 \arguments{
 \item{pmlTree}{tree in pml format, output of optim.pml (phangorn)}
@@ -11,6 +12,8 @@ treeAnno.pml(pmlTree, outTree = "out.nwk", translate = TRUE, plot = FALSE)
 \item{outTree}{output tree file}
 
 \item{translate}{logical}
+
+\item{removeGap}{logical}
 
 \item{plot}{logical}
 }
