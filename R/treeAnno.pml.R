@@ -161,12 +161,15 @@ getSubsLabel <- function(seqs, A, B, translate, removeGap) {
     }
     
     ii <- which(AA != BB)
-    if (length(ii) > 0) {
-        ii <- ii[AA[ii] != "X" & BB[ii] != "X"]
-    }
 
-    if (length(ii) > 0) {
-        ii <- ii[AA[ii] != "-" & BB[ii] != "-"]
+    if (removeGap == TRUE) {
+        if (length(ii) > 0 && translate == TRUE) {
+            ii <- ii[AA[ii] != "X" & BB[ii] != "X"]
+        }
+
+        if (length(ii) > 0 && translate == FALSE) {
+            ii <- ii[AA[ii] != "-" & BB[ii] != "-"]
+        }
     }
     
     if (length(ii) == 0) {
