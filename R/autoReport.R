@@ -208,7 +208,8 @@ itemReport <- function(seqs, seqname, pp, nameMap, out.folder, outfile.suffix) {
 generateStrainTable <- function(contig.folder, nameMap) {
     mix.sc <- getMixedStrain()
     if (!is.null(mix.sc)) {
-        mixff <- nameMap[ nameMap[,1] %in% sub("[SRL]+", "", unique(mix.sc)),]    
+        ## mixff <- nameMap[ nameMap[,1] %in% sub("[SRL]+", "", unique(mix.sc)),]
+        mixff <- nameMap[ nameMap[,1] %in% gsub("[SRL]+(\\d+).*", "\\1", unique(mix.sc)),]    
         mixff[,2] <- paste(mixff[,2], "mixed", sep="_")
         write.table(mixff,
                     file="mixed_table.txt", sep="\t",
@@ -217,7 +218,7 @@ generateStrainTable <- function(contig.folder, nameMap) {
         
     contig <- getFiles(contig.folder)
     sc <- getSampleID(contig)
-    write.table(nameMap[nameMap[,1] %in% sub("S", "", unique(sc)), ],
+    write.table(nameMap[nameMap[,1] %in% gsub("[SRL]+(\\d+).*", "\\1", unique(sc)),],
                 file="unmixed_table.txt", sep="\t",
                 row.names=F, col.names=F, quote=F)        
 }

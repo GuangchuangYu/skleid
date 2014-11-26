@@ -1,3 +1,7 @@
+CHANGES IN VERSION 1.2.6
+------------------------
+ o fixed in generate mixed and un-mixed table <2014-11-26, Wed>
+
 CHANGES IN VERSION 1.2.5
 ------------------------
  o remove X or - in comparison <2014-11-24, Mon>
