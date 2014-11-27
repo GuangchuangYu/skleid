@@ -28,7 +28,7 @@ fas2phy <- function(fas, type="DNA", outfile="out.phy", collapse=FALSE) {
     if (collapse == TRUE) {
         out <- file(outfile, "w")
         dna <- x@unmasked
-        header <- paste(length(dna), "\t", width(dna))
+        header <- paste(length(dna), "\t", width(dna[1]))
         writeLines(header, out)
         nn <- max(nchar(names(dna)))
         for (i in 1:length(dna)) {
