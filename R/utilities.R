@@ -10,7 +10,7 @@ getParent <- function(tr, node) {
 }
 
 getPos <- function(anno, nodename) {
-    pos <- anno[tolower(anno$name)== tolower(nodename), "position"]
+    pos <- anno[tolower(anno$name) == tolower(nodename), "position"]
     return(sort(pos))
 }
 
@@ -191,3 +191,4 @@ moveNDVFile <- function(contig.folder) {
     }
 }
 
+## `%>%` <- function(x, FUN) FUN(x)

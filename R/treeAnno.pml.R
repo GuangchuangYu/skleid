@@ -144,16 +144,19 @@ codon2AA <- function(codon) {
     return(aa)
 }
 
+##' @importFrom magrittr %>%
 getSubsLabel <- function(seqs, A, B, translate, removeGap) {
     seqA <- seqs[A]
     seqB <- seqs[B]
 
     if (translate == TRUE) {
-        codonA <- seq2codon(seqA)
-        codonB <- seq2codon(seqB)
+        AA <- seqA %>% seq2codon %>% codon2AA
+        BB <- seqB %>% seq2codon %>% codon2AA
+        ## codonA <- seq2codon(seqA)
+        ## codonB <- seq2codon(seqB)
         
-        AA <- codon2AA(codonA)
-        BB <- codon2AA(codonB)
+        ## AA <- codon2AA(codonA)
+        ## BB <- codon2AA(codonB)
     } else {
         n <- nchar(seqA) ## should equals to nchar(seqB)
         AA <- substring(seqA, 1:n, 1:n)

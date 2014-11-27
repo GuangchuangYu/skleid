@@ -11,6 +11,7 @@ Imports:
     ape,
     Biostrings,
     muscle,
+    magrittr,
     markdown,
     phangorn,
     RCurl,
