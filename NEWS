@@ -1,6 +1,10 @@
+CHANGES IN VERSION 1.2.8
+------------------------
+ o add summarize function to summarize the output <2014-11-27, Thu>
+ o fas2phy for converting fasta to phylip format <2014-11-27, Thu>
+
 CHANGES IN VERSION 1.2.7
 ------------------------
- o fas2phy for converting fasta to phylip format <2014-11-27, Thu>
  o fixed in generate mixed and un-mixed table <2014-11-26, Wed>
 
 CHANGES IN VERSION 1.2.5
