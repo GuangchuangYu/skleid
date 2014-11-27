@@ -12,7 +12,7 @@ summarize <- function(out.folder, name.file) {
     colnames(nameMap) <- c("ID", "name")
     cs <- list.files(path=out.folder, pattern=".fas$")
     cs2 <- paste(out.folder, cs, sep="/")
-
+    cat("-> determing subtypes\t\t\t", format(Sys.time(), "%Y-%m-%d %X"), "\n")
     subtype <- getSubtype(nameMap, cs)
     nameMap$subtype <- subtype
 
@@ -21,14 +21,17 @@ summarize <- function(out.folder, name.file) {
 
     res <- cbind(nameMap, asite)
     write.csv(res, file="summary.csv", row.names=F)
+    cat("-> output info to summary.csv\t\t", format(Sys.time(), "%Y-%m-%d %X"), "\n")
     cat(">> done... \n")
     cat("------------\n")
     catSay()
 }
 
 getAmbiguousSite <- function(nameMap, cs2, keyword) {
+    cat("-> get ambiguous site info from", keyword, "\t",
+        format(Sys.time(), "%Y-%m-%d %X"), "\n")
     if (keyword == "HA") {
-        keyword = "H\\d"
+        keyword = "H\\d+"
     } else if (keyword == "NA") {
         keyword = "N\\d"
     }
@@ -76,9 +79,9 @@ getSubtype <- function(nameMap, cs) {
         if (length(strain) == 0) {
             return("")
         }
-        hh <- strain[grep("H\\d[_mixed]*\\.fas$", strain)]
+        hh <- strain[grep("H\\d+[_mixed]*\\.fas$", strain)]
         nn <- strain[grep("N\\d[_mixed]*\\.fas$", strain)]
-        ht <- gsub(".*(H\\d)[_mixed]*\\.fas", "\\1", hh)
+        ht <- gsub(".*(H\\d+)[_mixed]*\\.fas", "\\1", hh)
         nt <- gsub(".*(N\\d)[_mixed]*\\.fas", "\\1", nn)
         subtype <- paste(ht, nt, sep="")
         if (length(subtype) == 0)
