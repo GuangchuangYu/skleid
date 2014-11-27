@@ -1,5 +1,6 @@
 CHANGES IN VERSION 1.2.8
 ------------------------
+ o add catSay <2014-11-27, Thu>
  o add summarize function to summarize the output <2014-11-27, Thu>
  o fas2phy for converting fasta to phylip format <2014-11-27, Thu>
 
@@ -50,9 +51,9 @@ CHANGES IN VERSION 1.1.2
 
 CHANGES IN VERSION 1.1.1
 ------------------------
- o add 'Gaps:' in gap range <2014-10-13, Thu>
- o cowsay done... <2014-10-10, Mon>
- o addKeywordFASTA function <2014-10-05, Wed>
+ o add 'Gaps:' in gap range <2014-11-13, Thu>
+ o cowsay done... <2014-11-10, Mon>
+ o addKeywordFASTA function <2014-11-05, Wed>
 
 CHANGES IN VERSION 1.1.0
 ------------------------

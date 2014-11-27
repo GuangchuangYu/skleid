@@ -30,12 +30,14 @@ generateGapFile <- function(out.folder="output", ref.folder="Ref", read.fileName
 
     gapfile <- file(gap.file, "w")
     for (i in 1:length(cs)) {
-        x <- toupper(toString(readBStringSet(cs2[i])))
-        x <- substring(x, 1:nchar(x), 1:nchar(x))
-        ii <- which(! x %in% c("A", "C", "G", "T"))
-        if (length(ii) > 0) {
-            ii <- ii[ii > 10 && ii < (length(x)-10)]
-        }
+        jj <- getAmbiguous.index.base(cs2[i])
+        ii <- jj$index
+        ## x <- toupper(toString(readBStringSet(cs2[i])))
+        ## x <- substring(x, 1:nchar(x), 1:nchar(x))
+        ## ii <- which(! x %in% c("A", "C", "G", "T"))
+        ## if (length(ii) > 0) {
+        ##     ii <- ii[ii > 10 && ii < (length(x)-10)]
+        ## }
         if (length(ii) == 0) {
             next
         }

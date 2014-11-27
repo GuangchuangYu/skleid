@@ -21,6 +21,9 @@ summarize <- function(out.folder, name.file) {
 
     res <- cbind(nameMap, asite)
     write.csv(res, file="summary.csv", row.names=F)
+    cat(">> done... \n")
+    cat("------------\n")
+    catSay()
 }
 
 getAmbiguousSite <- function(nameMap, cs2, keyword) {
@@ -39,16 +42,13 @@ getAmbiguousSite <- function(nameMap, cs2, keyword) {
         if (length(gg) == 0) {
             return("")
         }
-        x <- toupper(toString(readBStringSet(gg)))
-        x <- substring(x, 1:nchar(x), 1:nchar(x))
-        ii <- which(! x %in% c("A", "C", "G", "T"))
-        if (length(ii) > 0) {
-            ii <- ii[ii > 10 && ii < (length(x)-10)]
-        }
+
+        jj <- getAmbiguous.index.base(gg)
+        ii <- jj$index
         if (length(ii) == 0) {
             return("full")
         }
-        res <- paste(ii, x[ii], sep="")
+        res <- paste(ii, jj$base, sep="")
         if (length(ii) > 1) {
             res <- paste(res, sep=",", collapse = ",")
         }
@@ -56,6 +56,19 @@ getAmbiguousSite <- function(nameMap, cs2, keyword) {
     })
     return(unlist(result))
 }
+
+getAmbiguous.index.base <- function(consensusSeqFile) {
+    x <- toupper(toString(readBStringSet(consensusSeqFile)))
+    x <- substring(x, 1:nchar(x), 1:nchar(x))
+    ii <- which(! x %in% c("A", "C", "G", "T"))
+    if (length(ii) > 0) {
+        ii <- ii[ii > 10 && ii < (length(x)-10)]
+    }
+
+    result <- list(index=ii, base=x[ii])
+    return(result)
+}
+
 
 getSubtype <- function(nameMap, cs) {
     res <- sapply(1:nrow(nameMap), function(i) {
