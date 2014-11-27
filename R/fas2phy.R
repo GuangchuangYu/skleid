@@ -11,6 +11,7 @@
 ##' @importFrom Biostrings readRNAMultipleAlignment
 ##' @importFrom Biostrings readAAMultipleAlignment
 ##' @importFrom Biostrings write.phylip
+##' @importFrom Biostrings width
 ##' @export
 ##' @author ygc
 fas2phy <- function(fas, type="DNA", outfile="out.phy", collapse=FALSE) {
