@@ -26,18 +26,18 @@ fas2phy <- function(fas, type="DNA", outfile="out.phy", collapse=FALSE) {
     }
     
     if (collapse == TRUE) {
-        file(outfile, "w")
+        out <- file(outfile, "w")
         dna <- x@unmasked
         header <- paste(length(dna), "\t", width(dna))
-        writeLines(header, outfile)
+        writeLines(header, out)
         nn <- max(nchar(names(dna)))
         for (i in 1:length(dna)) {
             n <- names(dna[i])
             sep.blank <- paste(rep(" ", nn-nchar(n)+4), sep="", collapse="")
             line <- paste(n, sep.blank, toString(dna[i]), sep="")
-            writeLines(line, outfile)
+            writeLines(line, out)
         }
-        close(outfile)
+        close(out)
     } else {
         write.phylip(x, outfile)
     }
