@@ -4,7 +4,7 @@
 \title{autoReport}
 \usage{
 autoReport(contig.folder, ref.folder, name.file, out.folder = "output",
-  filter = FALSE, percentage = 1)
+  filter = FALSE, percentage = 1, markAmbiguous = TRUE)
 }
 \arguments{
 \item{contig.folder}{contig folder
@@ -21,6 +21,8 @@ should contains files like XXX__S111NA_Ref.fas}
 \item{filter}{logical}
 
 \item{percentage}{filter percentage}
+
+\item{markAmbiguous}{makr ambiguous with * or not}
 }
 \description{
 auto report sequence alignment and consensus sequence

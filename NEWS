@@ -1,6 +1,11 @@
+CHANGES IN VERSION 1.2.9
+------------------------
+ o markAmbiguous in autoReport <2014-11-28, Fri>
+ o import operator %>% from magrittr <2014-11-27, Thu>
+
 CHANGES IN VERSION 1.2.8
 ------------------------
- o add catSay <2014-11-27, Thu>
+ o add catSay in summarize <2014-11-27, Thu>
  o add summarize function to summarize the output <2014-11-27, Thu>
  o fas2phy for converting fasta to phylip format <2014-11-27, Thu>
 

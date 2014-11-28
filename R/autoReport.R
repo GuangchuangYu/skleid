@@ -11,11 +11,12 @@
 ##' @param out.folder output folder 
 ##' @param filter logical
 ##' @param percentage filter percentage
+##' @param markAmbiguous makr ambiguous with * or not
 ##' @return NULL
 ##' @importFrom markdown markdownToHTML
 ##' @export
 ##' @author ygc
-autoReport <- function(contig.folder, ref.folder, name.file, out.folder="output", filter=FALSE, percentage=1) {
+autoReport <- function(contig.folder, ref.folder, name.file, out.folder="output", filter=FALSE, percentage=1, markAmbiguous=TRUE) {
     
     nameMap <- read.delim(name.file, header=F, stringsAsFactor=FALSE)
 
@@ -43,7 +44,9 @@ autoReport <- function(contig.folder, ref.folder, name.file, out.folder="output"
     sink(outfile, append=TRUE)
     cat("## un-mixed Files\n")
     sink()
-    processItems(outfile, contig, ref, nameMap, contig.folder, out.folder)
+    processItems(outfile, contig, ref, nameMap,
+                 contig.folder, out.folder,
+                 markAmbiguous=markAmbiguous)
 
     mix.folder <- "mixed"
     if ( file.exists(mix.folder)) {
@@ -53,7 +56,10 @@ autoReport <- function(contig.folder, ref.folder, name.file, out.folder="output"
             cat("## Mixed Files\n")
             sink()
             mix.contig <- getFiles(mix.folder)
-            processItems(outfile, mix.contig, ref, nameMap, mix.folder, out.folder, outfile.suffix="mixed")        }    
+            processItems(outfile, mix.contig, ref, nameMap, mix.folder,
+                         out.folder, outfile.suffix="mixed",
+                         markAmbiguous=markAmbiguous)
+        }    
     }
     
     addFooter(outfile)
@@ -69,7 +75,9 @@ autoReport <- function(contig.folder, ref.folder, name.file, out.folder="output"
 
 
 
-processItems <- function(outfile, contig, ref, nameMap, contig.folder, out.folder, outfile.suffix="") {
+processItems <- function(outfile, contig, ref, nameMap, contig.folder,
+                         out.folder, outfile.suffix="",
+                         markAmbiguous) {
 
     contig <- contig[grep("[SRL]+\\d+[HNMP][APSB]\\d*_[4Cm].*", contig)]
     ## pc <- gsub(pattern=".*/.*_([SRL]+\\d+[HNMP][APSB]\\d*)_[4Cm].*", replacement="\\1", contig)
@@ -112,10 +120,12 @@ processItems <- function(outfile, contig, ref, nameMap, contig.folder, out.folde
         if (isMixed(jj[grep("454.fas", jj)]) == TRUE) {
             pn <- pp
             outhtml <- NULL
+            outfasta <- NULL
         } else {
             outinfo <- itemReport(seqs, seqname, pp, nameMap, out.folder, outfile.suffix)
             pn <- outinfo$pn
             outhtml <- outinfo$outhtml
+            outfasta <- outinfo$outfasta
         }
 
         
@@ -127,15 +137,27 @@ processItems <- function(outfile, contig, ref, nameMap, contig.folder, out.folde
             if (is.null(outhtml)) {
                 cat("### ", pn)
             } else {
-                cat("### ", paste("[", pn, "]", "(", outhtml, ")", sep=""))
+                cat("### ")
             }
         } else {
             if (is.null(outhtml)) {
                 cat("\t", pn)
             } else {
-                cat("\t", paste("[", pn, "]", "(", outhtml, ")", sep=""))
+                cat("\t")
             }
         }
+
+        if (!is.null(outfasta) && markAmbiguous == TRUE){
+            ii <- getAmbiguous.index.base(outfasta)$index
+            if (length(ii) > 0) {
+                pn <- paste0(pn, "*")
+            }
+        }
+
+        if (!is.null(outhtml)) {
+            cat(paste("[", pn, "]", "(", outhtml, ")", sep=""))
+        }
+        
         sink()
         oldstrain <- strain
     }
@@ -201,7 +223,7 @@ itemReport <- function(seqs, seqname, pp, nameMap, out.folder, outfile.suffix) {
     markdownToHTML(outmd, outhtml)
     file.remove(outmd)
 
-    res <- list(pn=pn, outhtml=outhtml)
+    res <- list(pn=pn, outhtml=outhtml, outfasta=outfasta)
     return(res)
 }
 
