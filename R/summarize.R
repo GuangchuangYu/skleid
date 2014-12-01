@@ -16,7 +16,7 @@ summarize <- function(out.folder, name.file) {
     subtype <- getSubtype(nameMap, cs)
     nameMap$subtype <- subtype
 
-    kw <- c("HA", "NA", "MP", "NP", "NS", "PA", "PB1", "PB2")
+    kw <- c("HA", "NA", "PB2", "PB1", "PA", "NP", "MP", "NS")
     asite <- sapply(kw, getAmbiguousSite, nameMap=nameMap, cs2=cs2)
 
     res <- cbind(nameMap, asite)
