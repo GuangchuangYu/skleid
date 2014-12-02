@@ -65,7 +65,7 @@ getAmbiguous.index.base <- function(consensusSeqFile) {
     x <- substring(x, 1:nchar(x), 1:nchar(x))
     ii <- which(! x %in% c("A", "C", "G", "T"))
     if (length(ii) > 0) {
-        ii <- ii[ii > 10 && ii < (length(x)-10)]
+        ii <- ii[ii > 10 & ii < (length(x)-10)]
     }
 
     result <- list(index=ii, base=x[ii])
