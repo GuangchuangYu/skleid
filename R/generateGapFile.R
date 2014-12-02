@@ -59,7 +59,8 @@ generateGapFile <- function(out.folder="output", ref.folder="Ref", read.fileName
             pp <- "MP"
         } else if (length(grep("H", pp)) > 0) {
             pp <- "HA"
-        } else if ( pp != "NS" && pp != "NP" && length(grep("N", pp)) > 0) {
+        } else if ( length(grep("N\\d", pp)) > 0 ) {
+            ## pp != "NS" && pp != "NP" && length(grep("N", pp)) > 0) {
             pp <- "NA"
         }
         ## rr <- rr[grep(pp, rr)]
