@@ -138,7 +138,7 @@ get_sid_gn <- function(files) {
         ## sc[idx] <- gsub(".*_([SRL]+\\d+[HNMP][APSB]*\\d*).*", replacement="\\1", files[-idx])
         ##}
     } ##else {
-    sc <- gsub(".*_([SRL]+\\d+[HNMP][APSB]*\\d*).*", replacement="\\1", files)
+    sc <- gsub(".*_([SRL]+\\d+[HNMP][APSB]*\\d*).*", replacement="\\1", sc)
     ## }
     
     return(sc)        
