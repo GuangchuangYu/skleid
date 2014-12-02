@@ -59,7 +59,7 @@ generateGapFile <- function(out.folder="output", ref.folder="Ref", read.fileName
             pp <- "MP"
         } else if (length(grep("H", pp)) > 0) {
             pp <- "HA"
-        } else if ( pp != "NS" && length(grep("N", pp)) > 0) {
+        } else if ( pp != "NS" && pp != "NP" && length(grep("N", pp)) > 0) {
             pp <- "NA"
         }
         ## rr <- rr[grep(pp, rr)]
@@ -67,7 +67,6 @@ generateGapFile <- function(out.folder="output", ref.folder="Ref", read.fileName
         
         if (length(rr) == 0) {
             warning("gene ", pp, " of ", ss, " not found...")
-        
             next
         } 
         ## strain <- gsub(".*_([SRL]+\\d+)[HNMP][APSB]\\d*\\..*", "\\1", rr)
