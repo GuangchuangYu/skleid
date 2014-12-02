@@ -107,8 +107,6 @@ getMixedFileIndex <- function(files) {
 
 
 isMixed <- function(file) {
-    ## prot <- gsub(pattern=".*/[^SRL]*[SRL]+\\d+(\\w+\\d*)_454.*", replacement="\\1", file)
-    ## prot <- gsub(".*/.*_[SRL]+\\d+([HNMP][APSB]\\d*)_.*", replacement="\\1", file)
     sg <- get_sid_gn(file)
     prot <- gsub("[SRL]+\\d+([HNMP][APSB]\\d*)", "\\1", sg)
         
@@ -134,13 +132,8 @@ get_sid_gn <- function(files) {
     idx <- grep("[SRL]+\\d+[HNMP][APSB]*\\d*_", files)
     if (length(idx) > 0) {
         sc[idx] <- gsub("([SRL]+\\d+[HNMP][APSB]*\\d*)_.*", replacement="\\1", files[idx])
-        ##if (length(sc[-idx]) > 0) {
-        ## sc[idx] <- gsub(".*_([SRL]+\\d+[HNMP][APSB]*\\d*).*", replacement="\\1", files[-idx])
-        ##}
-    } ##else {
+    }
     sc <- gsub(".*_([SRL]+\\d+[HNMP][APSB]*\\d*).*", replacement="\\1", sc)
-    ## }
-    
     return(sc)        
 }
 
@@ -150,7 +143,6 @@ moveMixedFile <- function(contig.folder) {
     sc <- getSampleID(contig)
     idx <- getMixedFileIndex(f454)
     
-    ## mix <- unique(gsub(pattern=".*/.*_([SRL]+\\d+)[HNMP][APSB]\\d*_.*", replacement="\\1", f454[idx]))
     mix <- unique(getSampleID(f454[idx]))
         
     if (length(mix) >= 1) {
