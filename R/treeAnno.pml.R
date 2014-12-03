@@ -83,7 +83,7 @@ treeAnno.pml <- function(pmlTree, outTree="out.nwk", translate=TRUE, removeGap=T
     
     cat("-> done... \n")
     cat("------------\n")
-    mooseSay()
+    says()
 
     invisible(tr)
 }

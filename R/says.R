@@ -34,6 +34,19 @@ printInfo <- function() {
     cat("###################################################################\n\n")
 }
 
+says <- function() {
+    n <- 4
+    i <- sample.int(n, size=1)
+    if (i == 1) {
+        mooseSay()
+    } else if (i == 2) {
+        cowSay()
+    } else if (i == 3) {
+        catSay()
+    } else if (i == 4) {
+        daemonSay()
+    }
+}
 
 mooseSay <- function() {
     cat("  \\\n")

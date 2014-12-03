@@ -24,7 +24,7 @@ summarize <- function(out.folder, name.file) {
     cat("-> output info to summary.csv\t\t", format(Sys.time(), "%Y-%m-%d %X"), "\n")
     cat(">> done... \n")
     cat("------------\n")
-    catSay()
+    says()
 }
 
 getAmbiguousSite <- function(nameMap, cs2, keyword) {
