@@ -22,6 +22,7 @@ generateGapFile <- function(out.folder="output", ref.folder="Ref", read.fileName
     ##
     reads <- read.delim(read.fileName, header=F)
     reads <- as.character(unlist(reads))
+    reads <- unique(reads)
 
     ref <- list.files(path=ref.folder, pattern=".fas$")
     
