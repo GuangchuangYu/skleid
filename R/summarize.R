@@ -14,11 +14,18 @@ summarize <- function(out.folder, name.file) {
     cs2 <- paste(out.folder, cs, sep="/")
     cat("-> determing subtypes\t\t\t", format(Sys.time(), "%Y-%m-%d %X"), "\n")
     subtype <- getSubtype(nameMap, cs)
-    nameMap$subtype <- subtype
 
     kw <- c("HA", "NA", "PB2", "PB1", "PA", "NP", "MP", "NS")
     asite <- sapply(kw, getAmbiguousSite, nameMap=nameMap, cs2=cs2)
 
+    isMixed <- apply(asite, 1, function(i) any(i == ""))
+
+    Mixed <- rep("mixed", nrow(asite))
+    Mixed[isMixed] <- "mixed"
+
+    nameMap$Mixed <- Mixed
+    nameMap$subtype <- subtype
+    
     res <- cbind(nameMap, asite)
     write.csv(res, file="summary.csv", row.names=F)
     cat("-> output info to summary.csv\t\t", format(Sys.time(), "%Y-%m-%d %X"), "\n")
