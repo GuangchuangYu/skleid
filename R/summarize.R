@@ -92,7 +92,13 @@ getSubtype <- function(nameMap, cs) {
         nt <- gsub(".*(N\\d)[_mixed]*\\.fas", "\\1", nn)
         ht <- paste(ht, collapse = "|")
         nt <- paste(nt, collapse = "|")
-        subtype <- paste(ht, nt, sep="|")
+        if (ht == "") {
+            subtype <- nt
+        } else if (nt == "") {
+            subtype <- ht 
+        } else {
+            subtype <- paste(ht, nt, sep="|")
+        }
         if (length(subtype) == 0)
             return("")
          return(subtype)
