@@ -20,7 +20,7 @@ summarize <- function(out.folder, name.file) {
 
     isMixed <- apply(asite, 1, function(i) any(i == ""))
 
-    Mixed <- rep("mixed", nrow(asite))
+    Mixed <- rep("unmixed", nrow(asite))
     Mixed[isMixed] <- "mixed"
 
     nameMap$Mixed <- Mixed
