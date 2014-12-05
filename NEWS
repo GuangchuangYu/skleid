@@ -1,5 +1,6 @@
 CHANGES IN VERSION 1.3.4
 ------------------------
+ o subtype in summary separate by | <2014-12-05, Fri>
  o add Mixed column in summary output <2014-12-05, Fri>
  o generateGapFile is now compatible with readFilename that contains duplicated record. <2014-12-03, Wed>
  o mergePhy function for merging two phylip files <2014-12-04, Thu>

@@ -90,10 +90,12 @@ getSubtype <- function(nameMap, cs) {
         nn <- strain[grep("N\\d[_mixed]*\\.fas$", strain)]
         ht <- gsub(".*(H\\d+)[_mixed]*\\.fas", "\\1", hh)
         nt <- gsub(".*(N\\d)[_mixed]*\\.fas", "\\1", nn)
-        subtype <- paste(ht, nt, sep="")
+        ht <- paste(ht, collapse = "|")
+        nt <- paste(nt, collapse = "|")
+        subtype <- paste(ht, nt, sep="|")
         if (length(subtype) == 0)
             return("")
-        return(subtype)
+         return(subtype)
     })
     return(unlist(res))
 }
