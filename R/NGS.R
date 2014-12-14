@@ -70,7 +70,7 @@ setMethod("show", signature(object = "NGS"),
               cat("NGS class:\n")
               cat("\t", length(object@characterSet), "sequences",
                   "of length", nchar(object@characterSet[1]), "\n")
-              cat("\t use _getPos_ to access the NGS positions\n")
+              cat("\t use _getPosition_ to access the NGS positions\n")
               cat("\t use _getSite_ to access the NGS sites\n")
           })
 
