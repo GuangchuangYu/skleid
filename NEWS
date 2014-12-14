@@ -1,3 +1,9 @@
+CHANGES IN VERSION 1.4.0
+------------------------
+ o NGS class with toNGS constructor and
+   getPosition and getSite functions to access
+   N-glycosylation site info <2014-12-14, Sun>
+ 
 CHANGES IN VERSION 1.3.4
 ------------------------
  o subtype in summary separate by | <2014-12-05, Fri>
