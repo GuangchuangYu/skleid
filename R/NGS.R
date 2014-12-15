@@ -41,8 +41,8 @@ setClass("NGS",
 ##' @export
 ##' @author Yu Guangchuang
 toNGS <- function(fasta, start=1) {
-    fa <- readBStringSet(fasta)
-    new("NGS", stringSet = fa,
+    new("NGS",
+        stringSet = readBStringSet(fasta),
         start = start) %>%
             setNGS_
 }
