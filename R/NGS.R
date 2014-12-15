@@ -7,7 +7,7 @@
 ##'       show,NGS-method toCodon,NGS-method
 ##'       toAA,NGS-method toPosition,NGS-method
 ##'       getPosition,NGS-method getSite,NGS-method
-##'       toString,NGS-method
+##'       toString,NGS-method setNGS_,NGS-method
 ##'
 ##' @docType class
 ##' @slot stringSet BStringSet
@@ -42,14 +42,34 @@ setClass("NGS",
 ##' @author Yu Guangchuang
 toNGS <- function(fasta, start=1) {
     fa <- readBStringSet(fasta)
-    res <- new("NGS", stringSet = fa,
-               start = start)
-    res@characterSet <- toString(res)
-    res@codonSet <- toCodon(res)
-    res@AASet <- toAA(res)
-    res@position <- toPosition(res)
-    return(res)
+    new("NGS", stringSet = fa,
+        start = start) %>%
+            setNGS_
 }
+
+##' setNGS_ method
+##'
+##'
+##' @docType methods
+##' @name setNGS_
+##' @rdname setNGS_-methods
+##' @aliases setNGS_,NGS,ANY-method
+##' @title setNGS_ method
+##' @param x NGS object
+##' @param ... additional parameter
+##' @return NGS object
+##' @exportMethod toCodon
+##' @author Guangchuang Yu
+##' @usage setNGS_(x, ...)
+setMethod("setNGS_", signature(x="NGS"),
+          function(x, ...) {
+              x@characterSet <- toString(x)
+              x@codonSet <- toCodon(x)
+              x@AASet <- toAA(x)
+              x@position <- toPosition(x)
+              return(x)
+          })
+
 
 ##' show method for \code{NGS} instance
 ##'

@@ -1,3 +1,7 @@
+CHANGES IN VERSION 1.4.1
+------------------------
+ o setNGS_ method for NGS object initial <2014-12-15, Mon>
+
 CHANGES IN VERSION 1.4.0
 ------------------------
  o NGS class with toNGS constructor and

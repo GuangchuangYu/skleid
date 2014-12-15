@@ -4,6 +4,7 @@
 \alias{NGS-class}
 \alias{getPosition,NGS-method}
 \alias{getSite,NGS-method}
+\alias{setNGS_,NGS-method}
 \alias{show,NGS-method}
 \alias{toAA,NGS-method}
 \alias{toCodon,NGS-method}

@@ -33,3 +33,11 @@ setGeneric("getPosition", function(x, ...) standardGeneric("getPosition"))
 ##' @title getSite method
 ##' @export
 setGeneric("getSite", function(x, ...) standardGeneric("getSite"))
+
+##' @docType methods
+##' @name setNGS_
+##' @rdname setNGS_-methods
+##' @title setNGS_ method
+##' @export
+setGeneric("setNGS_", function(x, ...) standardGeneric("setNGS_"))
+
