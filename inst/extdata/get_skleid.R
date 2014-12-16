@@ -9,7 +9,7 @@ installPKG <- function(pkg) {
 installPKG("Biostrings")
 installPKG("devtools")
 
-require("devtools")
+library("devtools")
 install_github("GuangchuangYu/skleid")
 
 ## suppressPackageStartupMessages(library("skleid"))
