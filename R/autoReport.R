@@ -174,12 +174,16 @@ itemReport <- function(seqs, seqname, pp, nameMap, out.folder, outfile.suffix) {
         "\t\t", seqname[2], "\n",
         "\t\t", seqname[3], "\n")
 
+    ### sometimes in Windows, it may throw error for no permission to read temp.rafa file.
+    ### but the alignment was no problem.
+    ### when this happened, re-do the alignment is always (almost) works.
     aln <- tryCatch(doAlign(seqs), error=function(e) NULL)
 
     if (is.null(aln)) {
         Sys.sleep(3)
         aln <- tryCatch(doAlign(seqs), error=function(e) NULL)
         if (is.null(aln)) {
+            Sys.sleep(3)
             aln <- doAlign(seqs)
         }
     }
