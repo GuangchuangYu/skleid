@@ -173,8 +173,16 @@ itemReport <- function(seqs, seqname, pp, nameMap, out.folder, outfile.suffix) {
         "\t\t", seqname[1], "\n",
         "\t\t", seqname[2], "\n",
         "\t\t", seqname[3], "\n")
-    
-    aln <- doAlign(seqs)
+
+    aln <- tryCatch(doAlign(seqs), error=function(e) NULL)
+
+    if (is.null(aln)) {
+        Sys.sleep(3)
+        aln <- tryCatch(doAlign(seqs), error=function(e) NULL)
+        if (is.null(aln)) {
+            aln <- doAlign(seqs)
+        }
+    }
     
     if (length(grep("HA", pp)) > 0) {
         pn <- gsub(".*(H\\d+)N\\d+.*", "\\1", aln$seqs[1,1])
