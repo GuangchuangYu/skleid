@@ -1,6 +1,6 @@
 CHANGES IN VERSION 1.4.1
 ------------------------
- o update_skleid now detach skleid before upgrading it and reattach after that <2014-12-16, Tue>
+ o update_skleid now detach skleid before upgrading it and reattach thereafter <2014-12-16, Tue>
  o catch error when windows throw no permission in reading alignment result <2014-12-16, Tue>
  o setNGS_ method for NGS object initial <2014-12-15, Mon>
 
