@@ -1,6 +1,6 @@
 CHANGES IN VERSION 1.4.2
 ------------------------
- o hamming function <2014-12-17, Wed>
+ o hamming S3 method that support BStringSet and character <2014-12-17, Wed>
  o read.phylip function <2014-12-17, Wed>
 
 CHANGES IN VERSION 1.4.1
