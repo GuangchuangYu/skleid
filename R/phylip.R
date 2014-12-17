@@ -3,6 +3,7 @@
 ##' 
 ##' @title read.phylip
 ##' @param file phylip file
+##' @importFrom Biostrings BStringSet
 ##' @return BStringSet object
 ##' @export
 ##' @author ygc

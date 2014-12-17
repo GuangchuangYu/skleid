@@ -25,5 +25,5 @@ Suggests:
     ChIPseeker,
     knitr
 VignetteBuilder: knitr
-License: Artistic-2.0
+License: file LICENSE
 Packaged: 2014-09-17 08:16:14 UTC; root

@@ -1,12 +1,3 @@
-##' @title hamming
-##' @param seq1 sequence 1
-##' @param seq2 sequence 2
-##' @param indel include indel or not
-##' @param ... additional parameter
-##' @export
-hamming <- function(seq1, seq2, indel=FALSE, ...) {
-    UseMethod("hamming")
-}
 
 ##' @title hamming
 ##' @param seq1 sequence 1
@@ -45,7 +36,7 @@ hamming.character <- function(seq1, seq2, indel=FALSE, ...) {
 
     if ( length(seq1) > 1 & length(seq2) > 1) {
         class(seq1) <- "characterVector"
-        hamming.characterVector(seq1, seq2, indel, ...)
+        hamming(seq1, seq2, indel, ...)
     } else {
         stop("seq1 and seq2 should be character of equal length...")
     }

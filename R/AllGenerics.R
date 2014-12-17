@@ -1,3 +1,12 @@
+##' @title hamming
+##' @param seq1 sequence 1
+##' @param seq2 sequence 2
+##' @param indel include indel or not
+##' @param ... additional parameter
+##' @export
+hamming <- function(seq1, seq2, indel=FALSE, ...) {
+    UseMethod("hamming")
+}
 
 ##' @docType methods
 ##' @name toCodon
