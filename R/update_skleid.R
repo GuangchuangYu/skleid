@@ -11,11 +11,11 @@ update_skleid <- function() {
     x <- getURL("https://raw.githubusercontent.com/GuangchuangYu/skleid/master/DESCRIPTION",
                 .opts = list(ssl.verifypeer = FALSE))
     vv <- gsub(".*\nVersion: (\\d+\\.\\d+\\.\\d+)\n.*", "\\1", x)
-    detach("package:skleid", character.only=TRUE)
     if (as.character(packageVersion("skleid")) != vv) {
         cat("-> new version (", vv, ") of skleid is available\n")
         cat("-> press ENTER to update the package...\n")
         pause()
+        detach("package:skleid", character.only=TRUE)
         flag <- FALSE
         ## source("http://ygc.name/get_skleid.R")
         for (lp in .libPaths()) {
@@ -27,7 +27,6 @@ update_skleid <- function() {
             }
         }
         if (flag == FALSE) {
-            detach("package:skleid", character.only=TRUE)
             source("http://ygc.name/get_skleid.R")
         }
     }
