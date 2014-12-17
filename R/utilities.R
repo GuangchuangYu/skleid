@@ -1,35 +1,3 @@
-##' calculate hamming distance 
-##'
-##' 
-##' @title hamming
-##' @param seq1 sequence 1
-##' @param seq2 sequence 2
-##' @param indel include indel or not
-##' @return numeric
-##' @export
-##' @author ygc
-hamming <- function(seq1, seq2, indel=FALSE) {
-    s1 <- toString(seq1)
-    s2 <- toString(seq2)
-    n1 <- nchar(s1)
-    n2 <- nchar(s2)
-    if (n1 != n2) {
-        stop("length of two sequences should be consistent...")
-    }
-        
-    seq1 <- substring(s1, 1:n1, 1:n1)
-    seq2 <- substring(s2, 1:n2, 1:n2)
-
-    ii <- which(seq1 != seq2)
-
-    if (indel == FALSE) {
-        message("--> indel will not count in this function")
-        ii <- ii[seq1[ii] != '-' & seq2[ii] != '-']
-    }
-
-    return(length(ii))
-}
-
 
 getChild <- function(tr, node) {
     ## tree should be in postorder
