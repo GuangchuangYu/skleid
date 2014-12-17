@@ -1,6 +1,10 @@
+CHANGES IN VERSION 1.4.2
+------------------------
+ o hamming function <2014-12-17, Wed>
+ o read.phylip function <2014-12-17, Wed>
+
 CHANGES IN VERSION 1.4.1
 ------------------------
- o read.phylip function <2014-12-17, Wed>
  o update_skleid now detach skleid before upgrading it and reattach thereafter <2014-12-16, Tue>
  o catch error when windows throw no permission in reading alignment result <2014-12-16, Tue>
  o setNGS_ method for NGS object initial <2014-12-15, Mon>
