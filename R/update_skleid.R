@@ -11,6 +11,7 @@ update_skleid <- function() {
     x <- getURL("https://raw.githubusercontent.com/GuangchuangYu/skleid/master/DESCRIPTION",
                 .opts = list(ssl.verifypeer = FALSE))
     vv <- gsub(".*\nVersion: (\\d+\\.\\d+\\.\\d+)\n.*", "\\1", x)
+    detach("package:skleid", character.only=TRUE)
     if (as.character(packageVersion("skleid")) != vv) {
         cat("-> new version (", vv, ") of skleid is available\n")
         cat("-> press ENTER to update the package...\n")
@@ -20,7 +21,6 @@ update_skleid <- function() {
         for (lp in .libPaths()) {
             libs <- list.files(lp)
             if (length(grep("skleid", libs)) == 1) {
-                detach("package:skleid", character.only=TRUE)
                 source(paste(lp, "skleid/extdata/get_skleid.R", sep="/"))
                 flag <- TRUE
                 break
