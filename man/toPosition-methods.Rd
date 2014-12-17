@@ -13,7 +13,7 @@ toPosition(x, ...)
 \arguments{
 \item{x}{NGS object}
 
-\item{...}{additional parameters}
+\item{...}{additional parameter}
 }
 \value{
 list

@@ -1,9 +1,4 @@
-
-##' @title hamming
-##' @param seq1 sequence 1
-##' @param seq2 sequence 2
-##' @param indel include indel or not
-##' @param ... additional parameter
+##' @rdname hamming
 ##' @return numeric
 ##' @method hamming BStringSet
 ##' @export
@@ -14,12 +9,7 @@ hamming.BStringSet <- function(seq1, seq2, indel=FALSE, ...) {
     hamming(s1, s2, indel, ...)
 }
 
-##' @title hamming
-##' @param seq1 sequence 1
-##' @param seq2 sequence 2
-##' @param indel include indel or not
-##' @param ... additional parameter
-##' @return numeric
+##' @rdname hamming
 ##' @method hamming character
 ##' @export
 ##' @author ygc
@@ -42,12 +32,7 @@ hamming.character <- function(seq1, seq2, indel=FALSE, ...) {
     }
 }
 
-##' @title hamming
-##' @param seq1 sequence 1
-##' @param seq2 sequence 2
-##' @param indel include indel or not
-##' @param ... additional parameter
-##' @return numeric
+##' @rdname hamming
 ##' @method hamming characterVector
 ##' @export
 ##' @author ygc

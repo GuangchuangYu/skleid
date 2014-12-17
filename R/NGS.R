@@ -9,7 +9,6 @@
 ##'       getPosition,NGS-method getSite,NGS-method
 ##'       toString,NGS-method setNGS_,NGS-method
 ##'
-##' @docType class
 ##' @slot stringSet BStringSet
 ##' @slot start start position
 ##' @slot characterSet sequence character vector
@@ -50,7 +49,6 @@ toNGS <- function(fasta, start=1) {
 ##' setNGS_ method
 ##'
 ##'
-##' @docType methods
 ##' @name setNGS_
 ##' @rdname setNGS_-methods
 ##' @aliases setNGS_,NGS,ANY-method
@@ -75,7 +73,6 @@ setMethod("setNGS_", signature(x="NGS"),
 ##'
 ##'
 ##' @name show
-##' @docType methods
 ##' @rdname show-methods
 ##'
 ##' @title show method
@@ -98,7 +95,6 @@ setMethod("show", signature(object = "NGS"),
 ##' toCodon method
 ##'
 ##'
-##' @docType methods
 ##' @name toCodon
 ##' @rdname toCodon-methods
 ##' @aliases toCodon,NGS,ANY-method
@@ -121,13 +117,11 @@ setMethod("toCodon", signature(x="NGS"),
 ##' toAA method
 ##'
 ##'
-##' @docType methods
 ##' @name toAA
 ##' @rdname toAA-methods
 ##' @aliases toAA,NGS,ANY-method
 ##' @title toAA method
-##' @param x NGS object
-##' @param ... additional parameters
+##' @inheritParams toCodon
 ##' @return matrix
 ##' @exportMethod toAA
 ##' @author Guangchuang Yu
@@ -142,13 +136,11 @@ setMethod("toAA", signature(x="NGS"),
 ##' toString method
 ##'
 ##'
-##' @docType methods
 ##' @name toString
 ##' @rdname toString-methods
 ##' @aliases toString,NGS,ANY-method
 ##' @title toString method
-##' @param x NGS object
-##' @param ... additional parameters
+##' @inheritParams toCodon
 ##' @return matrix
 ##' @importFrom Biostrings toString
 ##' @exportMethod toString
@@ -163,13 +155,11 @@ setMethod("toString", signature(x = "NGS"),
 ##' toPosition method
 ##'
 ##'
-##' @docType methods
 ##' @name toPosition
 ##' @rdname toPosition-methods
 ##' @aliases toPosition,NGS,ANY-method
 ##' @title toPosition method
-##' @param x NGS object
-##' @param ... additional parameters
+##' @inheritParams toCodon
 ##' @return list
 ##' @exportMethod toPosition
 ##' @author Guangchuang Yu
@@ -185,7 +175,6 @@ setMethod("toPosition", signature(x="NGS"),
 ##' getPosition method
 ##'
 ##'
-##' @docType methods
 ##' @name getPosition
 ##' @rdname getPosition-methods
 ##' @aliases getPosition,NGS,ANY-method
@@ -211,7 +200,6 @@ setMethod("getPosition", signature(x="NGS"),
 ##' getSite method
 ##'
 ##'
-##' @docType methods
 ##' @name getSite
 ##' @rdname getSite-methods
 ##' @aliases getSite,NGS,ANY-method

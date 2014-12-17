@@ -3,6 +3,7 @@
 ##' @param seq2 sequence 2
 ##' @param indel include indel or not
 ##' @param ... additional parameter
+##' @rdname hamming
 ##' @export
 hamming <- function(seq1, seq2, indel=FALSE, ...) {
     UseMethod("hamming")
