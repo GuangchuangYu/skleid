@@ -1,5 +1,6 @@
 CHANGES IN VERSION 1.4.1
 ------------------------
+ o read.phylip function <2014-12-17, Wed>
  o update_skleid now detach skleid before upgrading it and reattach thereafter <2014-12-16, Tue>
  o catch error when windows throw no permission in reading alignment result <2014-12-16, Tue>
  o setNGS_ method for NGS object initial <2014-12-15, Mon>
@@ -10,58 +11,43 @@ CHANGES IN VERSION 1.4.0
    getPosition and getSite functions to access
    N-glycosylation site info <2014-12-14, Sun>
  
-CHANGES IN VERSION 1.3.4
+CHANGES IN VERSION 1.3.3
 ------------------------
  o subtype in summary separate by | <2014-12-05, Fri>
  o add Mixed column in summary output <2014-12-05, Fri>
  o generateGapFile is now compatible with readFilename that contains duplicated record. <2014-12-03, Wed>
  o mergePhy function for merging two phylip files <2014-12-04, Thu>
 
-CHANGES IN VERSION 1.3.3
+CHANGES IN VERSION 1.3.2
 ------------------------
  o random say by says function <2014-12-03, Wed>
  o fixed in testing ambiguous location range between [10, length(x)-10] <2014-12-02, Tue>
 
-CHANGES IN VERSION 1.3.2
-------------------------
- o fixed in get ID that start with RL\\dGeneName_ <2014-12-02, Tue>
-
 CHANGES IN VERSION 1.3.1
 ------------------------
+ o fixed in get ID that start with RL\\dGeneName_ <2014-12-02, Tue>
  o change test of NA in generateGapFile function. <2014-12-02, Tue>
 
 CHANGES IN VERSION 1.3.0
 ------------------------
  o change gene order in summarize function <2014-12-01, Mon>
- 
-CHANGES IN VERSION 1.2.9
-------------------------
  o markAmbiguous in autoReport <2014-11-28, Fri>
  o import operator %>% from magrittr <2014-11-27, Thu>
 
-CHANGES IN VERSION 1.2.8
+CHANGES IN VERSION 1.2.3
 ------------------------
  o add catSay in summarize <2014-11-27, Thu>
  o add summarize function to summarize the output <2014-11-27, Thu>
  o fas2phy for converting fasta to phylip format <2014-11-27, Thu>
 
-CHANGES IN VERSION 1.2.7
+CHANGES IN VERSION 1.2.2
 ------------------------
  o fixed in generate mixed and un-mixed table <2014-11-26, Wed>
-
-CHANGES IN VERSION 1.2.5
-------------------------
  o remove X or - in comparison <2014-11-24, Mon>
-
-CHANGES IN VERSION 1.2.4
-------------------------
  o add pmlToSeq function <2014-11-24, Mon>
-
-CHANGES IN VERSION 1.2.3
-------------------------
  o print verbose information in treeAnno.pml <2014-11-23, Sun>
 
-CHANGES IN VERSION 1.2.2
+CHANGES IN VERSION 1.2.1
 ------------------------
  o treeAnno.pml for annotating tree of substitution in nodes with pml tree as input <2014-11-22, Sat>
  o add outfile in addKeywrodFASTA <2014-11-22, Sat>
@@ -77,17 +63,14 @@ CHANGES IN VERSION 1.2.0
  o add some eye candy, print cartoon when function exit <2014-11-21, Fri>
  o add verbose information in generateGapFile function <2014-11-21, Fri>
 
-CHANGES IN VERSION 1.1.5
+CHANGES IN VERSION 1.1.3
 ------------------------
  o import readBStringSet for compatible of X or N  and other characters
    in DNA sequence <2014-11-20, Thu>
 
-CHANGES IN VERSION 1.1.4
-------------------------
- o fixed mising mixed in generateGaps <2014-11-20, Thu>
-
 CHANGES IN VERSION 1.1.2
 ------------------------
+ o fixed mising mixed in generateGaps <2014-11-20, Thu>
  o add update_skleid <2014-11-20, Thu>
 
 CHANGES IN VERSION 1.1.1
@@ -117,34 +100,28 @@ CHANGES IN VERSION 0.99.0
      source("http://ygc.name/get_skleid.R")
  o export generateGapFile <2014-10-15, Wed>
 
-CHANGES IN VERSION 0.4.2
-------------------------
- o add generateGapFile <2014-10-14, Tue>
-
 CHANGES IN VERSION 0.4.1
 ------------------------
+ o add generateGapFile <2014-10-14, Tue>
  o bug fixed in matching HA name <2014-10-13, Mon>
 
 CHANGES IN VERSION 0.4.0
 ------------------------
  o support RL prefix of strain <2014-10-10, Fri>
 
-CHANGES IN VERSION 0.3.4
+CHANGES IN VERSION 0.3.3
 ------------------------
  o removed outfolder and .fas in consensus sequence name <2014-10-10, Fri>
  o add _mixed suffix in mixed strain's consensus sequence file <2014-10-10, Fri>
 
-CHANGES IN VERSION 0.3.3
+CHANGES IN VERSION 0.3.2
 ------------------------
  o report mixed sequence in report file <2014-10-09, Thu>
  o format ambiguous bases output <2014-10-09, Thu>
  
-CHANGES IN VERSION 0.3.2
-------------------------
- o reduce gap in alignment <2014-10-08, Wed>
-
 CHANGES IN VERSION 0.3.1
 ------------------------
+ o reduce gap in alignment <2014-10-08, Wed>
  o use the first sequence in Reference fasta file if it contains two <2014-10-08, Wed>
 
 CHANGES IN VERSION 0.3.0
