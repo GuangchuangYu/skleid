@@ -31,10 +31,11 @@ update_skleid <- function() {
         }
     }
 
+    library("skleid")
+    
     cat("  __________________________________________\n")
     cat("/ skleid (version=", vv, ") is up to date... \\\n") 
     cat("\\ Have fun with SKLEID...                   /\n")
     cat("  ------------------------------------------\n")
-    library("skleid")
     cheeseSay()
 }
