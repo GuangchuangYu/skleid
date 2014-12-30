@@ -10,6 +10,7 @@ installPKG("Biostrings")
 installPKG("devtools")
 
 library("devtools")
+install_github("GuangchuangYu/ggtree")
 install_github("GuangchuangYu/skleid")
 
 ## suppressPackageStartupMessages(library("skleid"))

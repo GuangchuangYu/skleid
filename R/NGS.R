@@ -30,6 +30,10 @@ setClass("NGS",
          prototype = prototype(start = 1)
          )
 
+
+seq2codon <- ggtree:::seq2codon
+codon2AA <- ggtree:::codon2AA
+
 ##' read fasta sequences and construct NGS object
 ##'
 ##' 
@@ -37,6 +41,7 @@ setClass("NGS",
 ##' @param fasta fasta file 
 ##' @param start start position, for translation
 ##' @return NGS object
+##' @importFrom magrittr %>%
 ##' @export
 ##' @author Yu Guangchuang
 toNGS <- function(fasta, start=1) {
