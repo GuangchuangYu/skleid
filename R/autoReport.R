@@ -161,6 +161,7 @@ processItems <- function(outfile, contig, ref, nameMap, contig.folder,
         sink()
         oldstrain <- strain
     }
+    gc()
 }
 
 

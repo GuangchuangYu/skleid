@@ -1,5 +1,6 @@
 CHANGES IN VERSION 1.4.3
 ------------------------
+ o run gc() explicitly in autoReport <2014-12-30, Tue>
  o depend ggtree <2014-12-30, Tue>
 
 CHANGES IN VERSION 1.4.2
