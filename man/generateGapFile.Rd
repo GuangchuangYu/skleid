@@ -8,7 +8,8 @@ generateGapFile(out.folder = "output", ref.folder = "Ref", read.fileName,
   sample.size = 200, gap.file = "gaps.txt")
 }
 \arguments{
-\item{out.folder}{output folder of autoReport, that contains consensus sequences}
+\item{out.folder}{output folder of autoReport, that contains consensus sequences,
+or summary.csv from summarize output}
 
 \item{ref.folder}{reference folder}
 
