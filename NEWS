@@ -1,3 +1,8 @@
+CHANGES IN VERSION 1.4.4
+------------------------
+ o use 454.fas instead of Contig.fna to do alignment <2015-01-05, Mon>
+ o generateGapFile now accept summary.csv as input <2015-01-05, Mon>
+
 CHANGES IN VERSION 1.4.3
 ------------------------
  o run gc() explicitly in autoReport <2014-12-30, Tue>
