@@ -18,11 +18,17 @@ summarize <- function(out.folder, name.file) {
     kw <- c("HA", "NA", "PB2", "PB1", "PA", "NP", "MP", "NS")
     asite <- sapply(kw, getAmbiguousSite, nameMap=nameMap, cs2=cs2)
 
-    isMixed <- apply(asite, 1, function(i) any(i == ""))
+    ## isMixed <- apply(asite, 1, function(i) any(i == ""))
 
     Mixed <- rep("unmixed", nrow(asite))
-    Mixed[isMixed] <- "mixed"
 
+    ## mix <- getFiles("mixed")
+    ## mix <- gsub("mixed/S\\d+_", "", mix)
+    ## mix <- gsub("_S\\d+.*", "", mix) %>% unique
+    mixID <- gsub("^S", "", getMixedStrain() %>% unique) %>% as.numeric    
+    ## Mixed[isMixed] <- "mixed"
+    Mixed[match(mixID, nameMap[,1])] <- "mixed"
+    
     nameMap$Mixed <- Mixed
     nameMap$subtype <- subtype
     
