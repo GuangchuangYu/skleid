@@ -1,5 +1,6 @@
 CHANGES IN VERSION 1.4.4
 ------------------------
+ o support summary.csv with entry like, 170-1800 <2015-01-07, Wed>
  o mixed column in summarize.csv is now consistent with report.html <2015-01-06, Tue>
  o use 454.fas instead of Contig.fna to do alignment <2015-01-05, Mon>
  o generateGapFile now accept summary.csv as input <2015-01-05, Mon>

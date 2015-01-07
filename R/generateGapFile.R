@@ -54,7 +54,21 @@ generateGapFile <- function(out.folder="output", ref.folder="Ref", read.fileName
         ff <- paste("File:", rr, sep="")
         fr <- paste("Ref:", ref2, sep="")
 
-        jj <- paste(ii - 10, ii, sep=",")
+        idx <- grep("-", ii)
+        pre <- numeric()
+        post <- numeric()
+        if (length(idx) > 0) {
+            for (kk in idx) {
+                xx <- strsplit(ii[kk], "-") %>% unlist %>% as.numeric
+                pre <- c(pre, xx[1])
+                post <- c(post, xx[2])
+            }
+            ii <- ii[-idx]
+        }
+        ii <- as.numeric(ii)
+        pre <- c(pre, ii-10)
+        post <- c(post, ii)
+        jj <- paste(pre, post, sep=",")
         cat("-> ", length(jj), "gap(s) found in", cs[i], "\n")
         if (length(jj) > 1) {
             fg <- paste(jj, collapse=" | ")
@@ -85,9 +99,16 @@ generateGapFile <- function(out.folder="output", ref.folder="Ref", read.fileName
                     }
                     ss <- sub("^[a-zA-Z0-9]+_", "", sf[i, "name"])
                     ii <- strsplit(entry, ",") %>% unlist %>%
-                        strsplit(entry, "\\|") %>% unlist
+                        strsplit(split="\\|") %>% unlist
                     ii <- ii[ii!="full"]
-                    ii <- sub("\\w$", "", ii) %>% as.numeric
+                    if (length(ii) == 0) {
+                        next
+                    }
+                    ii <- ii[ii!="mix"]
+                    if (length(ii) == 0) {
+                        next
+                    }
+                    ii <- sub("[A-Za-z]$", "", ii) 
                     nn <- paste0(as.character(sf[, "name"]), "_", j)
                     notuse <- writeGap_(ss, reads, ref, j, ii, gapfile, nn)
                 }
