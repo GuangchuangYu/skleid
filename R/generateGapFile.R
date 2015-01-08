@@ -86,7 +86,7 @@ generateGapFile <- function(out.folder="output", ref.folder="Ref", read.fileName
     gapfile <- file(gap.file, "w")
     if (file.info(out.folder)$isdir == FALSE) {
         for (i in 1:nrow(sf)) {
-            for (j in c("HA", "NA", "PB2", "PB1", "PA", "NP", "MP", "NS")) {
+            for (j in c("HA", "NA.", "PB2", "PB1", "PA", "NP", "MP", "NS")) {
                 entry <- sf[i, j]
                 if (is.null(entry)) {
                     next

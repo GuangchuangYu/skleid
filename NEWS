@@ -1,3 +1,7 @@
+CHANGES IN VERSION 1.4.6
+------------------------
+ o column name NA in summary.csv is not valid and R will read it as NA., fixed it in generateGapFile <2015-01-08, Thu>
+
 CHANGES IN VERSION 1.4.5
 ------------------------
  o support summary.csv with entry like, 170-1800 <2015-01-07, Wed>
