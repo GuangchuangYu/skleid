@@ -34,8 +34,11 @@ generateGapFile <- function(out.folder="output", ref.folder="Ref", read.fileName
         sf <- read.csv(out.folder)
     }
 
-    writeGap_ <- function(ss, reads, ref, pp, ii, gapfile, cs) {
+    writeGap_ <- function(ss, reads, ref, pp, ii, gapfile, name) {
         rr <- reads[grep(ss, reads)]
+        if (pp == "NA.") {
+            pp <- "NA"
+        }
         rr <- rr[grep(paste(".*[SRL]+\\d+(", pp, ")\\..*", sep=""), rr)]
         if (length(rr) == 0) {
             warning("gene ", pp, " of ", ss, " not found...")
@@ -69,7 +72,7 @@ generateGapFile <- function(out.folder="output", ref.folder="Ref", read.fileName
         pre <- c(pre, ii-10)
         post <- c(post, ii)
         jj <- paste(pre, post, sep=",")
-        cat("-> ", length(jj), "gap(s) found in", cs[i], "\n")
+        cat("-> ", length(jj), "gap(s) found in", name, "\n")
         if (length(jj) > 1) {
             fg <- paste(jj, collapse=" | ")
         } else {
@@ -109,7 +112,7 @@ generateGapFile <- function(out.folder="output", ref.folder="Ref", read.fileName
                         next
                     }
                     ii <- sub("[A-Za-z]$", "", ii) 
-                    nn <- paste0(as.character(sf[, "name"]), "_", j)
+                    nn <- paste0(as.character(sf[i, "name"]), "_", j)
                     notuse <- writeGap_(ss, reads, ref, j, ii, gapfile, nn)
                 }
             }
@@ -145,7 +148,7 @@ generateGapFile <- function(out.folder="output", ref.folder="Ref", read.fileName
                 ## pp != "NS" && pp != "NP" && length(grep("N", pp)) > 0) {
                 pp <- "NA"
             }
-            notuse <- writeGap_(ss, reads, ref, pp, ii, gapfile, cs)
+            notuse <- writeGap_(ss, reads, ref, pp, ii, gapfile, cs[i])
         }
     }
       
