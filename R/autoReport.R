@@ -99,7 +99,7 @@ processItems <- function(outfile, contig, ref, nameMap, contig.folder,
     oldstrain <- ""
     for ( pp in unique(pc) ) {
         jj=contig[pc==pp]
-        seqs <- c(jj[grep("454", jj)], ## jj[grep("Contigs", jj)],
+        seqs <- c(jj[grep("454\\.fas", jj)], ## jj[grep("Contigs", jj)],
                   ref[pr == pp ],
                   jj[grep("mira_delX", jj)]
                   )
@@ -117,7 +117,7 @@ processItems <- function(outfile, contig, ref, nameMap, contig.folder,
         ## seqname <- sub("/", "", seqname)
         seqname <- sub("\\w+/", "", seqs)
 
-        if (isMixed(jj[grep("454.fas", jj)]) == TRUE) {
+        if (isMixed(jj[grep("454\\.fas", jj)]) == TRUE) {
             pn <- pp
             outhtml <- NULL
             outfasta <- NULL

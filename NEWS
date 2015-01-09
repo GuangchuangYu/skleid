@@ -1,3 +1,7 @@
+CHANGES IN VERSION 1.4.7
+------------------------
+ o get 454 sequence using pattern of 454\\.fas instead of 454 <2015-01-09, Fri>
+
 CHANGES IN VERSION 1.4.6
 ------------------------
  o column name NA in summary.csv is not valid and R will read it as NA., fixed it in generateGapFile <2015-01-08, Thu>
