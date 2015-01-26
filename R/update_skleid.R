@@ -5,6 +5,7 @@
 ##' @return NULL
 ##' @importFrom RCurl getURL
 ##' @importFrom utils packageVersion
+##' @importFrom devtools install_github
 ##' @export
 ##' @author ygc
 update_skleid <- function() {
@@ -31,6 +32,16 @@ update_skleid <- function() {
         }
     }
 
+    y <- getURL("https://raw.githubusercontent.com/GuangchuangYu/ggtree/master/DESCRIPTION",
+                .opts = list(ssl.verifypeer = FALSE))
+    v <- gsub(".*\nVersion: (\\d+\\.\\d+\\.\\d+)\n.*", "\\1", y)
+    if (as.character(packageVersion("ggtree")) != v) {
+        cat("-> new version (", v, ") of ggtree is available\n")
+        cat("-> press ENTER to update the package...\n")
+        pause()
+        install_github("GuangchuangYu/ggtree")
+    }
+         
     library("skleid")
     
     cat("  __________________________________________\n")

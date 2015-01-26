@@ -4,14 +4,14 @@
 \alias{addKeywordFASTA}
 \title{addKeywordFASTA}
 \usage{
-addKeywordFASTA(fasta, keyword, suffix = TRUE, outfile = NULL)
+addKeywordFASTA(fasta, keyword, by, outfile = NULL)
 }
 \arguments{
 \item{fasta}{fasta file}
 
 \item{keyword}{keyword to be added}
 
-\item{suffix}{logical, true add suffix, false add prefix}
+\item{by}{one of suffix, prefix or mapping}
 
 \item{outfile}{output file}
 }

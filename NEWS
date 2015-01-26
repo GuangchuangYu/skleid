@@ -1,3 +1,7 @@
+CHANGES IN VERSION 1.4.8
+------------------------
+ o update addKeywordFASTA to support user provided keyword mapping <2015-01-26, Mon>
+ 
 CHANGES IN VERSION 1.4.7
 ------------------------
  o get 454 sequence using pattern of 454\\.fas instead of 454 <2015-01-09, Fri>
