@@ -7,6 +7,7 @@
 ##' @author ygc
 ##' @importFrom muscle read.fasta
 ##' @importFrom muscle muscle
+##' @importFrom magrittr %<>%
 ##' @export
 doAlign <- function(x) {
     ## suppose x[1] is 454 contigs
@@ -49,8 +50,53 @@ doAlign <- function(x) {
         fa <- list(seqs=rbind(fref$seqs, fmira$seqs, f454$seqs[i,]),
                    num=3)
         class(fa) <- "fasta"
-        muscle(fa, quiet = TRUE)
+        xx <- muscle(fa, quiet = TRUE)
+        jj <- getIdx(fasta$seqs[1,1], xx$seqs[,1])
+        ii <- 1:nrow(xx$seqs)
+        xx$seqs <- xx$seqs[c(jj, ii[-jj]),]
+        return(xx)
     })
+
+    if (length(unique(sapply(res, function(x) x$length))) != 1) {
+        yy <- list(seqs=do.call("rbind", lapply(res, function(x) x$seqs[1,])),
+                   num=length(x))
+        yy$seqs[,2] %<>% gsub("-", "X", .)
+        class(yy) <- "fasta"
+        yres <- muscle(yy, quiet = TRUE)
+        for(j in seq_along(res)) {
+            res_item <- res[[j]]
+            res_seq <- res_item$seqs[,2]
+            seq <- yres$seqs[j, 2]
+            idx <- gregexpr("-+", seq)
+            idx <- idx[[1]]
+            
+            if (length(idx) == 1 && idx < 1) {
+                next
+            }
+            
+            for (i in seq_along(idx)) {
+                for (k in seq_along(res_seq)) {
+                    if (idx[i] == 1) {
+                        res_seq[k] <- paste0(
+                            paste0(rep("-", attr(idx, "match.length")[i]), collapse = ""),
+                            res_seq[k], collapse = "")
+                    } else if (idx[i] > nchar(res_seq[k])) {
+                        res_seq[k] <- paste0(res_seq[k],
+                                               paste0(rep("-", attr(idx, "match.length")[i]), collapse = ""),
+                                               collapse = "")
+                    } else {
+                        res_seq[k] <- paste0(substring(res_seq[k], 1, idx[i]-1),
+                                             paste0(rep("-", attr(idx, "match.length")[i]), collapse = ""),
+                                             substring(res_seq[k], idx[i]), collapse = "")
+                    }
+                }
+            }
+
+            res_item$seqs[,2] <- res_seq
+            res[[j]] <- res_item
+            res[[j]]$length <- nchar(res_seq[1])
+        }
+    }
     
     if (length(unique(sapply(res, function(x) x$length))) == 1) {
         jj <- sapply(res, function(x) getIdx(fasta$seqs[1,1], x$seqs[,1]))

@@ -4,10 +4,11 @@
 ##' @title printAlignedSeq
 ##' @param aln alignment
 ##' @param window window
+##' @param printAmbiguous logical
 ##' @return NULL
 ##' @author ygc
 ##' @export
-printAlignedSeq <- function(aln, window=80) {
+printAlignedSeq <- function(aln, window=80, printAmbiguous=FALSE) {
     n <- aln$length
     idx <- seq(1, n, by=window)
     if (idx[length(idx)] < n) {
@@ -32,38 +33,33 @@ printAlignedSeq <- function(aln, window=80) {
         cat("\n")
     }
 
-    
-    p <- which(apply(seq.df, 2, function(i) length(unique(i)) != 1))
-    if (length(p) > 0) {
-        if (length(p) == 1) {
-            x <- data.frame(a=seq.df[,p])
-            colnames(x) <- p
-            rownames(x) <- nn
-            cat("Ambiguous bases:\n")
-            print(x)
-        } else {
-            x <- seq.df[, p]
-            colnames(x) <- p
-            rownames(x) <- nn
-            cat("Ambiguous bases:\n")
-            options(width=70)
-            print(x)
-            ## if ( length(p) > 14) {
-            ##     lp <- length(p)
-            ##     jj <- seq(1, lp, 14)
-            ##     if (jj[length(jj)] < lp) {
-            ##         jj <- c(jj, lp)
-            ##     }
-            ##     for (i in 1:(length(jj)-1)) {
-            ##         if (i == (length(jj)-1)) {
-            ##             print(x[, c(jj[i]:jj[i+1])])
-            ##         } else {
-            ##             print(x[, c(jj[i]:(jj[i+1]-1))])
-            ##         }
-            ##     }
-            ## } else {
-            ##     print(x)
-            ## }
+    if (printAmbiguous) {
+        p <- which(apply(seq.df, 2, function(i) {
+            x <- unique(i)
+            res <- length(x) != 1
+            if (res) {
+                if (length(x) == 2 && "-" %in% x) {
+                    res <- FALSE
+                }
+            }
+            return(res)
+        }))
+        
+        if (length(p) > 0) {
+            if (length(p) == 1) {
+                x <- data.frame(a=seq.df[,p])
+                colnames(x) <- p
+                rownames(x) <- nn
+                cat("Ambiguous bases:\n")
+                print(x)
+            } else {
+                x <- seq.df[, p]
+                colnames(x) <- p
+                rownames(x) <- nn
+                cat("Ambiguous bases:\n")
+                options(width=70)
+                print(x)
+            }
         }
     }
 }
@@ -80,6 +76,12 @@ printAlignedSeq <- function(aln, window=80) {
 printConsensus <- function(aln, window=10) {
     seq.df <- aln2seqDF(aln)
     cs <- getConsensus(seq.df[-1,])
+   
+    idx <- attr(cs, "index")
+    if (length(idx) > 0) {
+        seq.df <- seq.df[, idx]
+    }
+    
     ii <- cs %in% c("A", "C", "G", "T")
 
     print("Consensus sequence:")

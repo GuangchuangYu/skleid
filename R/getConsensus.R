@@ -9,9 +9,9 @@
 getConsensus <- function(seq.df) {
     cs <- apply(seq.df, 2, function(i) {
         nt <- unique(i)
-        nt <- nt[nt!="-"]
         nt <- toupper(nt)
         nt <- sort(nt)
+        nt <- nt[nt!="-"]
         if (length(nt) == 1) {
             return(nt)
         } else if (length(nt) == 2) {
@@ -48,6 +48,10 @@ getConsensus <- function(seq.df) {
             
     })
     cs <- unlist(cs)
-    cs <- cs[cs != "-"]
+    idx <- which(cs != "-")
+    if (length(idx) > 0) {
+        cs <- cs[idx]
+    }
+    attr(cs, "index") <- idx
     return(cs)
 }

@@ -1,3 +1,7 @@
+CHANGES IN VERSION 1.5.0
+------------------------
+ o fixed issue of contig has no overlap <2015-02-09, Mon>
+ 
 CHANGES IN VERSION 1.4.8
 ------------------------
  o update addKeywordFASTA to support user provided keyword mapping <2015-01-26, Mon>
