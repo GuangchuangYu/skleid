@@ -4,12 +4,14 @@
 \alias{printAlignedSeq}
 \title{printAlignedSeq}
 \usage{
-printAlignedSeq(aln, window = 80)
+printAlignedSeq(aln, window = 80, printAmbiguous = FALSE)
 }
 \arguments{
 \item{aln}{alignment}
 
 \item{window}{window}
+
+\item{printAmbiguous}{logical}
 }
 \description{
 print aligned sequences
