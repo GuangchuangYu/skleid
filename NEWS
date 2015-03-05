@@ -1,3 +1,7 @@
+CHANGES IN VERSION 1.5.1
+------------------------
+ o add download_genbank_acc & download_genbank_gi functions <2015-03-05, Thu>
+ 
 CHANGES IN VERSION 1.5.0
 ------------------------
  o fixed issue of contig has no overlap <2015-02-09, Mon>
