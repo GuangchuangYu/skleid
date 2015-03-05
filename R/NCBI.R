@@ -51,3 +51,84 @@ acc2gi <- function(acc) {
     gi <- gsub('</*Id>', '', id)
     return(gi)
 }
+
+##' parse genbank file and extract infomation
+##' (not a universal parse, just extract infomation of my own needs)
+##'
+##' 
+##' @title read.genbank
+##' @param gbfile genbank file
+##' @return data.frame
+##' @export
+##' @author Guangchuang Yu
+read.genbank <- function(gbfile) {
+    gb <- readLines(gbfile)
+
+    source <- get_gb_range(gb, "source")
+    gene <- get_gb_range(gb, "CDS")
+
+    gn <- get_gb_name(gb, "gene")
+    org <- get_gb_organism(gb)
+    
+    year <- get_year_from_organism_name(org)
+
+    seq <- get_gb_seq(gb)
+    
+    data.frame(acc       = get_gb_acc(gb),
+               gi        = get_gb_gi(gb),
+               name      =org,
+               year      =year,
+               start     =source[1],
+               end       =source[2],
+               geneName  = gn,
+               geneStart =gene[1],
+               geneEnd   =gene[2],
+               seq       = seq)
+}
+
+get_gb_seq <- function(gb) {
+    i <- grep("ORIGIN", gb)
+    i <- i+1
+    j <- grep("//", gb)
+    j <- j-1
+    seq <- gb[i:j]
+    seq <- gsub("\\d+", "", seq) %>% gsub("\\s+", "", .)
+    seq <- paste0(seq, collapse="")
+    return(seq)
+}
+
+get_gb_range <- function(gb, field) {
+    gb[grep(paste0(field, "\\s"), gb)] %>%
+        strsplit(., "\\s+") %>% unlist %>% `[`(3) %>%
+            strsplit(., "\\.\\.>*") %>% unlist %>% as.numeric
+}
+
+get_gb_name <- function(gb, field) {
+    gb[grep(paste0(field, "="), gb)][1] %>%
+        strsplit(., "=") %>% unlist %>% `[`(2) %>%
+            gsub('\"', "", .)
+}
+
+get_year_from_organism_name <- function(org) {
+    sub("\\(H\\d+N\\d+\\)", "", org) %>%
+        sub("\\)", "", .) %>%
+            gsub(".*/(\\d+)$", "\\1", .) %>%
+                as.numeric
+}
+
+get_gb_organism <- function(gb) {
+    gb[grep("SOURCE", gb)] %>%
+        sub("SOURCE\\s+", "", .)
+}
+
+get_gb_acc <- function(gb) {
+    gb[grep("ACCESSION", gb)] %>%
+        strsplit("\\s+") %>% unlist %>%
+            `[`(2)
+}
+
+get_gb_gi <- function(gb) {
+    gb[grep("VERSION", gb)] %>%
+        strsplit("\\s+") %>% unlist %>%
+            `[`(3)
+}
