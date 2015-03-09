@@ -117,8 +117,10 @@ get_year_from_organism_name <- function(org) {
 }
 
 get_gb_organism <- function(gb) {
-    gb[grep("SOURCE", gb)] %>%
-        sub("SOURCE\\s+", "", .)
+    i <- grep("SOURCE", gb)
+    j <- grep("ORGANISM", gb)
+    gb[i:(j-1)] %>% paste0(., collapse = " ") %>%
+        sub("SOURCE\\s+", "", .) %>% gsub("\\s+", " ", .)
 }
 
 get_gb_acc <- function(gb) {
