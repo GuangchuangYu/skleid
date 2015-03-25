@@ -3,10 +3,36 @@
 ##' @method hamming BStringSet
 ##' @export
 ##' @author ygc
-hamming.BStringSet <- function(seq1, seq2, indel=FALSE, ...) {
-    s1 <- toString(seq1)
-    s2 <- toString(seq2)
-    hamming(s1, s2, indel, ...)
+hamming.BStringSet <- function(seqs, indel=FALSE, ...) {
+    n <- length(seqs) 
+    if (n < 2) {
+        stop("at least 2 sequences was expected...")
+    }
+    if ( n == 2 ) {
+        seq1 <- seqs[1,]
+        seq2 <- seqs[2,]
+        s1 <- toString(seq1)
+        s2 <- toString(seq2)
+        res <- hamming(s1, s2, indel, ...)
+    } else {
+        res <- matrix(NA, nrow=n, ncol=n)
+        colnames(res) <- rownames(res) <- names(seqs)
+        seqs2 <- lapply(seqs, function(x) {
+            y <- toString(x)
+            substring(y, 1:nchar(y), 1:nchar(y))
+        })
+        for (i in 1:n) {
+            for (j in 1:i) {
+                if (i == j) {
+                    res[i,j] <- 0
+                } else {
+                    res[i,j] <- suppressMessages(hamming.characterVector(seqs2[[i]], seqs2[[j]], indel, ...))
+                    res[j, i] <- res[i, j]
+                }
+            }
+        }
+    }
+    return(res)
 }
 
 ##' @rdname hamming

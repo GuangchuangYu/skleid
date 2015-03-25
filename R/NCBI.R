@@ -66,7 +66,10 @@ read.genbank <- function(gbfile) {
 
     source <- get_gb_range(gb, "source")
     gene <- get_gb_range(gb, "CDS")
-
+    if (all(is.na(gene))) {
+        gene <- source
+    }
+    
     gn <- get_gb_name(gb, "gene")
     org <- get_gb_organism(gb)
     
@@ -98,7 +101,11 @@ get_gb_seq <- function(gb) {
 }
 
 get_gb_range <- function(gb, field) {
-    gb[grep(paste0(field, "\\s"), gb)] %>%
+    ii <- grep(paste0(field, "\\s"), gb)
+    if (length(ii) == 0) {
+        return(NA)
+    }
+    gb[ii] %>%
         strsplit(., "\\s+") %>% unlist %>% `[`(3) %>%
             strsplit(., "\\.\\.>*") %>% unlist %>% as.numeric
 }

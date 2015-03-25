@@ -9,7 +9,7 @@
 \usage{
 hamming(seq1, seq2, indel = FALSE, ...)
 
-\method{hamming}{BStringSet}(seq1, seq2, indel = FALSE, ...)
+\method{hamming}{BStringSet}(seqs, indel = FALSE, ...)
 
 \method{hamming}{character}(seq1, seq2, indel = FALSE, ...)
 
