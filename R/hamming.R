@@ -21,8 +21,12 @@ hamming.BStringSet <- function(seqs, indel=FALSE, ...) {
             y <- toString(x)
             substring(y, 1:nchar(y), 1:nchar(y))
         })
+        cnt <- 1
+        pb <- txtProgressBar(min=0, max=sum(1:n), style=3)
         for (i in 1:n) {
             for (j in 1:i) {
+                setTxtProgressBar(pb, cnt)
+                cnt <- cnt + 1
                 if (i == j) {
                     res[i,j] <- 0
                 } else {
@@ -31,6 +35,7 @@ hamming.BStringSet <- function(seqs, indel=FALSE, ...) {
                 }
             }
         }
+        close(pb)
     }
     return(res)
 }
