@@ -9,20 +9,18 @@ is.installed <- function(pkg) {
 
 installPKG <- function(pkg) {
     if (!is.installed(pkg)) {
-        source("http://bioconductor.org/biocLite.R")
         biocLite(pkg)
     }
 }
 
-installPKG("Biostrings")
+source("http://bioconductor.org/biocLite.R")
+
 installPKG("devtools")
 
-library("devtools")
 if (!is.installed("ggtree")) {
-    install_github("GuangchuangYu/ggtree")
+    biocLite("GuangchuangYu/ggtree")
 }
 
-install_github("GuangchuangYu/skleid")
+biocLite("GuangchuangYu/skleid")
 
-## suppressPackageStartupMessages(library("skleid"))
-## printInfo()
+

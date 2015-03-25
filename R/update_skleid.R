@@ -31,16 +31,6 @@ update_skleid <- function() {
             source("http://ygc.name/get_skleid.R")
         }
     }
-
-    y <- getURL("https://raw.githubusercontent.com/GuangchuangYu/ggtree/master/DESCRIPTION",
-                .opts = list(ssl.verifypeer = FALSE))
-    v <- gsub(".*\nVersion: (\\d+\\.\\d+\\.\\d+)\n.*", "\\1", y)
-    if (as.character(packageVersion("ggtree")) != v) {
-        cat("-> new version (", v, ") of ggtree is available\n")
-        cat("-> press ENTER to update the package...\n")
-        pause()
-        install_github("GuangchuangYu/ggtree")
-    }
          
     library("skleid")
     
