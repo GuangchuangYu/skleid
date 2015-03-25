@@ -17,10 +17,16 @@ source("http://bioconductor.org/biocLite.R")
 
 installPKG("devtools")
 
+installPKG("Biostrings")
+installPKG("DOSE")
+
+require(devtools)
+
 if (!is.installed("ggtree")) {
-    biocLite("GuangchuangYu/ggtree")
+    install_github("GuangchuangYu/ggtree")
 }
 
-biocLite("GuangchuangYu/skleid")
+
+install_gihub("GuangchuangYu/skleid")
 
 
