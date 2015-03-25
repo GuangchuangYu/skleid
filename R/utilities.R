@@ -209,3 +209,6 @@ to.data.frame.NGS <- function(LIST) {
     row.names(df) <- NULL
     return(df)
 }
+
+
+utils::globalVariables(".")

@@ -10,9 +10,9 @@ Depends:
 Imports:
     ape,
     Biostrings,
-    devtools,
     DOSE,
     geosphere,
+    ggmap,
     ggplot2,
     ggtree,
     grid,
@@ -24,10 +24,10 @@ Imports:
     methods,
     phangorn,
     RCurl,
+    reshape2,
     utils
 Suggests:
     GOSemSim,
-    DOSE,
     clusterProfiler,
     ReactomePA,
     ChIPseeker,

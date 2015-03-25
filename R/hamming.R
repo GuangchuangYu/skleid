@@ -3,7 +3,12 @@
 ##' @method hamming BStringSet
 ##' @export
 ##' @author ygc
-hamming.BStringSet <- function(seqs, indel=FALSE, ...) {
+hamming.BStringSet <- function(seq1, seq2=NULL, indel=FALSE, ...) {
+    seqs <- seq1
+    if (!is.null(seq2)) {
+        warning("seq2 will be omitted...")
+    }
+    
     n <- length(seqs) 
     if (n < 2) {
         stop("at least 2 sequences was expected...")

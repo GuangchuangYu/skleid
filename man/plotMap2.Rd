@@ -2,7 +2,7 @@
 % Please edit documentation in R/drawMap.R
 \name{plotMap2}
 \alias{plotMap2}
-\title{plotMap}
+\title{plotMap2}
 \usage{
 plotMap2(mapdata, xlim = c(110, 125), ylim = c(20, 35), location_file,
   lineWidth_file, maxLineSize = 3, color_file, colorIntensity_file,
@@ -35,20 +35,12 @@ plotMap2(mapdata, xlim = c(110, 125), ylim = c(20, 35), location_file,
 \item{ggmap}{whether use ggmap or not}
 
 \item{maptype}{map type of ggmap}
-
-\item{location}{location matrix}
-
-\item{lineWidth}{linewidth matrix}
-
-\item{color}{color matrix}
-
-\item{colorIntensity}{color intensity matrix}
 }
 \value{
 ggplot2 figure
 }
 \description{
-plot map
+plot map using input files
 }
 \author{
 Guangchuang Yu

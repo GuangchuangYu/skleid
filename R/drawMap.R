@@ -15,11 +15,12 @@ get.map <- function(map="china") {
     }
     mapdata <- "mapdata"
     require(mapdata, character.only=TRUE)
-    coord <- maps:::map.poly(map)
+    coord <- map.poly(map)
     df <- data.frame(lon=coord$x, lat=coord$y)
     return(df)
 }
 
+map.poly <- maps:::map.poly
 
 ##' plot map
 ##'
@@ -60,6 +61,7 @@ plotMap <- function(mapdata, xlim=c(110, 125), ylim=c(20,35),
                     matrixFlag="upper", mapcol="darkgrey",
                     ggmap=FALSE, maptype="hybrid") {
 
+    lon <- lat <- NULL
     if (ggmap == TRUE) {
         ## maptype: "terrain", "satellite", "roadmap", "hybrid"
         mm <- get_map(location=c(mean(xlim), mean(ylim)), zoom=5, maptype=maptype)
@@ -134,10 +136,10 @@ getCol <- function(col) {
 
 
 
-##' plot map
+##' plot map using input files
 ##'
 ##' 
-##' @title plotMap
+##' @title plotMap2
 ##' @param mapdata map coordination 
 ##' @param xlim xlim
 ##' @param ylim ylim
@@ -151,10 +153,6 @@ getCol <- function(col) {
 ##' @param mapcol color of background map
 ##' @param ggmap whether use ggmap or not
 ##' @param maptype map type of ggmap
-##' @param location location matrix
-##' @param lineWidth linewidth matrix
-##' @param color color matrix
-##' @param colorIntensity color intensity matrix 
 ##' @return ggplot2 figure
 ##' @export
 ##' @author Guangchuang Yu

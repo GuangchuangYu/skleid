@@ -5,7 +5,6 @@
 ##' @return NULL
 ##' @importFrom RCurl getURL
 ##' @importFrom utils packageVersion
-##' @importFrom devtools install_github
 ##' @export
 ##' @author ygc
 update_skleid <- function() {
