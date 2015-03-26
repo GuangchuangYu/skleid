@@ -1,26 +1,20 @@
 Package: skleid
 Type: Package
 Title: State Key Lab of Emerging Infectious Diseases
-Version: 1.5.3
+Version: 1.5.4
 Author: Guangchuang Yu
 Maintainer: Guangchuang Yu <guangchuangyu@gmail.com>
 Description: Helper functions for SKLEID lab.
 Depends:
     R (>= 3.1.0)
 Imports:
-    ape,
     Biostrings,
     muscle,
     magrittr,
     markdown,
-    methods,
     RCurl,
     utils
 Suggests:
-    GOSemSim,
-    clusterProfiler,
-    ReactomePA,
-    ChIPseeker,
     knitr
 VignetteBuilder: knitr
 License: file LICENSE

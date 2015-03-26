@@ -1,30 +1,4 @@
 
-getChild <- function(tr, node) {
-    ## tree should be in postorder
-    tr$edge[tr$edge[,1] == node,2]
-}
-
-getParent <- function(tr, node) {
-    ## tree should be in postorder
-    tr$edge[tr$edge[,2] == node,1]
-}
-
-getPos <- function(anno, nodename) {
-    pos <- anno[tolower(anno$name) == tolower(nodename), "position"]
-    return(sort(pos))
-}
-
-getNodeName <- function(tr) {
-    if (is.null(tr$node.label)) {
-        n <- length(tr$tip.label)
-        nl <- (n+1):(2*n-2)
-        nl <- as.character(nl)
-    } else {
-        nl <- tr$node.label
-    }
-    nodeName <- c(tr$tip.label, nl)
-    return(nodeName)
-}
 
 
 identityRatio <- function(aln) {
@@ -183,7 +157,6 @@ moveNDVFile <- function(contig.folder) {
     }
 }
 
+
 ## `%>%` <- function(x, FUN) FUN(x)
-
-
 utils::globalVariables(".")

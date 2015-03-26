@@ -5,6 +5,7 @@
 ##' @param out.folder out folder
 ##' @param name.file name file 
 ##' @return NULL
+##' @importFrom magrittr %>%
 ##' @export
 ##' @author ygc
 summarize <- function(out.folder, name.file) {

@@ -27,10 +27,14 @@ printInfo <- function() {
     cat(paste("##  skleid package, version = ", as.character(packageVersion("skleid")), 
               sep = ""), "                             ##\n")
     cat("##  use help(package=\"skleid\") to view online manuals            ##\n")
-    cat("##  This package is designed for internal use of SKLEID lab      ##\n")
+    cat("##  This package is designed for internal use of SKLEID          ##\n")
     cat("##  If you got any problem, please contact me by email           ##\n")
     cat("##                                                               ##\n")
+    cat("##  For first time user:                                         ##\n")
+    cat("##      Please send your email to me,                            ##\n")
+    cat("##      so that I can keep you updated.                          ##\n")    
     cat("##                                                               ##\n")
+    cat("##                                                               ##\n")    
     cat("###################################################################\n\n")
 }
 

@@ -18,14 +18,8 @@ source("http://bioconductor.org/biocLite.R")
 installPKG("devtools")
 
 installPKG("Biostrings")
-installPKG("DOSE")
 
 library(devtools)
-
-if (!is.installed("ggtree")) {
-    install_github("GuangchuangYu/ggtree")
-}
-
 
 install_github("GuangchuangYu/skleid")
 
