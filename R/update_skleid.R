@@ -45,7 +45,7 @@ update_skleid <- function() {
 }
 
 
-source_github <- function(url, global=FALSE) {
+source_github <- function(url, global=TRUE) {
     script <- getURL(url, .opts = list(ssl.verifypeer = FALSE))
     if (global) {
         eval(parse(text = script), envir=.GlobalEnv)
