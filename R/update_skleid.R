@@ -17,7 +17,8 @@ update_skleid <- function() {
         pause()
         detach("package:skleid", character.only=TRUE)
 
-        source("http://ygc.name/get_skleid.R")
+        ## source("http://ygc.name/get_skleid.R")
+        source_github("https://raw.githubusercontent.com/GuangchuangYu/skleid/master/inst/extdata/get_skleid.R")
         
         ## ## 
         ## flag <- FALSE
@@ -41,4 +42,14 @@ update_skleid <- function() {
     cat("\\ Have fun with SKLEID...                   /\n")
     cat("  ------------------------------------------\n")
     cheeseSay()
+}
+
+
+source_github <- function(url, global=FALSE) {
+    script <- getURL(url, .opts = list(ssl.verifypeer = FALSE))
+    if (global) {
+        eval(parse(text = script), envir=.GlobalEnv)
+    } else {
+        eval(parse(text = script))
+    }
 }

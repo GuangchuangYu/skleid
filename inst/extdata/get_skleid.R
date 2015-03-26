@@ -20,13 +20,12 @@ installPKG("devtools")
 installPKG("Biostrings")
 installPKG("DOSE")
 
-require(devtools)
 
 if (!is.installed("ggtree")) {
-    install_github("GuangchuangYu/ggtree")
+    devtools::install_github("GuangchuangYu/ggtree")
 }
 
 
-install_gihub("GuangchuangYu/skleid")
+devtools::install_gihub("GuangchuangYu/skleid")
 
 
