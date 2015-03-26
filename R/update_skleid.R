@@ -16,19 +16,22 @@ update_skleid <- function() {
         cat("-> press ENTER to update the package...\n")
         pause()
         detach("package:skleid", character.only=TRUE)
-        flag <- FALSE
-        ## source("http://ygc.name/get_skleid.R")
-        for (lp in .libPaths()) {
-            libs <- list.files(lp)
-            if (length(grep("skleid", libs)) == 1) {
-                source(paste(lp, "skleid/extdata/get_skleid.R", sep="/"))
-                flag <- TRUE
-                break
-            }
-        }
-        if (flag == FALSE) {
-            source("http://ygc.name/get_skleid.R")
-        }
+
+        source("http://ygc.name/get_skleid.R")
+        
+        ## ## 
+        ## flag <- FALSE
+        ## for (lp in .libPaths()) {
+        ##     libs <- list.files(lp)
+        ##     if (length(grep("skleid", libs)) == 1) {
+        ##         source(paste(lp, "skleid/extdata/get_skleid.R", sep="/"))
+        ##         flag <- TRUE
+        ##         break
+        ##     }
+        ## }
+        ## if (flag == FALSE) {
+        ##     source("http://ygc.name/get_skleid.R")
+        ## }
     }
          
     library("skleid")
