@@ -185,30 +185,5 @@ moveNDVFile <- function(contig.folder) {
 
 ## `%>%` <- function(x, FUN) FUN(x)
 
-position.NGS <- function(aa) {
-    idx <- which(aa == "N")
-    idx <- idx[which(aa[idx+1] != "P")]
-    idx <- idx[which(aa[idx+2] == "S" | aa[idx+2] == "T")]
-    return(idx)
-}
-
-toString.NGS <- function(x, ...) {
-    start <- x@start
-    ss <- x@stringSet
-    n <- length(ss)
-    seqs <- sapply(1:n, function(i) {
-        s <- toString(ss[i])
-        substring(s, start, nchar(s))
-    })
-    return(seqs)
-}
-
-to.data.frame.NGS <- function(LIST) {
-    nn <- rep(names(LIST), times=sapply(LIST, length))
-    df <- data.frame(V1=nn, V2=unlist(LIST))
-    row.names(df) <- NULL
-    return(df)
-}
-
 
 utils::globalVariables(".")

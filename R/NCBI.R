@@ -6,6 +6,7 @@
 ##' @param db supported db, currently 'nuccore'
 ##' @param outfile output file, by default, gi_number.gb
 ##' @return NULL
+##‘ @importFrom magrittr %>%
 ##' @export
 ##' @author Guangchuang Yu
 download_genbank_gi <- function(gi, db="nuccore", outfile=NULL) {
