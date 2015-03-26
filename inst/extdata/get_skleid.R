@@ -22,10 +22,10 @@ installPKG("DOSE")
 
 
 if (!is.installed("ggtree")) {
-    devtools::install_github("GuangchuangYu/ggtree")
+    install_github("GuangchuangYu/ggtree")
 }
 
 
-devtools::install_gihub("GuangchuangYu/skleid")
+install_github("GuangchuangYu/skleid")
 
 
