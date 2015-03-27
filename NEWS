@@ -1,3 +1,8 @@
+CHANGES IN VERSION 1.5.5
+------------------------
+ o sort output by sample ID <2015-03-27, Fri>
+ o output report in order of c("HA", "NA", "PB2", "PB1", "PA", "NP", "MP", "NS") <2015-03-27, Fri>
+ 
 CHANGES IN VERSION 1.5.4
 ------------------------
  o remove some source codes to keep it simple and clean <2015-03-26, Thu>

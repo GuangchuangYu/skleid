@@ -18,7 +18,7 @@
 ##' @author ygc
 autoReport <- function(contig.folder, ref.folder, name.file, out.folder="output", filter=FALSE, percentage=1, markAmbiguous=TRUE) {
     
-    nameMap <- read.delim(name.file, header=F, stringsAsFactor=FALSE)
+    nameMap <- read.delim(name.file, header=FALSE, stringsAsFactor=FALSE)
 
     outfile <- "report.md"
     sink(outfile)
@@ -82,6 +82,24 @@ processItems <- function(outfile, contig, ref, nameMap, contig.folder,
     contig <- contig[grep("[SRL]+\\d+[HNMP][APSB]\\d*_[4Cm].*", contig)]
     ## pc <- gsub(pattern=".*/.*_([SRL]+\\d+[HNMP][APSB]\\d*)_[4Cm].*", replacement="\\1", contig)
     pc <- get_sid_gn(contig)
+
+    ## sort contig
+    pc.segment <- gsub("^[SRL]+\\d+([HNMP][APSB]\\d*)", '\\1', pc)
+
+    segment_order <- c("HA", "NA", "PB2", "PB1", "PA", "NP", "MP", "NS")
+    idx <- c()
+    for (i in segment_order) {
+        idx <- c(idx, which(pc.segment == i))
+    }
+    contig <- contig[idx]
+    pc <- pc[idx]
+
+    pc.strain <- gsub("^[SRL]+(\\d+)[HNMP][APSB]\\d*", '\\1', pc)
+    pc.strain <- as.numeric(pc.strain)
+    idx <- order(pc.strain, decreasing = FALSE)
+    contig <- contig[idx]
+    pc <- pc[idx]
+
     
     ## if _Ref.fas in contig folder, it will move to missingFile folder in next step
     ## pr <- gsub(pattern=".*/.*_([SRL]+\\d+[HNMP][APSB]\\d*)_Ref.fas", replacement="\\1", ref)
