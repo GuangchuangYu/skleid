@@ -304,7 +304,12 @@ NDVFileReport <- function(contig.folder, report.file) {
 mixedFileReport <- function(contig.folder, report.file) {
     moveMixedFile(contig.folder)
     
-    mix.sc <- getMixedStrain()  
+    mix.sc <- getMixedStrain()
+    sampleID <- gsub("^[SRL](\\d+)$", '\\1', mix.sc)
+    sampleID <- as.numeric(sampleID)
+    idx <- order(sampleID, decreasing = FALSE)
+    mix.sc <- mix.sc[idx]
+
     if ( !is.null(mix.sc)) {
         sink(report.file, append=TRUE)
         cat("\n", length(unique(mix.sc)), " [mixed](mixed) strain(s) found.\n")
