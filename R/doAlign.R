@@ -45,7 +45,7 @@ doAlign <- function(x) {
         res2$seqs <- res2$seqs[ii,]
         return(res2)
     }
-    
+
     res <- lapply(1:f454$num, function(i) {
         fa <- list(seqs=rbind(fref$seqs, fmira$seqs, f454$seqs[i,]),
                    num=3)

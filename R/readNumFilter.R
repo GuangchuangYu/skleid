@@ -21,7 +21,7 @@ readNumFilter_internal <- function(file, percentage=2) {
         ## num of reads
         nr <- sub(".*numreads=", "", names(y))
         nr <- as.numeric(nr)
-        i <- nr/sum(nr) * 100 > percentage
+        i <- (nr/sum(nr) * 100 > percentage) & nr > 10
         if (sum(i) >= 1) {
             writeXStringSet(y[i], filepath=file)
         }

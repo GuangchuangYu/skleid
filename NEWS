@@ -1,3 +1,7 @@
+CHANGES IN VERSION 1.5.6
+------------------------
+ o filter read nums below 10 <2015-04-10, Fri>
+ 
 CHANGES IN VERSION 1.5.5
 ------------------------
  o sort output by sample ID <2015-03-27, Fri>
