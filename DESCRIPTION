@@ -6,7 +6,7 @@ Author: Guangchuang Yu
 Maintainer: Guangchuang Yu <guangchuangyu@gmail.com>
 Description: Helper functions for SKLEID lab.
 Depends:
-    R (>= 3.1.0)
+    R (>= 3.2.0)
 Imports:
     Biostrings,
     muscle,
