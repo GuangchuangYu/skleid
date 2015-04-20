@@ -209,10 +209,12 @@ itemReport <- function(seqs, seqname, pp, nameMap, out.folder, outfile.suffix) {
     }
     
     if (length(grep("HA", pp)) > 0) {
-        pn <- gsub(".*(H\\d+)N\\d+.*", "\\1", aln$seqs[1,1])
+        ## pn <- gsub(".*(H\\d+)N\\d+.*", "\\1", aln$seqs[1,1])
+        pn <- gsub(".*(H\\d+)N\\d+.*", "\\1", names(aln)[1])
         pn <- sub("HA", pn, pp)
     } else if (length(grep("NA", pp)) > 0) {
-        pn <- gsub(".*H\\d+(N\\d+).*", "\\1", aln$seqs[1,1])
+        ## pn <- gsub(".*H\\d+(N\\d+).*", "\\1", aln$seqs[1,1])
+        pn <- gsub(".*H\\d+(N\\d+).*", "\\1", names(aln)[1])
         pn <- sub("NA", pn, pp)
     } else {
         pn <- pp

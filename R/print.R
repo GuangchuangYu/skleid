@@ -5,17 +5,20 @@
 ##' @param aln alignment
 ##' @param window window
 ##' @param printAmbiguous logical
+##' @importMethodsFrom Biostrings width
 ##' @return NULL
 ##' @author ygc
 ##' @export
 printAlignedSeq <- function(aln, window=80, printAmbiguous=FALSE) {
-    n <- aln$length
+    ## n <- aln$length
+    n <- unique(width(aln))
     idx <- seq(1, n, by=window)
     if (idx[length(idx)] < n) {
         idx <- c(idx, n)
     }
     seq.df <- aln2seqDF(aln)
-    nn <- paste(substring(aln$seqs[,1], 1, 20), "...", sep="")
+    ## nn <- paste(substring(aln$seqs[,1], 1, 20), "...", sep="")
+    nn <- paste(substring(names(aln), 1, 20), "...", sep="")
  
     ss2 <- sapply(1:(length(idx)-1), function(i) {
         ss <- seq.df[, idx[i]:idx[i+1]]
@@ -99,7 +102,8 @@ printConsensus <- function(aln, window=10) {
             aa <- apply(seq.df[,pre:pro], 1, paste, collapse="")
             adf <- data.frame(seq=aa)
             names(adf) <- paste(paste(rep(" ", i-pre), collapse=""), "|", paste(rep(" ", pro-i), collapse=""), sep="")
-            rownames(adf) <- paste(substring(aln$seqs[,1], 1, 20), "...", "")
+            ## rownames(adf) <- paste(substring(aln$seqs[,1], 1, 20), "...", "")
+            rownames(adf) <- paste(substring(names(aln), 1, 20), "...", "")
             cat("\n")
             print(adf)
             cat("\n")

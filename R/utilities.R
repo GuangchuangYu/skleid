@@ -1,9 +1,12 @@
 
 
-
+##' @importFrom Biostrings toString
+##' @importFrom Biostrings DNAStringSet
 identityRatio <- function(aln) {
-    seqs <- sapply(aln$seqs[,2], strsplit, split="")
-    sum(seqs[[1]] == seqs[[2]])/ aln$length
+    fa <- DNAStringSet(aln)
+    seqs <- sapply(fa, toString)
+    seqs <- sapply(seqs, strsplit, split="")
+    sum(seqs[[1]] == seqs[[2]])/ length(seqs[[1]])
 }
 
 getIdx <- function(queryID, sourceID) {
@@ -17,7 +20,8 @@ pause <- function() {
 }
 
 aln2seqDF <- function(aln) {
-    seqs <- aln$seqs[,2]
+    ## seqs <- aln$seqs[,2]
+    seqs <- sapply(aln, toString)
     seq.df <- do.call("rbind", strsplit(seqs, ""))
     return(seq.df)
 }

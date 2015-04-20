@@ -10,7 +10,8 @@
 ##' @importFrom Biostrings writeXStringSet
 ##' @export
 writeConsensus <- function(aln, output) {
-    aln$seqs <- aln$seqs[-1,]
+    ## aln$seqs <- aln$seqs[-1,]
+    aln <- aln[-1]
     seq.df <- aln2seqDF(aln)
     idx <- apply(seq.df, 2, function(i) all(i=="-"))
     seq.df <- seq.df[,!idx]
