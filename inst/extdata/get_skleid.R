@@ -17,10 +17,10 @@ source("http://bioconductor.org/biocLite.R")
 
 installPKG("devtools")
 
-installPKG("Biostrings")
+## installPKG("Biostrings")
+## library(devtools)
+## install_github("GuangchuangYu/skleid")
 
-library(devtools)
-
-install_github("GuangchuangYu/skleid")
+biocLite("GuangchuangYu/skleid")
 
 
