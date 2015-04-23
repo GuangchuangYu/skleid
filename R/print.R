@@ -1,3 +1,13 @@
+shorten_name <- function(nn) {
+    idx_mira <- grep("_BB", nn)
+    if (length(idx_mira) > 0) {
+        nn[idx_mira] <- paste0("BB_", nn[idx_mira])
+    }
+    
+    nn <- paste(substring(nn, 1, 20), "...", sep="")
+    return(nn)
+}
+
 ##' print aligned sequences
 ##'
 ##' 
@@ -18,8 +28,8 @@ printAlignedSeq <- function(aln, window=80, printAmbiguous=FALSE) {
     }
     seq.df <- aln2seqDF(aln)
     ## nn <- paste(substring(aln$seqs[,1], 1, 20), "...", sep="")
-    nn <- paste(substring(names(aln), 1, 20), "...", sep="")
- 
+    nn <- shorten_name(names(aln))
+     
     ss2 <- sapply(1:(length(idx)-1), function(i) {
         ss <- seq.df[, idx[i]:idx[i+1]]
         for (k in 1:ncol(ss)) {
@@ -103,7 +113,9 @@ printConsensus <- function(aln, window=10) {
             adf <- data.frame(seq=aa)
             names(adf) <- paste(paste(rep(" ", i-pre), collapse=""), "|", paste(rep(" ", pro-i), collapse=""), sep="")
             ## rownames(adf) <- paste(substring(aln$seqs[,1], 1, 20), "...", "")
-            rownames(adf) <- paste(substring(names(aln), 1, 20), "...", "")
+            ## rownames(adf) <- paste(substring(names(aln), 1, 20), "...", "")
+            rownames(adf) <- shorten_name(names(aln))
+            
             cat("\n")
             print(adf)
             cat("\n")

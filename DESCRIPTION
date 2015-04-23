@@ -1,7 +1,7 @@
 Package: skleid
 Type: Package
 Title: State Key Lab of Emerging Infectious Diseases
-Version: 1.5.7
+Version: 1.5.8
 Author: Guangchuang Yu
 Maintainer: Guangchuang Yu <guangchuangyu@gmail.com>
 Description: Helper functions for SKLEID lab.
