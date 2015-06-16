@@ -8,6 +8,7 @@
 ##' @export
 ##' @author Guangchuang Yu
 run_skleid <- function() {
-    dir <- system.file(package="skleid")
+    require("shinyFiles", character.only=TRUE)
+    dir <- system.file("app", package="skleid")
     runApp(dir)
 }
