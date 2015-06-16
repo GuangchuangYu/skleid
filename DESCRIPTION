@@ -13,6 +13,8 @@ Imports:
     magrittr,
     markdown,
     RCurl,
+    shiny,
+    shinyFiles,
     utils
 Suggests:
     knitr
