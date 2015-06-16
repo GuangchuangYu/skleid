@@ -1,5 +1,7 @@
 CHANGES IN VERSION 1.5.9
 ------------------------
+ o generate_run_skleid_app to generate run_skleid.bat for windows platform <2015-06-16, Tue> 
+ o run_skleid to launch shiny app <2015-06-16, Tue>
  o shiny app for running skleid <2015-06-16, Tue>
  
 CHANGES IN VERSION 1.5.8
