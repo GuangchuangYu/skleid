@@ -10,5 +10,6 @@
 run_skleid <- function() {
     require("shinyFiles", character.only=TRUE)
     dir <- system.file("app", package="skleid")
+    options(shiny.launch.browser = TRUE)
     runApp(dir)
 }
