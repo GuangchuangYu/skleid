@@ -32,6 +32,6 @@ generate_run_skleid_app <- function() {
     ## outfile <- gsub("/", "\\\\", outfile)
     ## out <- file(outfile, "w")
     out <- file("c:\\run_skleid.bat", "w")
-    writeLines(sub("library/base", "bin/Rscript -e 'skleid::run_skleid()'", system.file(package="base")), out)
+    writeLines(sub('library/base', 'bin/Rscript -e "skleid::run_skleid()"', system.file(package="base")), out)
     close(out)
 }
