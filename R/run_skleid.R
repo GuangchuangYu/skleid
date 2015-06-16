@@ -28,9 +28,10 @@ generate_run_skleid_app <- function() {
         stop("This function only works in Windows Platform...")
     }
     
-    outfile <- paste0(file.path(Sys.getenv("USERPROFILE"), "Desktop"), "/run_skleid.bat")
-    out <- file(outfile, "w")
-    
+    ## outfile <- paste0(file.path(Sys.getenv("USERPROFILE"), "Desktop"), "/run_skleid.bat")
+    ## outfile <- gsub("/", "\\\\", outfile)
+    ## out <- file(outfile, "w")
+    out <- file("c:\\run_skleid.bat", "w")
     writeLines(sub("library/base", "bin/Rscript -e 'skleid::run_skleid()'", system.file(package="base")), out)
     close(out)
 }
