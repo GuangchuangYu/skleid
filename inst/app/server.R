@@ -151,7 +151,7 @@ shinyServer(function(input, output, session) {
             setwd(input$wd)
             gaps <- readLines('gaps.txt')
             for (i in 1:input$nlines) {
-                cat("[", i, "]", " ", gaps[i], "\n")
+                cat(paste0("[", i, "]"), " ", gaps[i], "\n")
             }
             ## head(gaps, 50)
         }
