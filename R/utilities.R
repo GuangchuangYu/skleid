@@ -1,3 +1,21 @@
+##' convert 454 summary file for generateGapFile function
+##'
+##' 
+##' @title convert_summary_file
+##' @param summary_file summary_file
+##' @param out_file out_file
+##' @return NULL
+##' @export
+##' @author Guangchuang Yu
+convert_summary_file <- function(summary_file, out_file="summary2.csv") {
+    ## in summary file, sequence name contain something like CK_GY_4994_2014,
+    ## which is use to match read file, fa.txt.
+    ## but in 454 runs, read file only contain information like RL18.
+    ## this function is to convert the filed,  CK_GY_4994_2014, to RL18.
+    sf <- read.csv(summary_file)
+    sf[, "name"] <- gsub("(RL\\d+)", "_\\1", sub("_.*", "", sf[, "name"]))
+    write.csv(sf, file=out_file)
+}
 
 
 ##' @importFrom Biostrings toString

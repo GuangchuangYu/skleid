@@ -2,6 +2,7 @@
 
 export(autoReport)
 export(autoTranslate)
+export(convert_summary_file)
 export(doAlign)
 export(doAlign2)
 export(generateGapFile)
