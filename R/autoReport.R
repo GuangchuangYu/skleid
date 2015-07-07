@@ -265,11 +265,18 @@ generateStrainTable <- function(contig.folder, nameMap) {
     mix.sc <- getMixedStrain()
     if (!is.null(mix.sc)) {
         ## mixff <- nameMap[ nameMap[,1] %in% sub("[SRL]+", "", unique(mix.sc)),]
-        mixff <- nameMap[ nameMap[,1] %in% gsub("[SRL]+(\\d+).*", "\\1", unique(mix.sc)),]    
-        mixff[,2] <- paste(mixff[,2], "mixed", sep="_")
-        write.table(mixff,
-                    file="mixed_table.txt", sep="\t",
-                    row.names=F, col.names=F, quote=F)        
+        ii <- nameMap[,1] %in% gsub("[SRL]+(\\d+).*", "\\1", unique(mix.sc))
+        if (sum(ii) == 0) {
+            warning("--> mixed samples are not listed in name.txt...\n")
+            cat("--> press ENTER to skip...\n")
+            pause()
+        } else {
+            mixff <- nameMap[ii,]    
+            mixff[,2] <- paste(mixff[,2], "mixed", sep="_")
+            write.table(mixff,
+                        file="mixed_table.txt", sep="\t",
+                        row.names=F, col.names=F, quote=F)        
+        }
     }
         
     contig <- getFiles(contig.folder)

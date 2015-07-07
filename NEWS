@@ -1,5 +1,7 @@
 CHANGES IN VERSION 1.6.0
 ------------------------
+ o if mixed samples are not listed in name.txt, instead of throw error, now the function will
+   show warning msg and need user confirm to continue. <2015-07-07, Tue>
  o convert_summary_file function <2015-07-02, Thu>
  
 CHANGES IN VERSION 1.5.9
