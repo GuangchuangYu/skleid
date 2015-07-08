@@ -267,7 +267,7 @@ generateStrainTable <- function(contig.folder, nameMap) {
         ## mixff <- nameMap[ nameMap[,1] %in% sub("[SRL]+", "", unique(mix.sc)),]
         ii <- nameMap[,1] %in% gsub("[SRL]+(\\d+).*", "\\1", unique(mix.sc))
         if (sum(ii) == 0) {
-            warning("--> mixed samples are not listed in name.txt...\n")
+            cat("--> mixed samples are not listed in name.txt...\n")
             cat("--> press ENTER to skip...\n")
             pause()
         } else {
