@@ -1,3 +1,7 @@
+CHANGES IN VERSION 1.6.1
+------------------------
+ o bug fixed in generateGapFile <2015-07-20, Mon>
+ 
 CHANGES IN VERSION 1.6.0
 ------------------------
  o if mixed samples are not listed in name.txt, instead of throw error, now the function will

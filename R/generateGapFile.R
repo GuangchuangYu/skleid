@@ -36,11 +36,18 @@ generateGapFile <- function(out.folder="output", ref.folder="Ref", read.fileName
     }
 
     writeGap_ <- function(ss, reads, ref, pp, ii, gapfile, name) {
-        rr <- reads[grep(ss, reads)]
+        
         if (pp == "NA.") {
             pp <- "NA"
         }
+        rr <- reads[grep(ss, reads)]
         rr <- rr[grep(paste(".*[SRL]+\\d+(", pp, ")\\..*", sep=""), rr)]
+
+        if (grepl("RL\\d+", rr)) {
+            ## in this case ss should be RLxx
+            rr <- rr[grep(paste0(ss, pp), rr)]
+        }
+        
         if (length(rr) == 0) {
             warning("gene ", pp, " of ", ss, " not found...")
             return(NULL)
