@@ -43,7 +43,7 @@ generateGapFile <- function(out.folder="output", ref.folder="Ref", read.fileName
         rr <- reads[grep(ss, reads)]
         rr <- rr[grep(paste(".*[SRL]+\\d+(", pp, ")\\..*", sep=""), rr)]
 
-        if (grepl("RL\\d+", rr)) {
+        if (any(sapply(rr, function(a) grepl("RL\\d+", a)))) {
             ## in this case ss should be RLxx
             rr <- rr[grep(paste0(ss, pp), rr)]
         }

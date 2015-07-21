@@ -1,3 +1,7 @@
+CHANGES IN VERSION 1.6.2
+------------------------
+ o fixed in grepl with vector, use any(sapply, function) <2015-07-21, Tue>
+
 CHANGES IN VERSION 1.6.1
 ------------------------
  o bug fixed in generateGapFile <2015-07-20, Mon>
