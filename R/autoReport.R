@@ -119,7 +119,7 @@ processItems <- function(outfile, contig, ref, nameMap, contig.folder,
         jj=contig[pc==pp]
         seqs <- c(jj[grep("454\\.fas", jj)], ## jj[grep("Contigs", jj)],
                   ref[pr == pp ],
-                  jj[grep("mira_delX", jj)]
+                  jj[grep("454M\\.", jj)]
                   )
         if (length(seqs) != 3) {
             if (!file.exists("missingFile")) {

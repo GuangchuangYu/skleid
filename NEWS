@@ -1,3 +1,7 @@
+CHANGES IN VERSION 1.6.3
+------------------------
+ o change to use 454M instead of mira_deltaX <2015-08-05, Wed>
+ 
 CHANGES IN VERSION 1.6.2
 ------------------------
  o fixed in grepl with vector, use any(sapply, function) <2015-07-21, Tue>
