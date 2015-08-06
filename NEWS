@@ -1,6 +1,10 @@
+CHANGES IN VERSION 1.6.4
+------------------------
+ o modify shortenname to meet the new name scheme of 454M. <2015-08-06, Thu>
+ 
 CHANGES IN VERSION 1.6.3
 ------------------------
- o change to use 454M instead of mira_deltaX <2015-08-05, Wed>
+ o change to use 454M instead of mira_delX <2015-08-05, Wed>
  
 CHANGES IN VERSION 1.6.2
 ------------------------

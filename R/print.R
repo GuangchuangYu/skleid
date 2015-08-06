@@ -1,8 +1,44 @@
 shorten_name <- function(nn) {
-    idx_mira <- grep("_BB", nn)
-    if (length(idx_mira) > 0) {
-        nn[idx_mira] <- paste0("BB_", nn[idx_mira])
+    ## in old version of mira sequence
+    ##
+    ## header is
+    ## >PB2_EPI529527_A_BRISBANE_165_2013(H3N2)_BB_1 PB2_EPI529527_A_BRISBANE_165_2013(H3N2)_BB
+    ##
+    ## which contains _BB
+    ##
+    ##
+    
+    ## idx_mira <- grep("_BB", nn)
+
+
+    ## new version is
+    ##
+    ## >PA_JX485431_A_duck_Shanghai_28-1_2009(H4N2),_1..1034__length=1036___numreads=46
+    ##
+    ## which is similar to ref with numreads recorded
+    ## numreads also recorded in 454 fas file, which name by contig00X
+    ##
+    ## 
+    ##
+    ##
+    ## there may exists similar name:
+    ## >PA_JX485431_A_duck_Shanghai_28-1_2009(H4N2),_1144..2233__length=1102___numreads=168
+    ##
+    ## so that previous solution can't solve this issue.
+    ##
+    ## The new solution is to keep the start..end position and put it at the beginning of the name
+    ##
+
+    ii <- grep("\\d+\\.\\.\\d+", nn)
+    if (length(ii)) {
+        position <- gsub(".*_(\\d+\\.\\.\\d+)_.*", "\\1", nn[ii])
+        nn[ii] <- paste(position, nn[ii], sep="_")
     }
+
+    ## idx_mira <- which(!grepl("contig", nn) & grepl("numreads", nn))
+    ## if (length(idx_mira) > 0) {
+    ##     nn[idx_mira] <- paste0("BB_", nn[idx_mira])
+    ## }
     
     nn <- paste(substring(nn, 1, 20), "...", sep="")
     return(nn)
