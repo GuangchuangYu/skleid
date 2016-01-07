@@ -136,7 +136,7 @@ processItems <- function(outfile, contig, ref, nameMap, contig.folder,
         ## seqname <- sub("\\w+/", "", seqs)
         seqname <- basename(seqs)
         
-        if (isMixed(jj[grep("454\\.fas", jj)]) == TRUE) {
+        if (isMixed(jj[grep("454M\\.fas", jj)]) == TRUE) {
             pn <- pp
             outhtml <- NULL
             outfasta <- NULL
