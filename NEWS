@@ -1,3 +1,7 @@
+CHANGES IN VERSION 1.6.5
+------------------------
+ o use 454M instead of 454 to determine mix seq <2016-01-07, Thu>
+ 
 CHANGES IN VERSION 1.6.4
 ------------------------
  o modify shortenname to meet the new name scheme of 454M. <2015-08-06, Thu>
