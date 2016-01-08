@@ -10,6 +10,7 @@
 ##' @author ygc
 summarize <- function(out.folder, name.file) {
     nameMap <- read.delim(name.file, header=F, stringsAsFactor=FALSE)
+    nameMap <- nameMap[,c(1:2)]
     colnames(nameMap) <- c("ID", "name")
     cs <- list.files(path=out.folder, pattern=".fas$")
     cs2 <- paste(out.folder, cs, sep="/")
