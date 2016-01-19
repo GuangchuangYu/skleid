@@ -135,7 +135,7 @@ get_sid_gn <- function(files) {
 
 moveMixedFile <- function(contig.folder) {
     contig <- getFiles(contig.folder)
-    f454 <- contig[grep("_454.fa[sta]$", contig)]
+    f454 <- contig[grep("_454M.fa[sta]$", contig)]
     sc <- getSampleID(contig)
     idx <- getMixedFileIndex(f454)
     
