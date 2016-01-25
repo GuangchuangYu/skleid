@@ -106,7 +106,7 @@ isMixed <- function(file) {
     sg <- get_sid_gn(file)
     prot <- gsub("[SRL]+\\d+([HNMP][APSB]\\d*)", "\\1", sg)
         
-    prot.cutoff <- c(rep(2000, 4), 1000, rep(3000, 3))
+    prot.cutoff <- c(rep(2000, 4), 1100, rep(3000, 3))
     names(prot.cutoff) <- c("HA", "NA", "MP", "NP", "NS", "PA", "PB1", "PB2")
     
     res <- file.info(file)$size > prot.cutoff[prot]

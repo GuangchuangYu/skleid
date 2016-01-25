@@ -1,3 +1,7 @@
+CHANGES IN VERSION 1.6.7
+------------------------
+ o use 1100 for NS in isMixed <2016-01-25, Mon>
+ 
 CHANGES IN VERSION 1.6.6
 ------------------------
  o use 454M instead of 454 in moveMixedFile <2016-01-19, Tue>
