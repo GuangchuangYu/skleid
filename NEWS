@@ -1,3 +1,8 @@
+CHANGES IN VERSION 1.6.8
+------------------------
+ o drop=FALSE when printing consensus (may have only one contig (one row) and simplify to vector by default.
+   use drop=FALSE to prevent simplify and keep data.frame structure <2016-03-31, Thu>
+ 
 CHANGES IN VERSION 1.6.7
 ------------------------
  o use 1100 for NS in isMixed <2016-01-25, Mon>

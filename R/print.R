@@ -124,7 +124,7 @@ printAlignedSeq <- function(aln, window=80, printAmbiguous=FALSE) {
 ##' @export
 printConsensus <- function(aln, window=10) {
     seq.df <- aln2seqDF(aln)
-    cs <- getConsensus(seq.df[-1,])
+    cs <- getConsensus(seq.df[-1,, drop=FALSE])
    
     idx <- attr(cs, "index")
     if (length(idx) > 0) {
