@@ -14,7 +14,7 @@ writeConsensus <- function(aln, output) {
     aln <- aln[-1]
     seq.df <- aln2seqDF(aln)
     idx <- apply(seq.df, 2, function(i) all(i=="-"))
-    seq.df <- seq.df[,!idx]
+    seq.df <- seq.df[,!idx, drop=FALSE]
 
     cs <- getConsensus(seq.df)
     cs2 <- DNAStringSet(paste(cs, collapse=""))
