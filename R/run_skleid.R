@@ -1,6 +1,6 @@
 ##' launch shiny app
 ##'
-##' 
+##'
 ##' @title run_skleid
 ##' @return NULL
 ##' @importFrom shiny runApp
@@ -8,7 +8,8 @@
 ##' @export
 ##' @author Guangchuang Yu
 run_skleid <- function() {
-    require("shinyFiles", character.only=TRUE)
+    pkg <- "shinyFiles"
+    require(pkg, character.only=TRUE)
     dir <- system.file("app", package="skleid")
     options(shiny.launch.browser = TRUE)
     runApp(dir)
@@ -17,7 +18,7 @@ run_skleid <- function() {
 
 ##' generate desktop shortcut
 ##'
-##' 
+##'
 ##' @title generate_run_skleid_app
 ##' @return NULL
 ##' @export
@@ -27,7 +28,7 @@ generate_run_skleid_app <- function() {
     if (os != "Windows") {
         stop("This function only works in Windows Platform...")
     }
-    
+
     ## outfile <- paste0(file.path(Sys.getenv("USERPROFILE"), "Desktop"), "/run_skleid.bat")
     ## outfile <- gsub("/", "\\\\", outfile)
     ## out <- file(outfile, "w")

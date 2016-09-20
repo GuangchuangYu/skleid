@@ -1,22 +1,24 @@
 ##' generating gap file
 ##'
-##' 
+##'
 ##' @title generateGapFile
 ##' @param out.folder output folder of autoReport, that contains consensus sequences,
 ##'                   or summary.csv from summarize output
 ##' @param ref.folder reference folder
 ##' @param read.fileName list of file names of read file
 ##' @param sample.size sample size
-##' @param gap.file output gap file name 
-##' @return NULL 
+##' @param gap.file output gap file name
+##' @return NULL
 ##' @author ygc
+##' @importFrom utils read.delim
+##' @importFrom utils read.csv
 ##' @importFrom Biostrings readBStringSet
 ##' @importFrom magrittr %>%
 ##' @export
 generateGapFile <- function(out.folder="output", ref.folder="Ref", read.fileName, sample.size=200, gap.file="gaps.txt") {
     ## ref: AH1-P5_S5HA_Ref.fas
     ## read: "HA_CK_JX_22232_2014_S1HA.fa"
-    ## consensus seq: AB53TL10F06_DK_JX_13730_2014_H4.fas , _mixed.fas for mixed 
+    ## consensus seq: AB53TL10F06_DK_JX_13730_2014_H4.fas , _mixed.fas for mixed
     ##
     ## consensus seq name should contain virus strain that match read name
     ## read name should contain strain name and gene name, that can be matched by ref
@@ -36,7 +38,7 @@ generateGapFile <- function(out.folder="output", ref.folder="Ref", read.fileName
     }
 
     writeGap_ <- function(ss, reads, ref, pp, ii, gapfile, name) {
-        
+
         if (pp == "NA.") {
             pp <- "NA"
         }
@@ -50,16 +52,16 @@ generateGapFile <- function(out.folder="output", ref.folder="Ref", read.fileName
                 rr <- rr[idx]
             }
         }
-        
+
         if (length(rr) == 0) {
             warning("gene ", pp, " of ", ss, " not found...")
             return(NULL)
-        } 
-        
+        }
+
         sg <- get_sid_gn(rr)
         strain <- gsub("([SRL]+\\d+)[HNMP][APSB]*\\d*.*", "\\1", sg)
         strain <- paste(strain, pp, sep="") %>% unique
-        
+
         ref2 <- ref[grep(strain, ref)]
         if (length(ref2) == 0) {
             warning("reference of ", strain, " not found...")
@@ -122,7 +124,7 @@ generateGapFile <- function(out.folder="output", ref.folder="Ref", read.fileName
                     if (length(ii) == 0) {
                         next
                     }
-                    ii <- sub("[A-Za-z]$", "", ii) 
+                    ii <- sub("[A-Za-z]$", "", ii)
                     nn <- paste0(as.character(sf[i, "name"]), "_", j)
                     notuse <- writeGap_(ss, reads, ref, j, ii, gapfile, nn)
                 }
@@ -142,7 +144,7 @@ generateGapFile <- function(out.folder="output", ref.folder="Ref", read.fileName
                 next
             }
 
-     
+
             ## remove prefix
             ss <- sub("^[a-zA-Z0-9]+_", "", cs[i])
             ## remove _mixed if any
@@ -162,7 +164,7 @@ generateGapFile <- function(out.folder="output", ref.folder="Ref", read.fileName
             notuse <- writeGap_(ss, reads, ref, pp, ii, gapfile, cs[i])
         }
     }
-      
+
     close(gapfile)
     cat("-> done... \n")
     cat("------------\n")

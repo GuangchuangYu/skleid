@@ -1,11 +1,12 @@
 ##' summarize the result
 ##'
-##' 
+##'
 ##' @title summarize
 ##' @param out.folder out folder
-##' @param name.file name file 
+##' @param name.file name file
 ##' @return NULL
 ##' @importFrom magrittr %>%
+##' @importFrom utils write.csv
 ##' @export
 ##' @author ygc
 summarize <- function(out.folder, name.file) {
@@ -27,13 +28,13 @@ summarize <- function(out.folder, name.file) {
     ## mix <- getFiles("mixed")
     ## mix <- gsub("mixed/S\\d+_", "", mix)
     ## mix <- gsub("_S\\d+.*", "", mix) %>% unique
-    mixID <- gsub("^S", "", getMixedStrain() %>% unique) %>% as.numeric    
+    mixID <- gsub("^S", "", getMixedStrain() %>% unique) %>% as.numeric
     ## Mixed[isMixed] <- "mixed"
     Mixed[match(mixID, nameMap[,1])] <- "mixed"
-    
+
     nameMap$Mixed <- Mixed
     nameMap$subtype <- subtype
-    
+
     res <- cbind(nameMap, asite)
     write.csv(res, file="summary.csv", row.names=F)
     cat("-> output info to summary.csv\t\t", format(Sys.time(), "%Y-%m-%d %X"), "\n")
@@ -103,7 +104,7 @@ getSubtype <- function(nameMap, cs) {
         if (ht == "") {
             subtype <- nt
         } else if (nt == "") {
-            subtype <- ht 
+            subtype <- ht
         } else {
             subtype <- paste(ht, nt, sep="|")
         }

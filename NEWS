@@ -1,28 +1,32 @@
+CHANGES IN VERSION 1.6.9
+------------------------
+ o fixed R check in R-3.3.1, import utils <2016-09-29, Tue>
+
 CHANGES IN VERSION 1.6.8
 ------------------------
  o drop=FALSE when printing consensus (may have only one contig (one row) and simplify to vector by default.
    use drop=FALSE to prevent simplify and keep data.frame structure <2016-03-31, Thu>
- 
+
 CHANGES IN VERSION 1.6.7
 ------------------------
  o use 1100 for NS in isMixed <2016-01-25, Mon>
- 
+
 CHANGES IN VERSION 1.6.6
 ------------------------
  o use 454M instead of 454 in moveMixedFile <2016-01-19, Tue>
- 
+
 CHANGES IN VERSION 1.6.5
 ------------------------
  o use 454M instead of 454 to determine mix seq <2016-01-07, Thu>
- 
+
 CHANGES IN VERSION 1.6.4
 ------------------------
  o modify shortenname to meet the new name scheme of 454M. <2015-08-06, Thu>
- 
+
 CHANGES IN VERSION 1.6.3
 ------------------------
  o change to use 454M instead of mira_delX <2015-08-05, Wed>
- 
+
 CHANGES IN VERSION 1.6.2
 ------------------------
  o fixed in grepl with vector, use any(sapply, function) <2015-07-21, Tue>
@@ -30,58 +34,58 @@ CHANGES IN VERSION 1.6.2
 CHANGES IN VERSION 1.6.1
 ------------------------
  o bug fixed in generateGapFile <2015-07-20, Mon>
- 
+
 CHANGES IN VERSION 1.6.0
 ------------------------
  o if mixed samples are not listed in name.txt, instead of throw error, now the function will
    show warning msg and need user confirm to continue. <2015-07-07, Tue>
  o convert_summary_file function <2015-07-02, Thu>
- 
+
 CHANGES IN VERSION 1.5.9
 ------------------------
- o generate_run_skleid_app to generate run_skleid.bat for windows platform <2015-06-16, Tue> 
+ o generate_run_skleid_app to generate run_skleid.bat for windows platform <2015-06-16, Tue>
  o run_skleid to launch shiny app <2015-06-16, Tue>
  o shiny app for running skleid <2015-06-16, Tue>
- 
+
 CHANGES IN VERSION 1.5.8
 ------------------------
  o add 'BB_' prefix in mira sequence name of html report <2015-04-23, Thu>
- 
+
 CHANGES IN VERSION 1.5.7
 ------------------------
  o update according to muscle mv to Bioconductor and use Biostrings to store fasta content. <2015-04-20, Mon>
- 
+
 CHANGES IN VERSION 1.5.6
 ------------------------
  o filter read nums below 10 <2015-04-10, Fri>
- 
+
 CHANGES IN VERSION 1.5.5
 ------------------------
  o sort output by sample ID <2015-03-27, Fri>
  o output report in order of c("HA", "NA", "PB2", "PB1", "PA", "NP", "MP", "NS") <2015-03-27, Fri>
- 
+
 CHANGES IN VERSION 1.5.4
 ------------------------
  o remove some source codes to keep it simple and clean <2015-03-26, Thu>
- 
+
 CHANGES IN VERSION 1.5.2
 ------------------------
  o update hamming.BString <2015-03-25, Wed>
  o add plotMap function <2015-03-25, Wed>
- 
+
 CHANGES IN VERSION 1.5.1
 ------------------------
  o add read.genbank function <2015-03-05, Thu>
  o add download_genbank_acc & download_genbank_gi functions <2015-03-05, Thu>
- 
+
 CHANGES IN VERSION 1.5.0
 ------------------------
  o fixed issue of contig has no overlap <2015-02-09, Mon>
- 
+
 CHANGES IN VERSION 1.4.8
 ------------------------
  o update addKeywordFASTA to support user provided keyword mapping <2015-01-26, Mon>
- 
+
 CHANGES IN VERSION 1.4.7
 ------------------------
  o get 454 sequence using pattern of 454\\.fas instead of 454 <2015-01-09, Fri>
@@ -123,7 +127,7 @@ CHANGES IN VERSION 1.4.0
  o NGS class with toNGS constructor and
    getPosition and getSite functions to access
    N-glycosylation site info <2014-12-14, Sun>
- 
+
 CHANGES IN VERSION 1.3.3
 ------------------------
  o subtype in summary separate by | <2014-12-05, Fri>
@@ -170,7 +174,7 @@ CHANGES IN VERSION 1.2.1
  o add tree annotation functions <2014-11-21, Fri>
    + main function of annotating tree
    + netNglyc related functions
- 
+
 CHANGES IN VERSION 1.2.0
 ------------------------
  o add some eye candy, print cartoon when function exit <2014-11-21, Fri>
@@ -231,7 +235,7 @@ CHANGES IN VERSION 0.3.2
 ------------------------
  o report mixed sequence in report file <2014-10-09, Thu>
  o format ambiguous bases output <2014-10-09, Thu>
- 
+
 CHANGES IN VERSION 0.3.1
 ------------------------
  o reduce gap in alignment <2014-10-08, Wed>
@@ -248,16 +252,16 @@ CHANGES IN VERSION 0.2.0
 CHANGES IN VERSION 0.1.0
 ------------------------
  o inital version with the following functinos <2014-09>
-   + autoTranslate 
-   + doAlign          
+   + autoTranslate
+   + doAlign
    + doAlign2
    + getConsensus
-   + printAlignedSeq  
-   + printConsensus   
-   + printNTcode      
+   + printAlignedSeq
+   + printConsensus
+   + printNTcode
    + readNumFilter
-   + removeSeq        
-   + revcomp          
-   + translateSeq 
+   + removeSeq
+   + revcomp
+   + translateSeq
    + writeAlignedSeq
    + writeConsensus

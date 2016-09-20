@@ -1,6 +1,6 @@
 ##' auto report sequence alignment and consensus sequence
 ##'
-##' 
+##'
 ##' @title autoReport
 ##' @param contig.folder contig folder
 ##' files in contig.folder should have name contains _S\\d+[HNMP]+, or it will be move to unknown folder
@@ -8,16 +8,17 @@
 ##' @param ref.folder reference folder
 ##' should contains files like XXX__S111NA_Ref.fas
 ##' @param name.file name file
-##' @param out.folder output folder 
+##' @param out.folder output folder
 ##' @param filter logical
 ##' @param percentage filter percentage
 ##' @param markAmbiguous makr ambiguous with * or not
 ##' @return NULL
+##' @importFrom utils read.delim
 ##' @importFrom markdown markdownToHTML
 ##' @export
 ##' @author ygc
 autoReport <- function(contig.folder, ref.folder, name.file, out.folder="output", filter=FALSE, percentage=1, markAmbiguous=TRUE) {
-    
+
     nameMap <- read.delim(name.file, header=FALSE, stringsAsFactor=FALSE)
 
     outfile <- "report.md"
@@ -29,11 +30,11 @@ autoReport <- function(contig.folder, ref.folder, name.file, out.folder="output"
     unKnownFileReport(contig.folder, outfile)
     emptyFileReport(contig.folder, ref.folder, outfile)
     NDVFileReport(contig.folder, outfile)
-    
+
     if(filter == TRUE)
         doFilter(contig.folder, percentage)
 
-    
+
     mixedFileReport(contig.folder, outfile)
 
     generateStrainTable(contig.folder, nameMap)
@@ -59,15 +60,15 @@ autoReport <- function(contig.folder, ref.folder, name.file, out.folder="output"
             processItems(outfile, mix.contig, ref, nameMap, mix.folder,
                          out.folder, outfile.suffix="mixed",
                          markAmbiguous=markAmbiguous)
-        }    
+        }
     }
-    
+
     addFooter(outfile)
     markdownToHTML(outfile, "report.html")
     file.remove(outfile)
     ## cat(">> done...", "\t\t\t", format(Sys.time(), "%Y-%m-%d %X"), "\n")
 
-    ## 
+    ##
     cat(">> done... \n")
     cat("------------\n")
     says()
@@ -100,20 +101,20 @@ processItems <- function(outfile, contig, ref, nameMap, contig.folder,
     contig <- contig[idx]
     pc <- pc[idx]
 
-    
+
     ## if _Ref.fas in contig folder, it will move to missingFile folder in next step
     ## pr <- gsub(pattern=".*/.*_([SRL]+\\d+[HNMP][APSB]\\d*)_Ref.fas", replacement="\\1", ref)
     ref <- ref[grep("_Ref.fas", ref)]
     pr <- get_sid_gn(ref)
-    
+
     if (!file.exists(out.folder)) {
         dir.create(out.folder)
     }
-    
+
     if (!file.exists("html")) {
         dir.create("html")
     }
-    
+
     oldstrain <- ""
     for ( pp in unique(pc) ) {
         jj=contig[pc==pp]
@@ -130,12 +131,12 @@ processItems <- function(outfile, contig, ref, nameMap, contig.folder,
             }
             next
         }
-        
+
         ## seqname <- sub(contig.folder, "", seqs)
         ## seqname <- sub("/", "", seqname)
         ## seqname <- sub("\\w+/", "", seqs)
         seqname <- basename(seqs)
-        
+
         if (isMixed(jj[grep("454M\\.fas", jj)]) == TRUE) {
             pn <- pp
             outhtml <- NULL
@@ -147,7 +148,7 @@ processItems <- function(outfile, contig, ref, nameMap, contig.folder,
             outfasta <- outinfo$outfasta
         }
 
-        
+
         strain <- gsub("([SRL+]\\d+).*", "\\1", pp)
 
         sink(outfile, append=TRUE)
@@ -176,7 +177,7 @@ processItems <- function(outfile, contig, ref, nameMap, contig.folder,
         if (!is.null(outhtml)) {
             cat(paste("[", pn, "]", "(", outhtml, ")", sep=""))
         }
-        
+
         sink()
         oldstrain <- strain
     }
@@ -188,7 +189,7 @@ itemReport <- function(seqs, seqname, pp, nameMap, out.folder, outfile.suffix) {
     ## seqs: sequence file name
     ## seqname: sequence name
     ## pp: protein name
-    
+
     cat(">>", "processing", pp, "\t\t", format(Sys.time(), "%Y-%m-%d %X"), "\n",
         "\t\t", seqname[1], "\n",
         "\t\t", seqname[2], "\n",
@@ -207,7 +208,7 @@ itemReport <- function(seqs, seqname, pp, nameMap, out.folder, outfile.suffix) {
             aln <- doAlign(seqs)
         }
     }
-    
+
     if (length(grep("HA", pp)) > 0) {
         ## pn <- gsub(".*(H\\d+)N\\d+.*", "\\1", aln$seqs[1,1])
         pn <- gsub(".*(H\\d+)N\\d+.*", "\\1", names(aln)[1])
@@ -219,15 +220,15 @@ itemReport <- function(seqs, seqname, pp, nameMap, out.folder, outfile.suffix) {
     } else {
         pn <- pp
     }
-    
-    
+
+
     outmd <- paste("html/", pn, ".md", sep="")
     sink(outmd)
     cat("## ", pn, "\n")
     cat(paste("\n", "[", seqname, "]", "(", "../", seqs, ")", sep="", collapse="\n"), "\n")
-        
+
     cat("\n\naligned sequences:\n```\n")
-    printAlignedSeq(aln)        
+    printAlignedSeq(aln)
     printConsensus(aln)
 
     alnDir <- "alignment"
@@ -236,7 +237,7 @@ itemReport <- function(seqs, seqname, pp, nameMap, out.folder, outfile.suffix) {
     if(!file.exists(alnDir))
         dir.create(alnDir)
     writeAlignedSeq(aln, alnFile2)
-    
+
     cat("```\n")
     outfasta <- nameMap[ nameMap[,1] == gsub("\\D+(\\d+)\\w+", "\\1", pp), 2]
     outfasta <- paste(as.character(outfasta), sub("[SRL]+\\d+", "", pn), sep="_")
@@ -245,7 +246,7 @@ itemReport <- function(seqs, seqname, pp, nameMap, out.folder, outfile.suffix) {
     }
     cat("\n\nAlignment file", paste("[", alnFile, "]", sep = ""))
     cat(paste("(", "../", alnFile2, ")", sep = ""), "generated.\n")
-    
+
     outfasta <- paste(outfasta, ".fas", sep="")
     cat("\n\nConsensus file", paste("[", outfasta, "]", sep=""))
     outfasta <- paste(out.folder, outfasta, sep="/")
@@ -261,6 +262,8 @@ itemReport <- function(seqs, seqname, pp, nameMap, out.folder, outfile.suffix) {
     return(res)
 }
 
+
+##' @importFrom utils write.table
 generateStrainTable <- function(contig.folder, nameMap) {
     mix.sc <- getMixedStrain()
     if (!is.null(mix.sc)) {
@@ -271,26 +274,26 @@ generateStrainTable <- function(contig.folder, nameMap) {
             cat("--> press ENTER to skip...\n")
             pause()
         } else {
-            mixff <- nameMap[ii,]    
+            mixff <- nameMap[ii,]
             mixff[,2] <- paste(mixff[,2], "mixed", sep="_")
             write.table(mixff,
                         file="mixed_table.txt", sep="\t",
-                        row.names=F, col.names=F, quote=F)        
+                        row.names=F, col.names=F, quote=F)
         }
     }
-        
+
     contig <- getFiles(contig.folder)
     sc <- getSampleID(contig)
     write.table(nameMap[nameMap[,1] %in% gsub("[SRL]+(\\d+).*", "\\1", unique(sc)),],
                 file="unmixed_table.txt", sep="\t",
-                row.names=F, col.names=F, quote=F)        
+                row.names=F, col.names=F, quote=F)
 }
 
 doFilter <- function(contig.folder, percentage) {
     contig <- getFiles(contig.folder)
-     
+
     f454 <- contig[grep("_454.fa[sta]$", contig)] ## contig[grep("454", contig)]
-    cat(">>", "filtering sequence read numbers below", percentage, "percentage", "\n") 
+    cat(">>", "filtering sequence read numbers below", percentage, "percentage", "\n")
     readNumFilter(f454, percentage)
 }
 
@@ -313,7 +316,7 @@ NDVFileReport <- function(contig.folder, report.file) {
 
 mixedFileReport <- function(contig.folder, report.file) {
     moveMixedFile(contig.folder)
-    
+
     mix.sc <- getMixedStrain()
     sampleID <- gsub("^[SRL](\\d+)$", '\\1', mix.sc)
     sampleID <- as.numeric(sampleID)
@@ -327,12 +330,12 @@ mixedFileReport <- function(contig.folder, report.file) {
         sink()
         cat(">>", length(unique(mix.sc)), " mixed strain(s) found.\n")
     }
-    
+
     contig <- getFiles(contig.folder)
     sc <- getSampleID(contig)
     if (length(sc) > 0) {
         cat(">>", length(unique(sc)), " strains were processed in the report.\n")
-        ## processing 
+        ## processing
         sink(report.file, append=TRUE)
         cat(length(unique(sc)), " strains were processed in the report.\n")
         cat("\n\t", paste(unique(sc)), "\n\n")
