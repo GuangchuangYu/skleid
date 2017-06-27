@@ -254,6 +254,7 @@ itemReport <- function(seqs, seqname, pp, nameMap, out.folder, outfile.suffix) {
     sink()
     writeConsensus(aln, output=outfasta)
     outhtml <- sub(".md", ".html", outmd)
+    outhtml <- gsub(")", "", outhtml)
     addFooter(outmd)
     markdownToHTML(outmd, outhtml)
     file.remove(outmd)
