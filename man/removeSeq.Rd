@@ -20,4 +20,3 @@ remove sequence(s) in alignment by the specific index.
 \author{
 ygc
 }
-

@@ -12,4 +12,3 @@ print nucleotide code
 \author{
 ygc
 }
-

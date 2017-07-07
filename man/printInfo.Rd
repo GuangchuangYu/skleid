@@ -12,4 +12,3 @@ print Info
 \author{
 ygc
 }
-

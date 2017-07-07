@@ -22,4 +22,3 @@ translate DNA sequence to protein sequence
 \author{
 ygc
 }
-

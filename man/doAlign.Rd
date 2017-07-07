@@ -18,4 +18,3 @@ align 454 contigs and mira sequence to reference sequence.
 \author{
 ygc
 }
-

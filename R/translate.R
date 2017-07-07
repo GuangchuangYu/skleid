@@ -1,11 +1,11 @@
 ##' translate DNA sequence to protein sequence
 ##'
-##' 
+##'
 ##' @title translateSeq
 ##' @param seq DNA sequence
 ##' @param start translate start position
 ##' @param print TRUE OR FALSE
-##' @return character 
+##' @return character
 ##' @author ygc
 ##' @importFrom Biostrings translate
 ##' @importFrom Biostrings DNAStringSet
@@ -15,7 +15,7 @@ translateSeq <- function(seq, start=1, print=TRUE) {
     s <- DNAStringSet(seq, start=start)
     p <- suppressWarnings(translate(s))
     res <- toString(p)
-    if (print) 
+    if (print)
         printFormatSeq(res)
     invisible(res)
 }
@@ -23,9 +23,9 @@ translateSeq <- function(seq, start=1, print=TRUE) {
 ##' auto determine the best translate start postion (offset 1,2 or 3),
 ##' and perform translation
 ##'
-##' 
+##'
 ##' @title autoTranslate
-##' @param seq DNA sequence 
+##' @param seq DNA sequence
 ##' @return list
 ##' @author ygc
 ##' @export
@@ -41,10 +41,12 @@ autoTranslate <- function(seq) {
     s <- s1
     start <- 1
     if (m < m2) {
+        m <- m2
         s <- s2
         start <- 2
     }
     if (m < m3) {
+        m <- m3
         s <- s3
         start <- 3
     }
@@ -61,17 +63,17 @@ autoTranslate <- function(seq) {
     orf <- substring(seq, startcodon, stopcodon)
     pp <- peptides[i]
     pep <- substring(pp, AAstart+1)
-    
+
     cat("start translate from position ", start, "\n")
     cat("longest peptide", "(", nchar(pep), 'AA)', "is\n", "\n")
     printFormatSeq(pep)
-    
+
     cat("\nstart codon position is ", startcodon, "\n")
     cat("stop codon position is ", stopcodon, "\n")
 
     cat("\ncorresponding reading frame", "(", nchar(orf), 'NT)', "is\n", "\n")
     printFormatSeq(orf)
-    
+
     result <- list(orf=orf, peptide=pep, start=startcodon, stop=stopcodon)
     invisible(result)
 }

@@ -17,4 +17,3 @@ summarize the result
 \author{
 ygc
 }
-

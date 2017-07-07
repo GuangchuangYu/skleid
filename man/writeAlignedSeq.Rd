@@ -17,4 +17,3 @@ write aligned sequence to fasta file
 \author{
 ygc
 }
-

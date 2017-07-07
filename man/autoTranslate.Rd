@@ -19,4 +19,3 @@ and perform translation
 \author{
 ygc
 }
-

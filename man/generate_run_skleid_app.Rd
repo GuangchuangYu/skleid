@@ -12,4 +12,3 @@ generate desktop shortcut
 \author{
 Guangchuang Yu
 }
-

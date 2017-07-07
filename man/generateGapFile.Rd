@@ -25,4 +25,3 @@ generating gap file
 \author{
 ygc
 }
-

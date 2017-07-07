@@ -12,4 +12,3 @@ auto update skleid package if needed
 \author{
 ygc
 }
-

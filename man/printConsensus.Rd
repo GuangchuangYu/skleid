@@ -20,4 +20,3 @@ print the consensus sequence
 \author{
 ygc
 }
-

@@ -19,4 +19,3 @@ print aligned sequences
 \author{
 ygc
 }
-

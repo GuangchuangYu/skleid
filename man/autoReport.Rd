@@ -31,4 +31,3 @@ auto report sequence alignment and consensus sequence
 \author{
 ygc
 }
-

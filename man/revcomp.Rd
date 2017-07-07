@@ -18,4 +18,3 @@ reverse complement of DNA string
 \author{
 ygc
 }
-

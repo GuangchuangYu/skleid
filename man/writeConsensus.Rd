@@ -17,4 +17,3 @@ write consensus sequence to fasta file
 \author{
 ygc
 }
-

@@ -17,4 +17,3 @@ convert 454 summary file for generateGapFile function
 \author{
 Guangchuang Yu
 }
-

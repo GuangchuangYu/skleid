@@ -12,4 +12,3 @@ launch shiny app
 \author{
 Guangchuang Yu
 }
-

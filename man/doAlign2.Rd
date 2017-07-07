@@ -18,4 +18,3 @@ align multiple sequence stored in several fasta files.
 \author{
 ygc
 }
-
