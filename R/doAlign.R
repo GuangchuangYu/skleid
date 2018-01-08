@@ -1,6 +1,6 @@
 ##' align 454 contigs and mira sequence to reference sequence.
 ##'
-##' 
+##'
 ##' @title doAlign
 ##' @param x file names of 454 contig, reference and mira sequences
 ##' @return fasta S3 object
@@ -17,15 +17,15 @@ doAlign <- function(x) {
 
     ## f454 <- read.fasta(x[1])
     f454 <- readDNAStringSet(x[1])
-    
+
     fref <- readDNAStringSet(x[2])
     fref <- fref[1]
     ## fref$seqs <- fref$seqs[1,]
     ## fref$num <- 1
-    
+
     ## fmira <- read.fasta(x[3])
     fmira <- readDNAStringSet(x[3])
-    
+
     ## for (i in 1:nrow(f454$seqs)) {
     for (i in 1:length(f454)) {
         ## fa <- list(seqs=rbind(f454$seqs[i,], fref$seqs), num=fref$num+1)
@@ -33,7 +33,7 @@ doAlign <- function(x) {
         ## aln <- muscle(fa, quiet = TRUE)
         fa <- c(f454[i], fref)
         aln <- muscle(fa, quiet=TRUE)
-        
+
         fa2 <- fa
         fa2[1] <- reverseComplement(fa2[1])
 
@@ -52,7 +52,7 @@ doAlign <- function(x) {
     ## class(fasta) <- "fasta"
 
     fasta <- c(fref, fmira, f454)
-    
+
     ## if (f454$num == 1) {
     if (length(f454) == 1) {
         res2 <- muscle(fasta, quiet = TRUE)
@@ -100,17 +100,17 @@ doAlign <- function(x) {
             res_item <- res[[j]]
             ## res_seq <- res_item$seqs[,2]
             res_seq <- sapply(res_item, toString)
-            
+
             ## seq <- yres$seqs[j, 2]
             seq <- toString(yres[j])
-            
+
             idx <- gregexpr("-+", seq)
             idx <- idx[[1]]
-            
+
             if (length(idx) == 1 && idx < 1) {
                 next
             }
-            
+
             for (i in seq_along(idx)) {
                 for (k in seq_along(res_seq)) {
                     if (idx[i] == 1) {
@@ -135,7 +135,7 @@ doAlign <- function(x) {
             ## res[[j]]$length <- nchar(res_seq[1])
         }
     }
-    
+
     ## if (length(unique(sapply(res, function(x) x$length))) == 1) {
     if (length(unique(sapply(res, width)[1,])) == 1) {
         ## jj <- sapply(res, function(x) getIdx(fasta$seqs[1,1], x$seqs[,1]))
@@ -162,11 +162,12 @@ doAlign <- function(x) {
             for (i in 2:length(res)) {
                 seqs <- c(seqs, res[[i]])
             }
-            seqs <- unique(seqs)
-            
+            ## seqs <- unique(seqs) ## unique will remove mira sequence if it is identical to reference
+            seqs <- seqs[!duplicated(names(seqs))]
+
             ## sn <- seqs[,1]
             sn <- names(seqs)
-         
+
             if (length(sn) != length(unique(sn))) {
                 k <- sapply(unique(sn), function(i) which(i == sn)[1])
                 ## seqs <- seqs[k,]
@@ -179,7 +180,7 @@ doAlign <- function(x) {
         res2 <- muscle(fasta, quiet = TRUE)
         result <- DNAStringSet(res2)
     }
-    
+
     ## ii <- getIdx(fasta$seqs[,1], res2$seqs[,1])
     ii <- getIdx(names(fasta), names(result))
     ## res2$seqs <- res2$seqs[ii,]
@@ -190,10 +191,10 @@ doAlign <- function(x) {
 
 ##' align multiple sequence stored in several fasta files.
 ##'
-##' 
+##'
 ##' @title doAlign2
 ##' @param files fasta files
-##' @return alignment 
+##' @return alignment
 ##' @author ygc
 ##' @importFrom Biostrings readDNAStringSet
 ##' @importFrom muscle muscle
@@ -206,7 +207,7 @@ doAlign2 <- function(files) {
             fa <- c(fa, seqs[[i]])
         }
     }
-    
+
     ## str <- unlist(lapply(seqs, toString))
     ## nn <- unlist(lapply(seqs, names))
     ## fa <- list(seqs=data.frame(V1=nn, V2=str), num=length(nn))
@@ -217,7 +218,7 @@ doAlign2 <- function(files) {
 
 ##' write aligned sequence to fasta file
 ##'
-##' 
+##'
 ##' @title writeAlignedSeq
 ##' @param aln alignment
 ##' @param output out file

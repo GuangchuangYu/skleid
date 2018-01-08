@@ -1,3 +1,7 @@
+CHANGES IN VERSION 1.6.11
+------------------------
+ o retain mira sequence even if it is identical to ref <2018-01-08, Mon>
+
 CHANGES IN VERSION 1.6.9
 ------------------------
  o fixed R check in R-3.3.1, import utils <2016-09-29, Tue>
